@@ -3,8 +3,11 @@ import { pgTable, bigint, varchar } from "drizzle-orm/pg-core";
 export const usersTable = pgTable("user", {
 	id: varchar("id", {
 		length: 15 // change this when using custom user ids
-	}).primaryKey()
+	}).primaryKey(),
 	// other user attributes
+	username: varchar("username",{
+		length: 24
+	}).notNull().unique()
 });
 
 export const sessionsTable = pgTable("user_session", {
