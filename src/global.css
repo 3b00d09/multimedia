@@ -1,9 +1,11 @@
 *{
-    --text: #f8fbfc;
-    --background: #060c0f;
-    --primary: #19343f;
-    --secondary: #010304;
-    --accent: #92bfd3;
+
+    --text: #e8ebed;
+    --background: #161a1d;
+    --primary: #636583;
+    --secondary: #14110f;
+    --accent: #898667;
+
     
     margin: 0;
     padding: 0;
@@ -27,16 +29,17 @@
 body{
     height: 100vh;
     overflow: auto;
-    background-color: #060c0f;
+    background-color: var(--background);
 }
     
 button {
     border-radius: 8px;
     border: 1px solid transparent;
     font-family: inherit;
-    background-color: #1a1a1a;
+    background-color: var(--secondary);
     cursor: pointer;
     transition: border-color 0.25s;
+    padding: 1rem;
 }
 
 button:hover {

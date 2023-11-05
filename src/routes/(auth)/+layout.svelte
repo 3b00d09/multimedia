@@ -16,6 +16,7 @@
     .auth-container{
         display: flex;
         height: 100vh;
+        background-color: var(--secondary);
     }
 
     .slot-container{
