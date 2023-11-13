@@ -1,4 +1,4 @@
-import { pgTable, bigint, varchar } from "drizzle-orm/pg-core";
+import { pgTable, bigint, varchar, timestamp } from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable("user", {
 	id: varchar("id", {
@@ -35,7 +35,9 @@ export const keysTable = pgTable("user_key", {
 		length: 15
 	})
 		.notNull()
-		.references(() => usersTable.id),
+		.references(() => {
+			return usersTable.id
+		}),
 	hashedPassword: varchar("hashed_password", {
 		length: 255
 	})
@@ -49,5 +51,29 @@ export const postsTable = pgTable("posts",{
     content:varchar("content",{
         length: 255,
     })
-    .notNull()
+    .notNull(),
+	author: varchar("author",{
+		length: 24
+	}).notNull().references(()=>{
+		return usersTable.username
+	}),
+	timestamp: timestamp("timestamp") 
+
+})
+
+export const commentsTable = pgTable("comments",{
+	id: varchar("id",{
+		length:244
+	}).notNull()
+	.primaryKey(),
+	author:varchar("author",{
+		length: 24
+	}).notNull().references(()=>{
+		return usersTable.username
+	}),
+	post: varchar("post",{
+		length: 255
+	}).notNull().references(()=>{
+		return postsTable.id
+	})
 })
