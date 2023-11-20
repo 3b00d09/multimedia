@@ -3,6 +3,7 @@
     import Header from "$lib/components/Header.svelte";
     import Sidenav from "$lib/components/Sidenav.svelte";
     import RecentMessages  from "$lib/components/RecentMessages.svelte";
+  import Categories from "$lib/components/Categories.svelte";
 </script>
 
 <main>
@@ -10,10 +11,11 @@
     <div class="main-container">
         <Header/>
         <div class="main-content">
+            <Categories/>
             <slot/>
-            <RecentMessages/>
         </div>
     </div>
+    <RecentMessages/>
 </main>
 
 <style>
@@ -21,16 +23,22 @@
         display: flex;
         justify-content: space-evenly;
         align-items: baseline;
-        gap: 1rem;
-        padding: 1rem;
+        gap: 3rem;
+        margin: 0 6.5rem;
+        margin-top: 1rem;
+        min-height: 100vh;
     }
 
     .main-container{
-        flex-basis: 80%;
+        display: grid;
+        justify-items: center;
+        gap:1rem;
     }
 
     .main-content{
         display: grid;
-        margin-top: 1rem;
+        align-items: center;
+        gap: 1rem;
+        grid-template-columns: repeat(1, 100%);
     }
 </style>

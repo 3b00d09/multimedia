@@ -17,9 +17,12 @@
 </div>
 
 <style>
+
+    div{
+        justify-self: center;
+    }
     .post {
         background-color: #333;
-        width: 50%;
         padding: 1rem;
         margin-bottom: 1rem;
     }

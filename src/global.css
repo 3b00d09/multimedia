@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto Serif:700|Roboto:400');
+
 *{
 
-    --text: #e8ebed;
-    --background: #161a1d;
-    --primary: #636583;
-    --secondary: #14110f;
+    --text: #e6dfff;
+    --background: #131313;
+    --primary: #6c5dd2;
+    --secondary: #6c5dd2;
     --accent: #898667;
 
     
@@ -11,10 +13,11 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+
+
   
 :root {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-    font-family: Segoe UI,Roboto,Ubuntu,sans-serif;
     color: var(--text);
     background-color: var(--background);
     font-synthesis: none;
@@ -30,22 +33,34 @@ body{
     height: 100vh;
     overflow: auto;
     background-color: var(--background);
-}
-    
-button {
-    border-radius: 8px;
-    border: 1px solid transparent;
-    font-family: inherit;
-    background-color: var(--secondary);
-    cursor: pointer;
-    transition: border-color 0.25s;
-    padding: 1rem;
+    font-family: 'Roboto';
+    font-weight: 400;
 }
 
-button:hover {
-    border-color: #646cff;
+h1, h2, h3, h4, h5 {
+  font-family: 'Roboto Serif';
+  font-weight: 700;
 }
-  
+
+h1 {font-size: 4.210rem; /* 67.36px */}
+
+h2 {font-size: 3.158rem; /* 50.56px */}
+
+h3 {font-size: 2.369rem; /* 37.92px */}
+
+h4 {font-size: 1.777rem; /* 28.48px */}
+
+h5 {font-size: 1.333rem; /* 21.28px */}
+
+    
+button {
+  border-radius: 8px;
+  font-family: inherit;
+  background-color: var(--secondary);
+  cursor: pointer;
+  padding: 1rem;
+}
+
   
   @media (prefers-color-scheme: light) {
     :root {

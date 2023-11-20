@@ -1,14 +1,6 @@
 <header>
     <div class="nav-search">
         <input type="text" placeholder="Search">
-        <button>New Post</button>
-    </div>
-    <div class="nav-icons">
-        <ul>
-            <li>Notifications</li>
-            <li>Profile Picture</li>
-            <li>Username</li>
-        </ul>
     </div>
 </header>
 
@@ -17,37 +9,23 @@
     header{
         display: flex;
         align-items: baseline;
-        flex-basis: 85%;
-    }
-
-    .nav-icons > ul{
-        list-style: none;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 1rem;
+        width: 100%;
     }
 
     .nav-search{
-        display: flex;
-        gap: 1rem;
-        flex-basis: 70%;
-    }
-
-    .nav-icons{
-        flex-basis: 30%;
+        flex-basis: 100%;
     }
 
     input{
-        flex-basis: 75%;
-        padding: 1rem;
+        padding: 0.75rem;
         border-radius: 8px;
-    }
-
-    button{
+        font-size: 0.65rem;
+        width: 100%;
+        box-shadow: -2px -2px 6px -4px rgba(226, 224, 224, 0.5) inset, 2px 2px 6px 4px rgba(0, 0, 0, 0.5) inset;
+        background: transparent;
+        border: none;
+        outline: none;
         color: inherit;
-        flex-basis: 25%;
-        /**dont ask*/
-        font-size: .875rem;
+        font: inherit;
     }
 </style>
