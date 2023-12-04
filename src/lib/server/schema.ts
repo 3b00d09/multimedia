@@ -77,3 +77,12 @@ export const commentsTable = pgTable("comments",{
 		return postsTable.id
 	})
 })
+
+export const categoriesTable = pgTable("categories",{
+	id: varchar("id",{
+		length: 244
+	}).notNull().primaryKey(),
+	name: varchar("name",{
+		length: 24,
+	}).notNull()
+})
