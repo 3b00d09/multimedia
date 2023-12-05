@@ -7,26 +7,33 @@
 </script>
 
 <main>
+    <Header/>
+    <div>
     <Sidenav/>
     <div class="main-container">
-        <Header/>
+        
         <div class="main-content">
             <Categories/>
             <slot/>
         </div>
     </div>
     <RecentMessages/>
+    </div>
 </main>
 
 <style>
-    main{
+    main {
+        display: grid;
+        gap: 1rem;
+        margin: 0 15rem;
+        margin-top: 1rem;
+    }
+
+    main > div{
         display: flex;
         justify-content: space-evenly;
         align-items: baseline;
         gap: 3rem;
-        margin: 0 6.5rem;
-        margin-top: 1rem;
-        min-height: 100vh;
     }
 
     .main-container{
@@ -40,5 +47,11 @@
         align-items: center;
         gap: 1rem;
         grid-template-columns: repeat(1, 100%);
+    }
+
+    @media(max-width: 1024px){
+        main{
+            margin: 0 2rem;
+        }
     }
 </style>

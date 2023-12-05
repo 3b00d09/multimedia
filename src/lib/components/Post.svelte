@@ -1,74 +1,80 @@
-<script>
-  import { enhance } from "$app/forms";
+<script lang="ts">
+  import type { postType } from "$lib/types";
+  import { onMount } from "svelte";
+
+
+    export let post:postType;
+    let days:number;
+
+    onMount(()=>{
+        const originalTime = post.timestamp!.getTime();
+        const currTime = new Date().getTime()
+        const diffHours = (currTime - originalTime) / 3600000
+        
+        days = Math.floor(diffHours / 24)
+
+    })
 
 </script>
-<form use:enhance method="POST">
-    <i class="fa-solid fa-circle-user fa-2xl"></i>
-    <textarea name="post-content" placeholder="How was your day?"></textarea>
-    <div class="icons-container">
-        <div class="post-icons">
-            <i class="fa-regular fa-image fa-2xl"></i>
-            <i class="fa-regular fa-square-caret-right fa-2xl"></i>
+
+<div class="post-container">
+    <div class="post-header">
+        <div class="post-author">
+            <img class="profile-image" src="/images/icons/image19.png" alt="Profile icon"/>
+            <p class="author">{post.author}</p>
+            <p class="timestamp">{`.${days}d`}</p>
         </div>
-        <button type="submit">Post</button>
+
+        <p>...</p>
     </div>
-</form>
+    <div class="post-content">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Commodi et sit hic deserunt. Eveniet, labore sed, eligendi eos earum delectus, deleniti perspiciatis laborum quasi beatae molestias unde sequi? Nisi, explicabo.</div>
+    <div class="icons-container">
+        <img src ="/images/icons/like.svg" alt="Like Icon">
+        <img src ="/images/icons/reply.svg" alt="Reply Icon">
+        <img src ="/images/icons/dm.svg" alt="Direct Message Icon">
+    </div>
+</div>
 
 <style>
-    form{
+
+    .post-container{
+        display: grid;
+        gap: 0.75rem;
+    }
+    .post-header{
         display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-        justify-self: center;
-        margin-bottom: 1rem;
-        align-items: baseline;
+        align-items: center;
+        justify-content: space-between;
     }
-    button{
-        color: inherit;
-        border-radius: 16px;
-        /**dont ask*/
-        font-size: .875rem;
+    
+    .post-author{
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
     }
-
-    textarea{
-        padding: 1rem;
-        border-radius: 1rem;
-        flex-basis: 90%;
-        height: auto;
-        box-shadow: -2px -2px 6px -4px rgba(226, 224, 224, 0.5) inset, 2px 2px 6px 4px rgba(0, 0, 0, 0.5) inset;
-        background-color: transparent;
-        border: none;
-        color: inherit;
-        font: inherit;
-        resize: none;
-        transition: border-radius 0.5s;
+    
+    .author{
+        font-size: 1.2rem;
     }
 
-    textarea:focus{
-        border-radius: 0;
-        outline: none;
+    .timestamp{
+        font-size: 0.75rem;
+        color: var(--text-secondary);
     }
 
-
-    textarea:focus{
-        border: none;
+    .post-content{
+        color: var(--text-secondary);
+        font-family: Lexend;
+        line-height: 22px;
     }
 
     .icons-container{
         display: flex;
-        justify-content: space-between;
-        gap: 1rem;
-        flex-basis: 100%;
         align-items: center;
+        gap: 1.5rem;
     }
 
-    .post-icons{
-        display: flex;
-        gap: 1rem;
-        align-items: center;
-    }
-
-    i{
-        color: var(--secondary);
+    .icons-container > img{
+        width: 24px;
     }
 </style>

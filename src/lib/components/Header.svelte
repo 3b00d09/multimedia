@@ -9,11 +9,12 @@
     header{
         display: flex;
         align-items: baseline;
-        width: 100%;
+        width: 50%;
+        justify-self: center;
     }
 
     .nav-search{
-        flex-basis: 100%;
+        width: 100%;
     }
 
     input{

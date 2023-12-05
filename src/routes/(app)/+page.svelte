@@ -1,19 +1,20 @@
 <script lang="ts">
     export let data;
+    import Linebreak from "$lib/components/Linebreak.svelte";
     import Post from "$lib/components/Post.svelte";
+    import PostForm from "$lib/components/PostForm.svelte";
 </script>
 <div>
-    <Post/>
+    <PostForm />
     {#if data}
-        {#each data.data as post}
-            <div class="post">
-                {post.author}
-                {post.content}
-                {post.timestamp}
-            </div>
-        {/each}
-
+        <div class="posts-container">
+            {#each data.data as post}
+                <Post post={post}/>
+                <Linebreak/>
+            {/each}
+        </div>
     {/if}
+
 </div>
 
 <style>
@@ -21,9 +22,9 @@
     div{
         justify-self: center;
     }
-    .post {
-        background-color: #333;
-        padding: 1rem;
-        margin-bottom: 1rem;
+
+    .posts-container{
+        display: grid;
+        gap: 1rem;
     }
 </style>
