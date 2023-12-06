@@ -51,7 +51,7 @@
 
     @media(max-width: 1025px){
         main{
-            margin: 0 4rem;
+            margin: 0 5rem;
         }
     }
 </style>
