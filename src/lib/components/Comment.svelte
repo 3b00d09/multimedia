@@ -1,36 +1,18 @@
 <script lang="ts">
-  import type { postType } from "$lib/types";
-  import { onMount } from "svelte";
   import CommentForm from "./CommentForm.svelte";
-  import Comment from "./Comment.svelte";
+  import Linebreak from "./Linebreak.svelte";
 
-
-    export let post:postType;
     let activeComment:boolean = false;
-    let days:number;
-
-    onMount(()=>{
-        const originalTime = post.timestamp!.getTime();
-        const currTime = new Date().getTime()
-        const diffHours = (currTime - originalTime) / 3600000
-        
-        days = Math.floor(diffHours / 24)
-
-    })
-
 </script>
 
-<div class="post-container">
-    <div class="post-header">
-        <div class="post-author">
+<Linebreak/>
+<div class="comment-container">
+    <div class="comment-author">
             <img class="profile-image" src="/images/icons/image19.png" alt="Profile icon"/>
-            <p class="author">{post.author}</p>
-            <p class="timestamp">{`.${days}d`}</p>
-        </div>
-
-        <p>...</p>
+            <p class="author">{"Annon"}</p>
+            <p class="timestamp">{`.${"3"}d`}</p>
     </div>
-    <div class="post-content">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Commodi et sit hic deserunt. Eveniet, labore sed, eligendi eos earum delectus, deleniti perspiciatis laborum quasi beatae molestias unde sequi? Nisi, explicabo.</div>
+    <div class="comment-content">Lorem ipsum dolor sit, amet consectetur adipisicing elit.</div>
     <div class="icons-container">
         <button><img src ="/images/icons/like.svg" alt="Like Icon"></button>
         <button on:click={()=>{activeComment = !activeComment}}><img src ="/images/icons/reply.svg" alt="Reply Icon"></button>
@@ -39,26 +21,20 @@
     {#if activeComment}
         <CommentForm/>
     {/if}
-    <Comment/>
 </div>
 
 <style>
-
-    .post-container{
+    .comment-container{
         display: grid;
         gap: 0.75rem;
+        margin-left: 2rem;
     }
-    .post-header{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    
-    .post-author{
+    .comment-author{
         display: flex;
         align-items: center;
         gap: 0.5rem;
     }
+
     
     .author{
         font-size: 1.2rem;
@@ -69,7 +45,7 @@
         color: var(--text-secondary);
     }
 
-    .post-content{
+    .comment-content{
         color: var(--text-secondary);
         font-family: Lexend;
         line-height: 22px;
@@ -83,8 +59,8 @@
 
     .icons-container > button {
         padding: .45rem;
-        width: 2.5rem;
-        height: 2.5rem;
+        width: 2rem;
+        height: 2rem;
     }
 
     .icons-container > button > img{
