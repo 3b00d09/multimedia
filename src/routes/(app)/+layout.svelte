@@ -49,9 +49,14 @@
         grid-template-columns: repeat(1, 100%);
     }
 
-    @media(max-width: 1026px){
+    @media(max-width: 1440px){
         main{
-            margin: 0 5rem;
+            margin: 0 10rem;
+        }
+    }
+    @media(max-width: 1024px){
+        main{
+            margin: 0 3rem;
         }
     }
 </style>
