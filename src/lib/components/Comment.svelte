@@ -47,7 +47,6 @@
 
     .comment-content{
         color: var(--text-secondary);
-        font-family: Lexend;
         line-height: 22px;
     }
 
