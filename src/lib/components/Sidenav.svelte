@@ -5,20 +5,20 @@
     let iconsContainer:HTMLUListElement;
 
     const setActiveIcon = (e:MouseEvent & { currentTarget: HTMLButtonElement; }) =>{
-        iconsContainer.querySelectorAll("button").forEach((btn)=>{
+        iconsContainer.querySelectorAll("li").forEach((btn)=>{
             btn.classList.remove("active");
             
         })
-        e.currentTarget.classList.add("active");
+        e.currentTarget.parentElement?.classList.add("active");
         
     }
 </script>
 
 <ul bind:this={iconsContainer}>
-    <li><button class="active" on:click={setActiveIcon}><img src="/images/icons/home.png" alt="Home Icon"/></button></li>
-    <li><button on:click={setActiveIcon}><img src="/images/icons/home.png" alt="Home Icon"/></button></li>
-    <li><button on:click={setActiveIcon}><img src="/images/icons/home.png" alt="Home Icon"/></button></li>
-    <li><button on:click={setActiveIcon}><img src="/images/icons/home.png" alt="Home Icon"/></button></li>
+    <li class="icon-container active"><button on:click={setActiveIcon}><img src="/images/icons/home.png" alt="Home Icon"/></button></li>
+    <li class="icon-container"><button on:click={setActiveIcon}><img src="/images/icons/home.png" alt="Home Icon"/></button></li>
+    <li class="icon-container"><button on:click={setActiveIcon}><img src="/images/icons/home.png" alt="Home Icon"/></button></li>
+    <li class="icon-container"><button on:click={setActiveIcon}><img src="/images/icons/home.png" alt="Home Icon"/></button></li>
 </ul>
 
 
@@ -46,7 +46,7 @@
         width: 100%;
     }
 
-    li > button{
+    .icon-container{
         opacity: 0.3;
     }
 
@@ -62,7 +62,7 @@
         left: 0;
         right: 0;
         bottom :0;
-        background-color: purple;
+        background-color: var(--action);
         width: 3px;
     }
 

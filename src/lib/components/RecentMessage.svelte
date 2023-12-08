@@ -1,0 +1,22 @@
+<div class="recent-message-container">
+    <img src="/images/icons/profile.svg" alt="Profile Icon"/>
+    <div class="recent-message-author">
+        <p>ANNON</p>
+        <p>lorem idk...</p>
+    </div>
+
+    <div class="recent-message-content">
+
+    </div>
+</div>
+
+<style>
+    .recent-message-container{
+        display: flex;
+    }
+    
+    img{
+        width: 28px;
+        justify-self: flex-start;
+    }
+</style>
