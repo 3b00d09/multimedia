@@ -8,7 +8,7 @@
 <Linebreak/>
 <div class="comment-container">
     <div class="comment-author">
-            <img class="profile-image" src="/images/icons/image19.png" alt="Profile icon"/>
+            <img class="profile-image" src="/images/icons/profile.png" alt="Profile icon"/>
             <p class="author">{"Annon"}</p>
             <p class="timestamp">{`.${"3"}d`}</p>
     </div>

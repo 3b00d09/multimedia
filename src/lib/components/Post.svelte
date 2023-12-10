@@ -23,7 +23,7 @@
 <div class="post-container">
     <div class="post-header">
         <div class="post-author">
-            <img class="profile-image" src="/images/icons/image19.png" alt="Profile icon"/>
+            <img class="profile-image" src="/images/icons/profile.png" alt="Profile icon"/>
             <p class="author">{post.author}</p>
             <p class="timestamp">{`.${days}d`}</p>
         </div>
