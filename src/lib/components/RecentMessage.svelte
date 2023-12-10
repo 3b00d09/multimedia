@@ -18,5 +18,7 @@
     img{
         width: 28px;
         justify-self: flex-start;
+        border-radius: 50%;
+        object-fit: contain;
     }
 </style>

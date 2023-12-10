@@ -16,9 +16,9 @@
 
 <ul bind:this={iconsContainer}>
     <li class="icon-container active"><button on:click={setActiveIcon}><img src="/images/icons/home.png" alt="Home Icon"/></button></li>
-    <li class="icon-container"><button on:click={setActiveIcon}><img src="/images/icons/home.png" alt="Home Icon"/></button></li>
-    <li class="icon-container"><button on:click={setActiveIcon}><img src="/images/icons/home.png" alt="Home Icon"/></button></li>
-    <li class="icon-container"><button on:click={setActiveIcon}><img src="/images/icons/home.png" alt="Home Icon"/></button></li>
+    <li class="icon-container"><button on:click={setActiveIcon}><img src="/images/icons/search.png" alt="Home Icon"/></button></li>
+    <li class="icon-container"><button on:click={setActiveIcon}><img src="/images/icons/inbox.png" alt="Home Icon"/></button></li>
+    <li class="icon-container"><button on:click={setActiveIcon}><img src="/images/icons/profile.png" alt="Home Icon"/></button></li>
 </ul>
 
 
@@ -40,6 +40,7 @@
         padding: .45rem;
         width: 3rem;
         height: 3rem;
+        border: none;
     }
 
     li > button > img{
@@ -63,7 +64,9 @@
         right: 0;
         bottom :0;
         background-color: var(--action);
-        width: 3px;
+        filter: drop-shadow(0px 0px 5px rgba(108, 92, 214, 0.50));
+        width: 1px;
+        height: 100%;
     }
 
 </style>

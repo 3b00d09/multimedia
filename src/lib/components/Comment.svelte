@@ -56,13 +56,19 @@
         gap: 1rem;
     }
 
-    .icons-container > button {
+    button {
         padding: .45rem;
         width: 2rem;
         height: 2rem;
+        border: none;
     }
 
     .icons-container > button > img{
         width: 100%;
+    }
+
+    .profile-image{
+        border-radius: 50%;
+        object-fit: cover;
     }
 </style>

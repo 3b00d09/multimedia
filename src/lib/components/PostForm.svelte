@@ -4,33 +4,56 @@
 </script>
 <form use:enhance method="POST">
     <i class="fa-solid fa-circle-user fa-2xl"></i>
-    <textarea name="post-content" placeholder="How was your day?"></textarea>
-    <div class="icons-container">
-        <div class="post-icons">
-            <i class="fa-regular fa-image fa-2xl"></i>
-            <i class="fa-regular fa-square-caret-right fa-2xl"></i>
+    <div class="container">
+        <textarea name="post-content" placeholder="How was your day?"></textarea>
+        <div class="icons-container">
+            <div class="post-icons">
+                <!-- svelte-ignore a11y-img-redundant-alt -->
+                <button><img src="/images/icons/upload-image.png" alt="Upload Image Icon"></button>
+                <button><img src="/images/icons/upload-video.png" alt="Upload Video Icon"></button>
+                <button><img src="/images/icons/upload-gif.png" alt="Upload GIF Icon"></button>
+            </div>
+            <button class="submit-btn" type="submit">Post</button>
         </div>
-        <button type="submit">Post</button>
     </div>
 </form>
 
 <style>
     form{
         display: flex;
-        flex-wrap: wrap;
         gap: 1rem;
         justify-self: center;
         margin-bottom: 1rem;
         align-items: baseline;
     }
+
+    .container{
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        gap: 1rem;
+    }
+
     button{
-        color: inherit;
-        border-radius: 16px;
+        border: 0;
+        padding: 0;
+    }
+
+    button > img{
+        width: 100%;
+    }
+
+    .submit-btn{
         /**dont ask*/
         font-size: .875rem;
+        border: none;
+        background-color: var(--action);
+        padding: 1rem 2rem;
+        color: inherit;
     }
 
     textarea{
+        flex-grow: 1;
         padding: 1rem;
         border-radius: 1rem;
         flex-basis: 90%;
@@ -64,8 +87,12 @@
 
     .post-icons{
         display: flex;
+        align-items: baseline;
         gap: 1rem;
-        align-items: center;
+    }
+
+    button > img{
+        width: 1.75rem;
     }
 
     i{

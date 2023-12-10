@@ -1,6 +1,6 @@
 <header>
     <div class="nav-search">
-        <input type="text" placeholder="Search">
+        <input type="text" placeholder="Search...">
     </div>
 </header>
 
