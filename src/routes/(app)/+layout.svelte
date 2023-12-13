@@ -9,29 +9,29 @@
 <main>
     <Header/>
     <div>
-    <Sidenav/>
-    <div class="main-container">
-        
-        <div class="main-content">
-            <Categories/>
-            <slot/>
+        <Sidenav/>
+        <div class="main-container">
+            
+            <div class="main-content">
+                <Categories/>
+                <slot/>
+            </div>
         </div>
-    </div>
-    <RecentMessages/>
+        <RecentMessages/>
     </div>
 </main>
 
 <style>
+
     main {
         display: grid;
         gap: 1rem;
-        margin: 0 15rem;
         margin-top: 1rem;
     }
 
     main > div{
-        display: flex;
-        justify-content: space-evenly;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
         align-items: baseline;
         gap: 3rem;
     }
