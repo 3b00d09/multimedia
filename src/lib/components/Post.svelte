@@ -3,9 +3,10 @@
   import { onMount } from "svelte";
   import CommentForm from "./CommentForm.svelte";
   import Comment from "./Comment.svelte";
+  import type { postsTable } from "$lib/server/schema";
 
 
-    export let post:postType;
+    export let post: typeof postsTable.$inferInsert;
     let activeComment:boolean = false;
     let days:number;
 

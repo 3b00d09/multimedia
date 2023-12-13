@@ -51,6 +51,7 @@
         border-radius: 10px;
         background: #131313;
         box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.50), -3px -3px 10px 0px rgba(255, 255, 255, 0.03);
+        min-width: fit-content;
     }
 
     button{

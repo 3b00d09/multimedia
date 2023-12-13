@@ -1,12 +1,15 @@
 import { dbClient } from "$lib/server/db"
 import { auth } from "$lib/server/lucia.js"
-import { postsTable } from "$lib/server/schema"
+import { commentsTable, postsTable, repliesTable } from "$lib/server/schema"
+import { eq } from "drizzle-orm"
 import {v4 as uuidv4} from "uuid"
-type newPost = typeof postsTable.$inferInsert
+
+
 export const load = async() =>{
-    const data = await dbClient.select().from(postsTable)
+    const posts = await dbClient.select().from(postsTable).leftJoin(commentsTable,eq(postsTable.author, commentsTable.author)).leftJoin(repliesTable,eq(commentsTable.id,repliesTable.originalComment))
+
     return {
-        data
+        posts
     }
 }
 
@@ -24,7 +27,7 @@ export const actions ={
         const date = new Date();
 
         if(postAuthor && postContent){
-            const newPost:newPost = {
+            const newPost: typeof postsTable.$inferInsert = {
                 id: uuidv4(),
                 content: postContent,
                 author: postAuthor,
