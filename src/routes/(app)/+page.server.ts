@@ -7,17 +7,40 @@ import {v4 as uuidv4} from "uuid"
 // until i figure out how to infer type from joined select
 export type PostsJoined = ReturnType<Awaited<typeof fetchPosts>>
 
+type Post = typeof postsTable.$inferInsert
+type Comment = typeof commentsTable.$inferInsert
+
 export const load = async() =>{
-    const posts = await fetchPosts()
+    const rows = await fetchPosts()
+
+    const result = rows.reduce<Record<string, { post: Post; comments: Comment[] }>>(
+        (acc, row) => {
+          const post = row.posts;
+          const comment = row.comments;
+          if(!acc[post.id]){
+            acc[post.id] = {post, comments:[]}
+          }
+
+          if(comment){
+            acc[post.id].comments.push(comment);
+          }
+
+          return acc;
+        },
+        {}
+      );
+
+      const res = Object.values(result)
+
 
     return {
-        posts
+        res
     }
 }
 
 async function fetchPosts(){
-    const posts = await dbClient.select().from(postsTable).leftJoin(commentsTable,eq(postsTable.id, commentsTable.post)).leftJoin(repliesTable,eq(commentsTable.id,repliesTable.originalComment)).orderBy(postsTable.timestamp)
-    return posts;
+    const rows = await dbClient.select().from(postsTable).leftJoin(commentsTable,eq(postsTable.id, commentsTable.post)).orderBy(postsTable.timestamp)
+    return rows;
 }
 
 export const actions ={

@@ -1,18 +1,21 @@
 <script lang="ts">
+  import type { commentsTable } from "$lib/server/schema";
   import CommentForm from "./CommentForm.svelte";
   import Linebreak from "./Linebreak.svelte";
 
     let activeComment:boolean = false;
+
+    export let comment: typeof commentsTable.$inferInsert
 </script>
 
 <Linebreak/>
 <div class="comment-container">
     <div class="comment-author">
             <img class="profile-image" src="/images/icons/profile.png" alt="Profile icon"/>
-            <p class="author">{"Annon"}</p>
+            <p class="author">{comment.author}</p>
             <p class="timestamp">{`.${"3"}d`}</p>
     </div>
-    <div class="comment-content">Lorem ipsum dolor sit, amet consectetur adipisicing elit.</div>
+    <div class="comment-content">{comment.comment}</div>
     <div class="icons-container">
         <button><img src ="/images/icons/like.svg" alt="Like Icon"></button>
         <button on:click={()=>{activeComment = !activeComment}}><img src ="/images/icons/reply.svg" alt="Reply Icon"></button>

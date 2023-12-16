@@ -1,17 +1,16 @@
 <script lang="ts">
-  import type { postType } from "$lib/types";
+  import type { AggregatedPost, postType } from "$lib/types";
   import { onMount } from "svelte";
   import CommentForm from "./CommentForm.svelte";
   import Comment from "./Comment.svelte";
-  import type { postsTable } from "$lib/server/schema";
 
 
-    export let post: typeof postsTable.$inferInsert;
+    export let post: AggregatedPost;
     let activeComment:boolean = false;
     let days:number;
 
     onMount(()=>{
-        const originalTime = post.timestamp!.getTime();
+        const originalTime = post.post.timestamp!.getTime();
         const currTime = new Date().getTime()
         const diffHours = (currTime - originalTime) / 3600000
         
@@ -25,13 +24,13 @@
     <div class="post-header">
         <div class="post-author">
             <img class="profile-image" src="/images/icons/profile.png" alt="Profile icon"/>
-            <p class="author">{post.author}</p>
+            <p class="author">{post.post.author}</p>
             <p class="timestamp">{`.${days}d`}</p>
         </div>
 
         <p>...</p>
     </div>
-    <div class="post-content">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Commodi et sit hic deserunt. Eveniet, labore sed, eligendi eos earum delectus, deleniti perspiciatis laborum quasi beatae molestias unde sequi? Nisi, explicabo.</div>
+    <div class="post-content">{post.post.content}</div>
     <div class="icons-container">
         <button><img src ="/images/icons/like.svg" alt="Like Icon"></button>
         <button on:click={()=>{activeComment = !activeComment}}><img src ="/images/icons/reply.svg" alt="Reply Icon"></button>
@@ -40,7 +39,13 @@
     {#if activeComment}
         <CommentForm/>
     {/if}
-    <Comment/>
+    
+    {#if post.comments}
+        {#each post.comments as comment}
+            <Comment comment={comment}/>
+        {/each}
+    {/if}
+    
 </div>
 
 <style>
