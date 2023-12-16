@@ -26,7 +26,7 @@
     main {
         display: grid;
         gap: 1rem;
-        margin-top: 1rem;
+        margin-top: 1rem !important;
     }
 
     main > div{
