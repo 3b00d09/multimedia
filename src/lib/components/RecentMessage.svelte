@@ -1,5 +1,5 @@
 <div class="recent-message-container">
-    <img src="/images/icons/profile.svg" alt="Profile Icon"/>
+    <img src="/images/icons/profile.png" alt="Profile Icon"/>
     <div class="recent-message-author">
         <p>ANNON</p>
         <p>lorem idk...</p>

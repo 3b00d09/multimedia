@@ -17,13 +17,10 @@
     </div>
     <div class="comment-content">{comment.comment}</div>
     <div class="icons-container">
-        <button><img src ="/images/icons/like.svg" alt="Like Icon"></button>
-        <button on:click={()=>{activeComment = !activeComment}}><img src ="/images/icons/reply.svg" alt="Reply Icon"></button>
-        <button><img src ="/images/icons/dm.svg" alt="Direct Message Icon"></button>
+        <button><img src ="/images/icons/like.png" alt="Like Icon"></button>
+        <button on:click={()=>{activeComment = !activeComment}}><img src ="/images/icons/reply.png" alt="Reply Icon"></button>
+        <button><img src ="/images/icons/forward.png" alt="Direct Message Icon"></button>
     </div>
-    {#if activeComment}
-        <CommentForm/>
-    {/if}
 </div>
 
 <style>

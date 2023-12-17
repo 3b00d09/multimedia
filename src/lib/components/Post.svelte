@@ -32,19 +32,23 @@
     </div>
     <div class="post-content">{post.post.content}</div>
     <div class="icons-container">
-        <button><img src ="/images/icons/like.svg" alt="Like Icon"></button>
-        <button on:click={()=>{activeComment = !activeComment}}><img src ="/images/icons/reply.svg" alt="Reply Icon"></button>
-        <button><img src ="/images/icons/dm.svg" alt="Direct Message Icon"></button>
+        <button><img src ="/images/icons/like.png" alt="Like Icon"></button>
+        <button on:click={()=>{activeComment = !activeComment}}>
+            <img src ="/images/icons/comment.png" alt="Reply Icon">
+            <p>{post.comments.length}</p>
+        </button>
+        <button><img src ="/images/icons/forward.png" alt="Direct Message Icon"></button>
     </div>
     {#if activeComment}
-        <CommentForm/>
-    {/if}
-    
-    {#if post.comments}
+        <CommentForm postId={post.post.id}/>
+        {#if post.comments}
         {#each post.comments as comment}
             <Comment comment={comment}/>
         {/each}
     {/if}
+    {/if}
+    
+
     
 </div>
 
@@ -84,6 +88,14 @@
         display: flex;
         align-items: center;
         gap: 1rem;
+    }
+
+    .icons-container > button {
+        display: flex;
+        align-items: center;
+        color: inherit;
+        gap: 0.5rem;
+        min-width: fit-content;
     }
 
     button {

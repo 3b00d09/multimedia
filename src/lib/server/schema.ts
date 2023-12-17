@@ -1,4 +1,4 @@
-import { pgTable, bigint, varchar, timestamp, date } from "drizzle-orm/pg-core";
+import { pgTable, bigint, varchar, timestamp, foreignKey } from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable("user", {
 	id: varchar("id", {
@@ -79,7 +79,18 @@ export const commentsTable = pgTable("comments",{
 	}).notNull().references(()=>{
 		return postsTable.id
 	}),
-	date:timestamp("date")
+	date:timestamp("date"),
+	parentCommentId:varchar("parent_comment_id",{
+		length: 244,
+	})
+},(table)=>{
+	return{
+		parentReference:foreignKey({
+			columns:[table.parentCommentId],
+			foreignColumns:[table.id],
+			name:"custom comment to comment fk"
+		}),
+	};
 })
 
 export const repliesTable = pgTable("replies",{

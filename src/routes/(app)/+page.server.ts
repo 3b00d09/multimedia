@@ -44,7 +44,8 @@ async function fetchPosts(){
 }
 
 export const actions ={
-    default: async(request)=>{
+    post: async(request)=>{
+        
         const authRequest = auth.handleRequest(request)
         const session = await authRequest.validate()
         if(!session){
@@ -66,5 +67,45 @@ export const actions ={
             const createPost = await dbClient.insert(postsTable).values(newPost)
         }
         
+    },
+
+    comment:async(request)=>{
+        const authRequest = auth.handleRequest(request)
+        const session = await authRequest.validate()
+
+        if(!session){
+            return {status: 401, success: false}
+        }
+
+        const data = await request.request.formData()
+        const commentContent = data.get("comment-content")?.toString()
+        const commentAuthor = session.user.username
+        const date = new Date();
+        const postId = data.get("post_id")?.toString();
+
+        if(!postId){
+            return{status: 401, success: false}
+        }
+
+
+        if(commentContent && commentAuthor){
+            const newComment: typeof commentsTable.$inferInsert = {
+                id: uuidv4(),
+                comment: commentContent,
+                author: commentAuthor,
+                post: postId,
+                date: date,
+            }
+            const createComment = await dbClient.insert(commentsTable).values(newComment)
+        }
+    },
+
+    reply:async(request)=>{
+        const authRequest = auth.handleRequest(request)
+        const session = await authRequest.validate()
+
+        if(!session){
+            return {status: 401, success: false}
+        }
     }
 }

@@ -2,7 +2,7 @@
   import { enhance } from "$app/forms";
 
 </script>
-<form use:enhance method="POST">
+<form use:enhance method="POST" action="?/post">
     <i class="fa-solid fa-circle-user fa-2xl"></i>
     <div class="container">
         <textarea name="post-content" placeholder="How was your day?"></textarea>

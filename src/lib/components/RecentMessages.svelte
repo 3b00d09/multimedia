@@ -6,7 +6,7 @@
 <div class="recent-messages">
     <div class="recent-messages-header">
         <h2>Messages</h2>
-        <img src="/images/icons/compose.svg" alt="Recent Messages Icon" />
+        <img src="/images/icons/compose.png" alt="Recent Messages Icon" />
     </div>
     <ul>
         <li><RecentMessage/></li>

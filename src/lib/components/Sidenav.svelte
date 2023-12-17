@@ -19,7 +19,7 @@
     <li class="icon-container"><button on:click={setActiveIcon}><img src="/images/icons/search.png" alt="Home Icon"/></button></li>
     <li class="icon-container"><button on:click={setActiveIcon}><img src="/images/icons/inbox.png" alt="Home Icon"/></button></li>
     <li class="icon-container"><button on:click={setActiveIcon}><img src="/images/icons/profile.png" alt="Home Icon"/></button></li>
-    <li class="icon-container"><button on:click={setActiveIcon}><img src="/images/icons/settings.svg" alt="Settings Icon"/></button></li>
+    <li class="icon-container"><button on:click={setActiveIcon}><img src="/images/icons/settings.png" alt="Settings Icon"/></button></li>
 </ul>
 
 
