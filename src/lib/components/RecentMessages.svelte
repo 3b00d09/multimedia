@@ -1,6 +1,6 @@
 <script>
     import "../../global.css"
-  import RecentMessage from "./RecentMessage.svelte";
+  import RecentMessage from "./subcomponents/RecentMessage.svelte";
 </script>
 
 <div class="recent-messages">

@@ -15,9 +15,9 @@
     <button on:click={setActive}>Following</button>
 </div>
 <ul>
-    <li>For You</li>
-    <li>Following</li>
-    <li>Action</li>
+    <li>Comedy</li>
+    <li>Sad</li>
+    <li>Sci-Fi</li>
     <li>News</li>
 </ul>
 

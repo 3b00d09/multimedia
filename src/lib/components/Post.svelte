@@ -42,10 +42,10 @@
     {#if activeComment}
         <CommentForm postId={post.post.id}/>
         {#if post.comments}
-        {#each post.comments as comment}
-            <Comment comment={comment}/>
-        {/each}
-    {/if}
+            {#each post.comments as comment}
+                <Comment comment={comment}/>
+            {/each}
+        {/if}
     {/if}
     
 

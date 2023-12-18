@@ -1,25 +1,17 @@
 <script lang="ts">
-  import type { MouseEventHandler } from "svelte/elements";
     import "../../global.css"
+    import SideBarBtn from "./subcomponents/SideBarBtn.svelte";
 
     let iconsContainer:HTMLUListElement;
 
-    const setActiveIcon = (e:MouseEvent & { currentTarget: HTMLButtonElement; }) =>{
-        iconsContainer.querySelectorAll("li").forEach((btn)=>{
-            btn.classList.remove("active");
-            
-        })
-        e.currentTarget.parentElement?.classList.add("active");
-        
-    }
 </script>
 
 <ul bind:this={iconsContainer}>
-    <li class="icon-container active"><button on:click={setActiveIcon}><img src="/images/icons/home.png" alt="Home Icon"/></button></li>
-    <li class="icon-container"><button on:click={setActiveIcon}><img src="/images/icons/search.png" alt="Home Icon"/></button></li>
-    <li class="icon-container"><button on:click={setActiveIcon}><img src="/images/icons/inbox.png" alt="Home Icon"/></button></li>
-    <li class="icon-container"><button on:click={setActiveIcon}><img src="/images/icons/profile.png" alt="Home Icon"/></button></li>
-    <li class="icon-container"><button on:click={setActiveIcon}><img src="/images/icons/settings.png" alt="Settings Icon"/></button></li>
+    <li class="icon-container active"><SideBarBtn imgRoute={"home.png"} name={"Home"} iconsContainer={iconsContainer} /></li>
+    <li class="icon-container"><SideBarBtn imgRoute={"search.png"} name={"Search"} iconsContainer={iconsContainer} /></li>
+    <li class="icon-container"><SideBarBtn imgRoute={"inbox.png"} name={"Inbox"} iconsContainer={iconsContainer} /></li>
+    <li class="icon-container"><SideBarBtn imgRoute={"profile.png"} name={"Profile"} iconsContainer={iconsContainer} /></li>
+    <li class="icon-container"><SideBarBtn imgRoute={"settings.png"} name={"Settings"} iconsContainer={iconsContainer} /></li>
 </ul>
 
 
@@ -53,14 +45,6 @@
         align-self: end;
     }
 
-    button{
-        padding: .45rem;
-        border: none;
-    }
-
-    button > img{
-        width: 100%;
-    }
 
     .icon-container{
         opacity: 0.3;
