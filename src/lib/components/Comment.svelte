@@ -1,11 +1,25 @@
 <script lang="ts">
-  import type { commentsTable } from "$lib/server/schema";
-  import CommentForm from "./CommentForm.svelte";
-  import Linebreak from "./Linebreak.svelte";
+    import type { commentsTable } from "$lib/server/schema";
+    import { onMount } from "svelte";
+    import Linebreak from "./Linebreak.svelte";
+    import ReplyForm from "./ReplyForm.svelte";
 
-    let activeComment:boolean = false;
+    type commentType = typeof commentsTable.$inferInsert
+    export let comment: commentType
 
-    export let comment: typeof commentsTable.$inferInsert
+    let replies: commentType[];
+    let activeReply:boolean = false;
+
+    const fetchReplies = async() =>{
+        const data = await fetch(`api/fetchReplies/?id=${comment.id}`)
+        const res = await data.json()
+        replies = res
+    }
+
+    onMount(async()=>{
+        fetchReplies();
+    })
+    
 </script>
 
 <Linebreak/>
@@ -18,9 +32,20 @@
     <div class="comment-content">{comment.comment}</div>
     <div class="icons-container">
         <button><img src ="/images/icons/like.png" alt="Like Icon"></button>
-        <button on:click={()=>{activeComment = !activeComment}}><img src ="/images/icons/reply.png" alt="Reply Icon"></button>
+        <button on:click={()=>{activeReply = !activeReply}}><img src ="/images/icons/reply.png" alt="Reply Icon"></button>
         <button><img src ="/images/icons/forward.png" alt="Direct Message Icon"></button>
     </div>
+
+    {#if activeReply}
+        <ReplyForm commentId={comment.id}/>
+        {#if replies.length > 0} 
+
+        {#each replies as comment} 
+            <svelte:self comment={comment}/>
+        {/each}
+
+        {/if}
+    {/if}
 </div>
 
 <style>

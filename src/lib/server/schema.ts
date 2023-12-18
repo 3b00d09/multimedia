@@ -76,7 +76,7 @@ export const commentsTable = pgTable("comments",{
 	}),
 	post: varchar("post",{
 		length: 255
-	}).notNull().references(()=>{
+	}).references(()=>{
 		return postsTable.id
 	}),
 	date:timestamp("date"),

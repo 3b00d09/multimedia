@@ -39,7 +39,11 @@ export const load = async() =>{
 }
 
 async function fetchPosts(){
-    const rows = await dbClient.select().from(postsTable).leftJoin(commentsTable,eq(postsTable.id, commentsTable.post)).orderBy(postsTable.timestamp)
+    const rows = await dbClient.select()
+        .from(postsTable)
+        .leftJoin(commentsTable,eq(postsTable.id, commentsTable.post))
+        .orderBy(postsTable.timestamp)
+        
     return rows;
 }
 
@@ -107,5 +111,27 @@ export const actions ={
         if(!session){
             return {status: 401, success: false}
         }
+
+        const data = await request.request.formData()
+        const replyContent = data.get("reply-content")?.toString()
+        const replyAuthor = session.user.username
+        const date = new Date();
+        const parentCommentId = data.get("parent_comment_id")?.toString();
+
+        if(!parentCommentId){
+            return{status: 401, success: false}
+        }
+
+        if(replyContent && replyAuthor){
+            const newComment: typeof commentsTable.$inferInsert = {
+                id: uuidv4(),
+                comment: replyContent,
+                author: replyAuthor,
+                date: date,
+                parentCommentId: parentCommentId
+            }
+            const createReply = await dbClient.insert(commentsTable).values(newComment)
+        }
+
     }
 }
