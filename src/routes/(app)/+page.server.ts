@@ -1,6 +1,6 @@
 import { dbClient } from "$lib/server/db"
 import { auth } from "$lib/server/lucia.js"
-import { commentsTable, postsTable, repliesTable } from "$lib/server/schema"
+import { commentsTable, postsTable, repliesTable, usersTable } from "$lib/server/schema"
 import { eq } from "drizzle-orm"
 import {v4 as uuidv4} from "uuid"
 
@@ -10,8 +10,10 @@ export type PostsJoined = ReturnType<Awaited<typeof fetchPosts>>
 type Post = typeof postsTable.$inferInsert
 type Comment = typeof commentsTable.$inferInsert
 
-export const load = async() =>{
+export const load = async({locals}) =>{
     const rows = await fetchPosts()
+    const session = await locals.auth.validate()
+    const user = await dbClient.select().from(usersTable).where(eq(usersTable.id, session!.user.userId))
 
     const result = rows.reduce<Record<string, { post: Post; comments: Comment[] }>>(
         (acc, row) => {
@@ -34,7 +36,7 @@ export const load = async() =>{
 
 
     return {
-        res
+        res,user
     }
 }
 

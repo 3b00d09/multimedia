@@ -7,7 +7,8 @@ export const usersTable = pgTable("user", {
 	// other user attributes
 	username: varchar("username",{
 		length: 24
-	}).notNull().unique()
+	}).notNull().unique(),
+	profilePictureUrl: varchar("profile_pic_url").unique()
 });
 
 export const sessionsTable = pgTable("user_session", {
