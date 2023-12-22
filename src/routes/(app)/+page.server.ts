@@ -1,7 +1,7 @@
 import { dbClient } from "$lib/server/db"
 import { auth } from "$lib/server/lucia.js"
 import { commentsTable, postsTable, repliesTable, usersTable } from "$lib/server/schema"
-import { eq } from "drizzle-orm"
+import { count, eq, sql } from "drizzle-orm"
 import {v4 as uuidv4} from "uuid"
 
 // until i figure out how to infer type from joined select
@@ -10,42 +10,29 @@ export type PostsJoined = ReturnType<Awaited<typeof fetchPosts>>
 type Post = typeof postsTable.$inferInsert
 type Comment = typeof commentsTable.$inferInsert
 
-export const load = async({locals}) =>{
+export const load = async() =>{
     const rows = await fetchPosts()
-    const session = await locals.auth.validate()
-    const user = await dbClient.select().from(usersTable).where(eq(usersTable.id, session!.user.userId))
-
-    const result = rows.reduce<Record<string, { post: Post; comments: Comment[] }>>(
-        (acc, row) => {
-          const post = row.posts;
-          const comment = row.comments;
-          if(!acc[post.id]){
-            acc[post.id] = {post, comments:[]}
-          }
-
-          if(comment){
-            acc[post.id].comments.push(comment);
-          }
-
-          return acc;
-        },
-        {}
-      );
-
-      const res = Object.values(result)
-
-
+  
     return {
-        res,user
+        rows
     }
 }
 
 async function fetchPosts(){
-    const rows = await dbClient.select()
+    const rows = await dbClient.select({
+        id:postsTable.id,
+        author: postsTable.author,
+        content: postsTable.content,
+        timestamp: postsTable.timestamp,
+        
+        commentCount: sql<number>`cast(count(${commentsTable.post}) as int)`
+    })
         .from(postsTable)
         .leftJoin(commentsTable,eq(postsTable.id, commentsTable.post))
         .orderBy(postsTable.timestamp)
+        .groupBy(postsTable.id)
         
+    console.log(rows)
     return rows;
 }
 

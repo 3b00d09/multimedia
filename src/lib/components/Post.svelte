@@ -3,14 +3,18 @@
   import { onMount } from "svelte";
   import CommentForm from "./CommentForm.svelte";
   import Comment from "./Comment.svelte";
+  import { redirect } from "@sveltejs/kit";
+  import { goto } from "$app/navigation";
 
-
-    export let post: AggregatedPost;
+    type PostWithCommentCount = postType & {
+        commentCount: number;
+    }
+    export let post: PostWithCommentCount;
     let activeComment:boolean = false;
     let days:number;
 
     onMount(()=>{
-        const originalTime = post.post.timestamp!.getTime();
+        const originalTime = post.timestamp!.getTime();
         const currTime = new Date().getTime()
         const diffHours = (currTime - originalTime) / 3600000
         
@@ -18,34 +22,33 @@
 
     })
 
+    const navigateToPost = () => goto(`/post/${post.id}`)
+
 </script>
 
-<div class="post-container">
-    <div class="post-header">
-        <div class="post-author">
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<div on:click|self={navigateToPost} class="post-container">
+    <div on:click|self={navigateToPost} class="post-header">
+        <div  class="post-author">
             <img class="profile-image" src="/images/icons/profile.png" alt="Profile icon"/>
-            <p class="author">{post.post.author}</p>
+            <p class="author">{post.author}</p>
             <p class="timestamp">{`.${days}d`}</p>
         </div>
 
         <p>...</p>
     </div>
-    <div class="post-content">{post.post.content}</div>
-    <div class="icons-container">
+    <div  class="post-content"><p>{post.content}</p></div>
+    <div  class="icons-container">
         <button><img src ="/images/icons/like.png" alt="Like Icon"></button>
         <button on:click={()=>{activeComment = !activeComment}}>
             <img src ="/images/icons/comment.png" alt="Reply Icon">
-            <p>{post.comments.length}</p>
+            <p>{post.commentCount}</p>
         </button>
         <button><img src ="/images/icons/forward.png" alt="Direct Message Icon"></button>
     </div>
     {#if activeComment}
-        <CommentForm postId={post.post.id}/>
-        {#if post.comments}
-            {#each post.comments as comment}
-                <Comment comment={comment}/>
-            {/each}
-        {/if}
+        <CommentForm postId={post.id}/>
     {/if}
     
 
@@ -57,6 +60,14 @@
     .post-container{
         display: grid;
         gap: 0.75rem;
+        cursor: pointer;
+        padding: 0.25rem;
+        border-radius: 16px;
+    }
+
+    .post-container:hover{
+        background-color: rgba(226, 224, 224, 0.075);
+        transition: 300ms ease;
     }
     .post-header{
         display: flex;
@@ -82,12 +93,14 @@
     .post-content{
         color: var(--text-secondary);
         line-height: 22px;
+        width: fit-content;
     }
 
     .icons-container{
         display: flex;
         align-items: center;
         gap: 1rem;
+        width: fit-content;
     }
 
     .icons-container > button {

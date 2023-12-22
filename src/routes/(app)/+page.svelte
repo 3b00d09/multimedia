@@ -9,7 +9,7 @@
     <PostForm />
     {#if data}
         <div class="posts-container">
-            {#each data.res as post}
+            {#each data.rows as post}
                 <Post post={post}/>
                 <Linebreak/>
             {/each}
