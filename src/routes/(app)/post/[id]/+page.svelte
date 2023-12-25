@@ -1,7 +1,25 @@
 <script lang="ts">
-    //export let data;
+  import { onMount } from 'svelte';
+
+
+export let data;
+
+
+onMount(()=>{
+    console.log(data.comments)
+})
+
 </script>
 
 <div>
-    TODO
+    <p>{data.post.author}</p>
+    <p></p>
+    <p>{data.post.content}</p>
+
+    {#each data.comments as comment}
+
+    <p>{comment.author}</p>
+    <p>{comment.content}</p>
+
+    {/each}
 </div>
