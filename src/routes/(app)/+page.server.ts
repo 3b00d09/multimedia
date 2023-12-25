@@ -24,15 +24,16 @@ async function fetchPosts(){
         author: postsTable.author,
         content: postsTable.content,
         timestamp: postsTable.timestamp,
+        imageUrl: usersTable.profilePictureUrl,
         
         commentCount: sql<number>`cast(count(${commentsTable.post}) as int)`
     })
         .from(postsTable)
         .leftJoin(commentsTable,eq(postsTable.id, commentsTable.post))
+        .leftJoin(usersTable,eq(postsTable.author, usersTable.username))
         .orderBy(postsTable.timestamp)
-        .groupBy(postsTable.id)
+        .groupBy(postsTable.id, usersTable.id)
         
-    console.log(rows)
     return rows;
 }
 

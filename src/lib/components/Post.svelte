@@ -1,13 +1,14 @@
 <script lang="ts">
-  import type { AggregatedPost, postType } from "$lib/types";
+  import type { AggregatedPost, PostType } from "$lib/types";
   import { onMount } from "svelte";
   import CommentForm from "./CommentForm.svelte";
   import Comment from "./Comment.svelte";
   import { redirect } from "@sveltejs/kit";
   import { goto } from "$app/navigation";
 
-    type PostWithCommentCount = postType & {
+    type PostWithCommentCount = PostType & {
         commentCount: number;
+        imageUrl: string | null
     }
     export let post: PostWithCommentCount;
     let activeComment:boolean = false;
@@ -31,7 +32,7 @@
 <div on:click|self={navigateToPost} class="post-container">
     <div on:click|self={navigateToPost} class="post-header">
         <div  class="post-author">
-            <img class="profile-image" src="/images/icons/profile.png" alt="Profile icon"/>
+            <img class="profile-image" src={post.imageUrl} alt="Profile icon"/>
             <p class="author">{post.author}</p>
             <p class="timestamp">{`.${days}d`}</p>
         </div>
@@ -125,5 +126,7 @@
     .profile-image{
         border-radius: 50%;
         object-fit: cover;
+        width: 3rem;
+        height: 3rem;
     }
 </style>

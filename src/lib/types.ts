@@ -1,6 +1,7 @@
-import type { commentsTable, postsTable } from './server/schema';
-import type { User } from 'lucia';
+import type { commentsTable, postsTable, usersTable } from './server/schema';
 
-export type postType = typeof postsTable.$inferSelect
+export type UserType = typeof usersTable.$inferSelect
+export type CommentType = typeof commentsTable.$inferSelect
+export type PostType = typeof postsTable.$inferSelect
 
 export type AggregatedPost = { post: typeof postsTable.$inferInsert; comments: typeof commentsTable.$inferInsert[] }
