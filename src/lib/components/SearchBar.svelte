@@ -1,10 +1,13 @@
 <script lang="ts">
+  import { applyAction } from "$app/forms";
   import type { usersTable } from "$lib/server/schema";
 
   type User = typeof usersTable.$inferSelect;
   let isSearching = false;
   let searchTerm = "";
   let searchResults: User[] = [];
+  export let appContainer:HTMLElement;
+  export let searchModal: HTMLDivElement;
 
   const searchUsers = async () => {
     isSearching = !!searchTerm.trim();
@@ -21,6 +24,11 @@
       isSearching = searchResults.length > 0;
     }
   };
+
+  const toggleModal = () =>{
+    searchModal.style.display = "block";
+    appContainer.classList.add("blurred")
+  }
 </script>
 <div class="app">
   <div class="homepage-content {isSearching ? 'blur' : ''}">
@@ -30,6 +38,7 @@
   <div class="search-container">
     <form on:submit|preventDefault={searchUsers} class="search-form">
       <input
+        on:click={toggleModal}
         type="text"
         bind:value={searchTerm}
         placeholder="Search users..."

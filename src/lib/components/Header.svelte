@@ -1,9 +1,12 @@
-<script>
+<script lang="ts">
   import SearchBar from "./SearchBar.svelte";
+
+  export let appContainer: HTMLElement;
+  export let searchModal: HTMLDivElement;
 </script>
 
 <header>
-  <SearchBar />
+  <SearchBar {appContainer} {searchModal} />
 </header>
 
 <style>

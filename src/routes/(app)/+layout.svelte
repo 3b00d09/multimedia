@@ -4,10 +4,21 @@
     import Sidenav from "$lib/components/Sidenav.svelte";
     import RecentMessages  from "$lib/components/RecentMessages.svelte";
   import Categories from "$lib/components/Categories.svelte";
+
+  let appContainer: HTMLElement
+  let searchModal: HTMLDivElement;
+
+  const toggleModalOff = () =>{
+    appContainer.classList.remove("blurred")
+    searchModal.style.display = "none"
+  }
 </script>
 
-<main>
-    <Header/>
+<main bind:this={appContainer}>
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <div on:click={toggleModalOff} bind:this={searchModal} class="modal"></div>
+    <Header {appContainer} {searchModal}/>
     <div>
         <Sidenav/>
         <div class="main-container">
@@ -23,7 +34,24 @@
 
 <style>
 
+    :global(.blurred){
+        filter: blur(3px);
+    }
+    
+    .modal{
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        height: 100vh;
+        background-color: var(--background);
+        opacity: 0.3;
+        display: none;
+    }
+
     main {
+        position: relative;
         display: grid;
         gap: 1rem;
         margin-top: 1rem !important;
