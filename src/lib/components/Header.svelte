@@ -1,12 +1,11 @@
 <script lang="ts">
-  import SearchBar from "./SearchBar.svelte";
-
-  export let appContainer: HTMLElement;
+  import SearchBar from "$lib/components/SearchBar.svelte";
   export let searchModal: HTMLDivElement;
+  export let initialSearchInput: HTMLInputElement;
 </script>
 
 <header>
-  <SearchBar {appContainer} {searchModal} />
+  <SearchBar {searchModal} {initialSearchInput} />
 </header>
 
 <style>
@@ -17,4 +16,4 @@
     width: 33%;
     justify-self: center;
   }
-</style>
+  </style>

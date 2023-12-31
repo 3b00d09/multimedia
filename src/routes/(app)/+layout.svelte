@@ -5,20 +5,21 @@
     import RecentMessages  from "$lib/components/RecentMessages.svelte";
   import Categories from "$lib/components/Categories.svelte";
 
-  let appContainer: HTMLElement
-  let searchModal: HTMLDivElement;
-
-  const toggleModalOff = () =>{
-    appContainer.classList.remove("blurred")
-    searchModal.style.display = "none"
-  }
+   let searchModal: HTMLDivElement;
+  let initialSearchInput: HTMLInputElement;
+  const toggleModalOff = () => {
+        if (searchModal) {
+            searchModal.style.display = "none";
+        }
+    };
 </script>
 
-<main bind:this={appContainer}>
+<main>
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div on:click={toggleModalOff} bind:this={searchModal} class="modal"></div>
-    <Header {appContainer} {searchModal}/>
+   
+    <Header {searchModal} {initialSearchInput}/>
     <div>
         <Sidenav/>
         <div class="main-container">

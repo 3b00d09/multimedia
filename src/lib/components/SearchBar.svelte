@@ -4,88 +4,126 @@
 
   type User = typeof usersTable.$inferSelect;
   let isSearching = false;
-  let searchTerm = "";
+  let modalSearchTerm = "";
   let searchResults: User[] = [];
-  export let appContainer:HTMLElement;
+
   export let searchModal: HTMLDivElement;
+  export let initialSearchInput: HTMLInputElement;
+  let isModalActive = false;
 
   const searchUsers = async () => {
-    isSearching = !!searchTerm.trim();
+    isSearching = !!modalSearchTerm.trim();
     if (!isSearching) {
       searchResults = [];
       return;
     }
-
-    const response = await fetch(
-      `/api/users?search-query=${encodeURIComponent(searchTerm.trim())}`
-    );
+    const response = await fetch(`/api/users?search-query=${encodeURIComponent(modalSearchTerm.trim())}`);
     if (response.ok) {
       searchResults = await response.json();
       isSearching = searchResults.length > 0;
     }
   };
 
-  const toggleModal = () =>{
-    searchModal.style.display = "block";
-    appContainer.classList.add("blurred")
-  }
+  const resetSearch = () => {
+    modalSearchTerm = "";
+    searchResults = []; 
+  };
+
+  const toggleModalOff = () => {
+    searchModal.style.display = "none";
+    resetSearch();
+  };
+
+  const toggleModal = () => {
+    isModalActive = !isModalActive;
+    searchModal.style.display = isModalActive ? "flex" : "none";
+    if (!isModalActive) {
+      resetSearch(); 
+    } else {
+      setTimeout(() => initialSearchInput?.focus(), 0);
+    }
+  };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (event.target === searchModal) {
+      toggleModalOff();
+    }
+  };
 </script>
+
+
+<!-- svelte-ignore a11y-click-events-have-key-events -->
 <div class="app">
-  <div class="homepage-content {isSearching ? 'blur' : ''}">
-
-  </div>
-
   <div class="search-container">
-    <form on:submit|preventDefault={searchUsers} class="search-form">
+    <form on:submit|preventDefault class="search-form">
       <input
+        bind:this={initialSearchInput}
         on:click={toggleModal}
         type="text"
-        bind:value={searchTerm}
         placeholder="Search users..."
-        on:input={searchUsers}
         class="search-input"
+        readonly 
       />
     </form>
+  </div>
 
-    <div class="search-results {isSearching ? 'active' : ''}">
-      {#if searchResults.length > 0}
-        <ul>
-          {#each searchResults as user}
-            <li class="user-item">
-              <img src={user.profilePictureUrl} alt={`${user.username}'s profile picture`} class="user-image">
-              <span>{user.username}</span>
-            </li>
-          {/each}
-        </ul>
-      {/if}
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
+  <div on:click={handleClickOutside} bind:this={searchModal} class="search-modal" style="display: none;">
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <div class="modal-content" on:click|stopPropagation>
+      <form on:submit|preventDefault={searchUsers} class="modal-search-form">
+        <input
+          type="text"
+          bind:value={modalSearchTerm}
+          placeholder="Type to search users..."
+          on:input={searchUsers}
+          class="modal-search-input"
+        />
+      </form>
+
+      <div class="modal-search-results {isSearching ? 'active' : ''}">
+        {#if searchResults.length > 0}
+          <ul>
+            {#each searchResults as user}
+              <li class="user-item">
+                <img src={user.profilePictureUrl} alt={`${user.username}'s profile picture`} class="user-image">
+                <span>{user.username}</span>
+              </li>
+            {/each}
+          </ul>
+        {/if}
+      </div>
     </div>
   </div>
 </div>
+
 <style>
- .app {
-  position: relative;
+  * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
+  .app {
+    position: relative;
+  }
 
-.homepage-content.blur {
-  filter: blur(5px);
-  transition: filter 0.3s;
-}
+  .search-container {
+    position: relative; 
+    width: 300%; 
+    max-width: 600px; 
+    margin: auto; 
+  }
 
-.search-container {
-  position: relative; 
-  width: 300%;
-}
+  .search-form {
+    display: grid;
+  }
 
-.search-form {
-  width: 100%; 
-  display: grid;
-}
-
-.search-input {
-  padding: 0.75rem;
+  .search-input, .modal-search-input {
+    padding: 0.75rem;
   border-radius: 10px;
   font-size: 1rem;
-  width: 100%; 
+  width: 100%;
   box-shadow: -2px -2px 6px -4px rgba(226, 224, 224, 0.5) inset,
               2px 2px 6px 4px rgba(0, 0, 0, 0.5) inset;
   background: transparent;
@@ -93,57 +131,60 @@
   outline: none;
   color: inherit;
   font: inherit;
-}
-
-.search-results {
-  display: none;
-  position: absolute;
-  top: 100%;
+  }
+  .search-modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1000; 
   left: 0;
-  width: 100%;
-  background: #131313;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  max-height: 300px;
-  overflow-y: auto;
-  border-radius: 0 0 10px 10px;
-  z-index: 100;
-}
-
-.search-results.active {
-  display: block;
-}
-.user-item {
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  position: relative; 
-}
-
-.user-item::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 8px;
-  background: #131313; 
-  box-shadow: -5px -5px 5px 0px rgba(255, 255, 255, 0.05) inset, 5px 5px 5px 0px rgba(0, 0, 0, 0.50) inset;
-}
-
-.user-item:last-child::after {
-  content: none; 
-}
-
-.user-image {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-.user-item span {
-  margin-left: 1rem;
+  top: 0;
+  width: 100%; 
+  height: 100vh; 
+  background-color: rgba(0,0,0,0.4); 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  backdrop-filter: blur(4px); 
 }
 
 
+  .modal-content {
+    background: #131313;
+    padding: 20px;
+    border-radius: 0.6em;
+    width: 50%; 
+    box-sizing: border-box; 
+    margin: auto;
+  }
+
+  .modal-search-results {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem; 
+    max-height: 60vh; 
+    overflow-y: auto; 
+    border-radius: 8px; 
+  }
+
+  .user-item {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    background: #1b1b1b; 
+    margin-bottom: 2px; 
+    border-radius: 5px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+  }
+
+  .user-image {
+    width: 40px; 
+    height: 40px; 
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+
+  .user-item span {
+    color: #fff; /* Light text for dark theme */
+    background-color: #131313;
+  }
 </style>
