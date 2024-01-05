@@ -7,17 +7,9 @@
 
    let searchModal: HTMLDivElement;
   let initialSearchInput: HTMLInputElement;
-  const toggleModalOff = () => {
-        if (searchModal) {
-            searchModal.style.display = "none";
-        }
-    };
 </script>
 
 <main>
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <div on:click={toggleModalOff} bind:this={searchModal} class="modal"></div>
    
     <Header {searchModal} {initialSearchInput}/>
     <div>
@@ -34,22 +26,6 @@
 </main>
 
 <style>
-
-    :global(.blurred){
-        filter: blur(3px);
-    }
-    
-    .modal{
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        height: 100vh;
-        background-color: var(--background);
-        opacity: 0.3;
-        display: none;
-    }
 
     main {
         position: relative;

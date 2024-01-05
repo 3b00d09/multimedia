@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { applyAction } from "$app/forms";
   import type { usersTable } from "$lib/server/schema";
 
   type User = typeof usersTable.$inferSelect;
@@ -9,7 +8,6 @@
 
   export let searchModal: HTMLDivElement;
   export let initialSearchInput: HTMLInputElement;
-  let isModalActive = false;
 
   const searchUsers = async () => {
     isSearching = !!modalSearchTerm.trim();
@@ -35,40 +33,28 @@
   };
 
   const toggleModal = () => {
-    isModalActive = !isModalActive;
-    searchModal.style.display = isModalActive ? "flex" : "none";
-    if (!isModalActive) {
-      resetSearch(); 
-    } else {
-      setTimeout(() => initialSearchInput?.focus(), 0);
-    }
-  };
-
-  const handleClickOutside = (event: MouseEvent) => {
-    if (event.target === searchModal) {
-      toggleModalOff();
-    }
+    searchModal.style.display = "flex";
   };
 </script>
 
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<div class="app">
-  <div class="search-container">
-    <form on:submit|preventDefault class="search-form">
-      <input
-        bind:this={initialSearchInput}
-        on:click={toggleModal}
-        type="text"
-        placeholder="Search users..."
-        class="search-input"
-        readonly 
-      />
-    </form>
-  </div>
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+<form on:click={toggleModal} on:submit|preventDefault class="search-form">
+  <input
+    bind:this={initialSearchInput}
+    type="text"
+    placeholder="Search users..."
+    class="search-input"
+    readonly 
+  />
+</form>
+
 
   <!-- svelte-ignore a11y-no-static-element-interactions -->
-  <div on:click={handleClickOutside} bind:this={searchModal} class="search-modal" style="display: none;">
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <div on:click={toggleModalOff} bind:this={searchModal} class="search-modal" style="display: none;">
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div class="modal-content" on:click|stopPropagation>
@@ -96,27 +82,13 @@
       </div>
     </div>
   </div>
-</div>
+
 
 <style>
-  * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-  .app {
-    position: relative;
-  }
-
-  .search-container {
-    position: relative; 
-    width: 300%; 
-    max-width: 600px; 
-    margin: auto; 
-  }
 
   .search-form {
     display: grid;
+    width: 100%;
   }
 
   .search-input, .modal-search-input {
