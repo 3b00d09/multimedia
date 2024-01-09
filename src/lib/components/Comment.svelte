@@ -1,8 +1,16 @@
 <script lang="ts">
-    import { onMount } from "svelte";
+    import { createEventDispatcher, onMount } from "svelte";
     import Linebreak from "./Linebreak.svelte";
     import ReplyForm from "./ReplyForm.svelte";
-  import type { CommentWithProfileImage } from "$lib/types";
+    import type { CommentWithProfileImage } from "$lib/types";
+
+  const dispatch =  createEventDispatcher<{details:{id:string}}>()
+
+    const minimizeComments = () =>{
+    dispatch("details",{
+        "id": comment.id
+    })
+    }
 
     type commentType = CommentWithProfileImage
     export let comment: commentType
@@ -19,12 +27,14 @@
     onMount(async()=>{
         fetchReplies();
     })
-    
+
 </script>
 
 <Linebreak/>
-<div class="comment-container">
-    <div class="comment-author">
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<div class="comment-container" on:click|self={minimizeComments}>
+    <div class="comment-author" on:click|self={minimizeComments}>
             <img class="profile-image" src={comment.imageUrl} alt="Profile icon"/>
             <p class="author">{comment.author}</p>
             <p class="timestamp">{`.${"3"}d`}</p>
@@ -38,13 +48,6 @@
 
     {#if activeReply}
         <ReplyForm commentId={comment.id}/>
-        {#if replies.length > 0} 
-
-        {#each replies as comment} 
-            <svelte:self comment={comment}/>
-        {/each}
-
-        {/if}
     {/if}
 </div>
 
@@ -72,6 +75,7 @@
     .comment-content{
         color: var(--text-secondary);
         line-height: 22px;
+        width: fit-content
     }
 
     .icons-container{

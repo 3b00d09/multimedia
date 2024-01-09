@@ -3,6 +3,10 @@
   import Comment from '$lib/components/Comment.svelte';
   import CommentForm from '$lib/components/CommentForm.svelte';
 
+  const minimizeComments = (e:CustomEvent<{details:{id:string}}>) =>{
+    console.log(e.detail.details.id)
+  }
+
 export let data;
 
 </script>
@@ -15,7 +19,7 @@ export let data;
     <CommentForm postId={data.post.id}/>
 
     {#each data.comments as comment}
-      <Comment {comment} />
+      <Comment {comment} on:message={minimizeComments} />
     {/each}
 </div>
 

@@ -6,7 +6,7 @@
 
 </script>
 
-<ul bind:this={iconsContainer}>
+<ul class="box-shadow" bind:this={iconsContainer}>
     <a href="/" class="active"><li class="icon-container active"><SideBarBtn imgRoute={"home.png"} name={"Home"} iconsContainer={iconsContainer} /></li></a>
     <li class="icon-container"><SideBarBtn imgRoute={"search.png"} name={"Search"} iconsContainer={iconsContainer} /></li>
     <li class="icon-container"><SideBarBtn imgRoute={"inbox.png"} name={"Inbox"} iconsContainer={iconsContainer} /></li>
@@ -24,7 +24,6 @@
         background: transparent;
         border-radius: 8px;
         padding: 1rem 1.75rem;
-        box-shadow: -2px -2px 6px -4px rgba(226, 224, 224, 0.5), 2px 2px 6px 4px rgba(0, 0, 0, 0.5);
         height: 70vh;
         grid-template-columns: repeat(1, 3rem);
         grid-template-rows: repeat(4, auto) 1fr;
