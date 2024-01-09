@@ -1,15 +1,11 @@
 <script lang="ts">
-  import type { AggregatedPost, PostType } from "$lib/types";
+  import type { PostWithCommentCount } from "$lib/types";
   import { onMount } from "svelte";
   import CommentForm from "./CommentForm.svelte";
   import Comment from "./Comment.svelte";
-  import { redirect } from "@sveltejs/kit";
   import { goto } from "$app/navigation";
 
-    type PostWithCommentCount = PostType & {
-        commentCount: number;
-        imageUrl: string | null
-    }
+
     export let post: PostWithCommentCount;
     let activeComment:boolean = false;
     let days:number;

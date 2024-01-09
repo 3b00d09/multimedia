@@ -1,17 +1,17 @@
 <script lang="ts">
-    import type { commentsTable } from "$lib/server/schema";
     import { onMount } from "svelte";
     import Linebreak from "./Linebreak.svelte";
     import ReplyForm from "./ReplyForm.svelte";
+  import type { CommentWithProfileImage } from "$lib/types";
 
-    type commentType = typeof commentsTable.$inferInsert
+    type commentType = CommentWithProfileImage
     export let comment: commentType
 
     let replies: commentType[];
     let activeReply:boolean = false;
 
     const fetchReplies = async() =>{
-        const data = await fetch(`api/fetchReplies/?id=${comment.id}`)
+        const data = await fetch(`/api/fetchReplies/?id=${comment.id}`)
         const res = await data.json()
         replies = res
     }
@@ -25,7 +25,7 @@
 <Linebreak/>
 <div class="comment-container">
     <div class="comment-author">
-            <img class="profile-image" src="/images/icons/profile.png" alt="Profile icon"/>
+            <img class="profile-image" src={comment.imageUrl} alt="Profile icon"/>
             <p class="author">{comment.author}</p>
             <p class="timestamp">{`.${"3"}d`}</p>
     </div>
@@ -52,7 +52,6 @@
     .comment-container{
         display: grid;
         gap: 0.75rem;
-        margin-left: 2rem;
     }
     .comment-author{
         display: flex;
@@ -95,5 +94,7 @@
     .profile-image{
         border-radius: 50%;
         object-fit: cover;
+        width: 3rem;
+        height: 3rem;
     }
 </style>
