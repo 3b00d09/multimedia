@@ -5,13 +5,11 @@
     import RecentMessages  from "$lib/components/RecentMessages.svelte";
   import Categories from "$lib/components/Categories.svelte";
 
-   let searchModal: HTMLDivElement;
-  let initialSearchInput: HTMLInputElement;
 </script>
 
 <main>
    
-    <Header {searchModal} {initialSearchInput}/>
+    <Header/>
     <div>
         <Sidenav/>
         <div class="main-container">

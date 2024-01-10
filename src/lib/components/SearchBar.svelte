@@ -6,8 +6,9 @@
   let modalSearchTerm = "";
   let searchResults: User[] = [];
 
-  export let searchModal: HTMLDivElement;
-  export let initialSearchInput: HTMLInputElement;
+  let toggleModal:boolean = false;
+  
+  let searchModal: HTMLDivElement;
 
   const searchUsers = async () => {
     isSearching = !!modalSearchTerm.trim();
@@ -27,23 +28,15 @@
     searchResults = []; 
   };
 
-  const toggleModalOff = () => {
-    searchModal.style.display = "none";
-    resetSearch();
-  };
 
-  const toggleModal = () => {
-    searchModal.style.display = "flex";
-  };
 </script>
 
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-<form on:click={toggleModal} on:submit|preventDefault class="search-form">
+<form on:click={()=>toggleModal = true} on:submit|preventDefault class="search-form">
   <input
-    bind:this={initialSearchInput}
     type="text"
     placeholder="Search users..."
     class="search-input"
@@ -54,7 +47,7 @@
 
   <!-- svelte-ignore a11y-no-static-element-interactions -->
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <div on:click={toggleModalOff} bind:this={searchModal} class="search-modal" style="display: none;">
+  <div on:click={()=> toggleModal = false} bind:this={searchModal} class={!toggleModal ? "hidden" : "search-modal"}>
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div class="modal-content" on:click|stopPropagation>
@@ -86,6 +79,10 @@
 
 <style>
 
+  .hidden{
+    display: none;
+  }
+
   .search-form {
     display: grid;
     width: 100%;
@@ -105,7 +102,7 @@
   font: inherit;
   }
   .search-modal {
-  display: none; 
+  display: flex;
   position: fixed; 
   z-index: 1000; 
   left: 0;
