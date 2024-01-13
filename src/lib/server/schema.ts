@@ -94,6 +94,7 @@ export const commentsTable = pgTable("comments",{
 	};
 })
 
+
 export const repliesTable = pgTable("replies",{
 	id: varchar("id",{
 		length:244
@@ -116,3 +117,21 @@ export const categoriesTable = pgTable("categories",{
 		length: 24,
 	}).notNull()
 })
+
+
+export const likesTable = pgTable("likes", {
+	id: varchar("id", {
+			length: 244
+	}).notNull().primaryKey(),
+	post: varchar("post", {
+			length: 255
+	}).notNull().references(() => {
+			return postsTable.id;
+	}),
+	author: varchar("author", {
+			length: 24
+	}).notNull().references(() => {
+			return usersTable.username; 
+	}),
+	date: timestamp("date")
+});
