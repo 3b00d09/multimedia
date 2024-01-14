@@ -1,7 +1,7 @@
 import { dbClient } from "$lib/server/db"
 import { auth } from "$lib/server/lucia.js"
-import { commentsTable, postsTable, repliesTable, usersTable } from "$lib/server/schema"
-import { count, eq, sql } from "drizzle-orm"
+import { commentsTable, likesTable, postsTable, repliesTable, usersTable } from "$lib/server/schema"
+import { count, eq, like, sql } from "drizzle-orm"
 import {v4 as uuidv4} from "uuid"
 
 // until i figure out how to infer type from joined select
@@ -25,11 +25,12 @@ async function fetchPosts(){
         content: postsTable.content,
         timestamp: postsTable.timestamp,
         imageUrl: usersTable.profilePictureUrl,
-        
+        likesCount: sql<number>`cast(count(${likesTable.post}) as int)`,
         commentCount: sql<number>`cast(count(${commentsTable.post}) as int)`
     })
         .from(postsTable)
         .leftJoin(commentsTable,eq(postsTable.id, commentsTable.post))
+        .leftJoin(likesTable,eq(postsTable.id, likesTable.post))
         .leftJoin(usersTable,eq(postsTable.author, usersTable.username))
         .orderBy(postsTable.timestamp)
         .groupBy(postsTable.id, usersTable.id)

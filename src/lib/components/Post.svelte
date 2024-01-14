@@ -2,9 +2,9 @@
   import type { PostWithCommentCount } from "$lib/types";
   import { onMount } from "svelte";
   import CommentForm from "./CommentForm.svelte";
-  import Comment from "./Comment.svelte";
   import { goto } from "$app/navigation";
-
+  import Like from "./Like.svelte";
+  
 
     export let post: PostWithCommentCount;
     let activeComment:boolean = false;
@@ -37,7 +37,7 @@
     </div>
     <div  class="post-content"><p>{post.content}</p></div>
     <div  class="icons-container">
-        <button><img src ="/images/icons/like.png" alt="Like Icon"></button>
+        <Like {post}/>
         <button on:click={()=>{activeComment = !activeComment}}>
             <img src ="/images/icons/comment.png" alt="Reply Icon">
             <p>{post.commentCount}</p>
