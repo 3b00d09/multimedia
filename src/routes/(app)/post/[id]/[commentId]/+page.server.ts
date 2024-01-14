@@ -1,11 +1,11 @@
 import { dbClient } from '$lib/server/db.js'
 import { commentsTable, postsTable, usersTable } from '$lib/server/schema.js'
-import { eq } from 'drizzle-orm'
+import type { PostWithCommentCount } from '$lib/types'
 import { error } from '@sveltejs/kit'
-import type { PostWithCommentCount } from '$lib/types.js'
+import { eq, getTableColumns } from 'drizzle-orm'
 
-export const load = async({params})=>{
-
+export const load = async({url, params})=>{
+    const commentId = params.commentId
     const postId = params.id
 
     const _post = await dbClient.query.postsTable.findFirst({
@@ -16,20 +16,27 @@ export const load = async({params})=>{
         throw error(500, {message:"Post not found."})
     }
 
-    const comments = await dbClient
+    const parentComment = await dbClient.select({
+        ...getTableColumns(commentsTable),
+        imageUrl:usersTable.profilePictureUrl
+    })
+    .from(commentsTable)
+    .where(eq(commentsTable.id, commentId))
+    .leftJoin(usersTable, eq(commentsTable.author, usersTable.username))
+    .limit(1)
+
+
+
+    const childComments = await dbClient
     .select({
-        id: commentsTable.id,
-        comment: commentsTable.comment,
-        date: commentsTable.date,
-        author: commentsTable.author,
+        ...getTableColumns(commentsTable),
         imageUrl: usersTable.profilePictureUrl,
-        parentCommentId: commentsTable.parentCommentId,
-        post: commentsTable.post
         
     })
     .from(commentsTable)
-    .where(eq(commentsTable.post, postId))
+    .where(eq(commentsTable.parentCommentId, commentId))
     .leftJoin(usersTable, eq(commentsTable.author, usersTable.username))
+
 
     const postAuthor = await dbClient.query.usersTable.findFirst({
         where:eq(usersTable.username, _post.author)
@@ -41,10 +48,13 @@ export const load = async({params})=>{
 
     const post:PostWithCommentCount = {
         ..._post,
-        commentCount: comments.length,
+        commentCount: childComments.length,
         imageUrl: postAuthor.profilePictureUrl
     }
+
+
     return {
-        post, comments, postAuthor
+        post, childComments, postAuthor, parentComment
     }
+
 }

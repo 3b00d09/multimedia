@@ -1,13 +1,11 @@
 <script lang="ts">
   import type { PostWithCommentCount } from "$lib/types";
   import { onMount } from "svelte";
-  import CommentForm from "./CommentForm.svelte";
   import { goto } from "$app/navigation";
   import Like from "./Like.svelte";
   
 
     export let post: PostWithCommentCount;
-    let activeComment:boolean = false;
     let days:number;
 
     onMount(()=>{
@@ -38,15 +36,12 @@
     <div  class="post-content"><p>{post.content}</p></div>
     <div  class="icons-container">
         <Like {post}/>
-        <button on:click={()=>{activeComment = !activeComment}}>
+        <button>
             <img src ="/images/icons/comment.png" alt="Reply Icon">
             <p>{post.commentCount}</p>
         </button>
         <button><img src ="/images/icons/forward.png" alt="Direct Message Icon"></button>
     </div>
-    {#if activeComment}
-        <CommentForm postId={post.id}/>
-    {/if}
     
 
     

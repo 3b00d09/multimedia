@@ -1,27 +1,25 @@
 <script lang="ts">
-    import { createEventDispatcher, onMount } from "svelte";
+    import { onMount } from "svelte";
     import Linebreak from "./Linebreak.svelte";
     import ReplyForm from "./ReplyForm.svelte";
     import type { CommentWithProfileImage } from "$lib/types";
-
-  const dispatch =  createEventDispatcher<{details:{id:string}}>()
-
-    const minimizeComments = () =>{
-    dispatch("details",{
-        "id": comment.id
-    })
-    }
+  import { goto } from "$app/navigation";
 
     type commentType = CommentWithProfileImage
     export let comment: commentType
 
     let replies: commentType[];
     let activeReply:boolean = false;
+    export let postId: string;
 
     const fetchReplies = async() =>{
         const data = await fetch(`/api/fetchReplies/?id=${comment.id}`)
         const res = await data.json()
         replies = res
+    }
+
+    const navigateToComment = () =>{
+        goto(`/post/${postId}/${comment.id}`)
     }
 
     onMount(async()=>{
@@ -33,8 +31,8 @@
 <Linebreak/>
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class="comment-container" on:click|self={minimizeComments}>
-    <div class="comment-author" on:click|self={minimizeComments}>
+<div class="comment-container" on:click|self={navigateToComment}>
+    <div class="comment-author" on:click|self={navigateToComment}>
             <img class="profile-image" src={comment.imageUrl} alt="Profile icon"/>
             <p class="author">{comment.author}</p>
             <p class="timestamp">{`.${"3"}d`}</p>

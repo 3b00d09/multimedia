@@ -3,8 +3,15 @@
   import Comment from '$lib/components/Comment.svelte';
   import CommentForm from '$lib/components/CommentForm.svelte';
 
-  const minimizeComments = (e:CustomEvent<{details:{id:string}}>) =>{
-    console.log(e.detail.details.id)
+  let trigger:boolean = false;
+  let replies;
+
+  const minimizeComments = async(e:CustomEvent<{id:string}>) =>{
+    const data = await fetch(`/api/fetchReplies/?id=${e.detail.id}`)
+    const res = await data.json()
+    console.log(res)
+    replies =
+    trigger = !trigger
   }
 
 export let data;
@@ -18,9 +25,12 @@ export let data;
 
     <CommentForm postId={data.post.id}/>
 
-    {#each data.comments as comment}
-      <Comment {comment} on:message={minimizeComments} />
-    {/each}
+    <div>
+      {#each data.comments as comment}
+          <Comment {comment} postId={data.post.id} />
+      {/each}
+  </div>
+    
 </div>
 
 <style>
