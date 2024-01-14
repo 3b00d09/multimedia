@@ -53,8 +53,6 @@ export async function GET(request) {
   const row = await dbClient .select().from(likesTable).where(and(eq(likesTable.post, postId), eq(likesTable.author, session.user.username)))
 
 
-console.log(row)
-
 
 return json({ success: true,liked:row.length>0 });
   }

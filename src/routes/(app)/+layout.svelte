@@ -3,13 +3,15 @@
     import Header from "$lib/components/Header.svelte";
     import Sidenav from "$lib/components/Sidenav.svelte";
     import RecentMessages  from "$lib/components/RecentMessages.svelte";
-  import Categories from "$lib/components/Categories.svelte";
+    import Categories from "$lib/components/Categories.svelte";
+
+  export let data;
 
 </script>
 
 <main>
    
-    <Header/>
+    <Header user={data.user}/>
     <div>
         <Sidenav/>
         <div class="main-container">
@@ -30,6 +32,7 @@
         display: grid;
         gap: 1rem;
         margin-top: 1rem !important;
+        margin: 0 2rem;
     }
 
     main > div{
