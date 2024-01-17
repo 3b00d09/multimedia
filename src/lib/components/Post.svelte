@@ -2,7 +2,7 @@
   import type { PostWithCommentCount } from "$lib/types";
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
-  import Like from "./Like.svelte";
+  import PostLike from "./postLike.svelte";
   
 
     export let post: PostWithCommentCount;
@@ -35,7 +35,7 @@
     </div>
     <div  class="post-content"><p>{post.content}</p></div>
     <div  class="icons-container">
-        <Like {post}/>
+        <PostLike {post}/>
         <button>
             <img src ="/images/icons/comment.png" alt="Reply Icon">
             <p>{post.commentCount}</p>

@@ -3,7 +3,9 @@
     import Linebreak from "./Linebreak.svelte";
     import ReplyForm from "./ReplyForm.svelte";
     import type { CommentWithProfileImage } from "$lib/types";
-  import { goto } from "$app/navigation";
+    import { goto } from "$app/navigation";
+    import CommentLike from "./CommentLike.svelte";
+    
 
     type commentType = CommentWithProfileImage
     export let comment: commentType
@@ -39,7 +41,7 @@
     </div>
     <div class="comment-content">{comment.comment}</div>
     <div class="icons-container">
-        <button><img src ="/images/icons/like.png" alt="Like Icon"></button>
+        <CommentLike {comment}/>
         <button on:click={()=>{activeReply = !activeReply}}><img src ="/images/icons/reply.png" alt="Reply Icon"></button>
         <button><img src ="/images/icons/forward.png" alt="Direct Message Icon"></button>
     </div>

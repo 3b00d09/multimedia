@@ -118,20 +118,36 @@ export const categoriesTable = pgTable("categories",{
 	}).notNull()
 })
 
-
-export const likesTable = pgTable("likes", {
+export const likes_post = pgTable("likesPost", {
 	id: varchar("id", {
-			length: 244
-	}).notNull().primaryKey(),
+					length: 244
+	}).primaryKey(),
 	post: varchar("post", {
-			length: 255
-	}).notNull().references(() => {
-			return postsTable.id;
+					length: 255
+	}).references(() => {
+					return postsTable.id;
 	}),
 	author: varchar("author", {
-			length: 24
-	}).notNull().references(() => {
-			return usersTable.username; 
+					length: 24
+	}).references(() => {
+					return usersTable.username; 
+	}),
+	date: timestamp("date")
+});
+
+export const likes_comment = pgTable("likesCommnet", {
+	id: varchar("id", {
+					length: 244
+	}).primaryKey(),
+		 comment: varchar("comment", {
+					length: 255
+	}).references(() => {
+					return commentsTable.id;
+	}),
+	author: varchar("author", {
+					length: 24
+	}).references(() => {
+					return usersTable.username; 
 	}),
 	date: timestamp("date")
 });

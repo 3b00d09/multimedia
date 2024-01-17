@@ -1,6 +1,6 @@
 // src/routes/api/like/+server.js
 import { dbClient } from "$lib/server/db.js";
-import { likesTable } from "$lib/server/schema.js";
+import { likes_comment } from "$lib/server/schema.js";
 import { json } from "@sveltejs/kit";
 import { eq, and} from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
@@ -15,22 +15,22 @@ export async function POST( request) {
   }
 
   const body = await request.request.json();
-  const { postId} = body;
+  const { commentId} = body;
  
 
 
   const existingLike = await dbClient
     .select()
-    .from(likesTable)
-    .where(and(eq(likesTable.post, postId), eq(likesTable.author, session.user.username)))
+    .from(likes_comment)
+    .where(and(eq(likes_comment.comment, commentId), eq(likes_comment.author, session.user.username)))
     
     console.log(existingLike)
 
   if (existingLike.length === 0) {
    
-    await dbClient.insert(likesTable).values({
+    await dbClient.insert(likes_comment).values({
       id: uuidv4(),
-      post: postId,
+      comment: commentId,
       author: session.user.username,
       date: new Date(),
     });
@@ -49,8 +49,8 @@ export async function GET(request) {
   
   }
 
-  const postId = request.url.searchParams.get('id') as string
-  const row = await dbClient .select().from(likesTable).where(and(eq(likesTable.post, postId), eq(likesTable.author, session.user.username)))
+  const commentId = request.url.searchParams.get('id') as string
+  const row = await dbClient .select().from(likes_comment).where(and(eq(likes_comment.comment, commentId), eq(likes_comment.author, session.user.username)))
 
 
 
@@ -69,8 +69,8 @@ export async function DELETE(request) {
   }
 
   const body = await request.request.json();
-  const { postId} = body;
+  const { commentId} = body;
  
-  const row = await dbClient.delete(likesTable).where(and(eq(likesTable.post, postId), eq(likesTable.author, session.user.username)))
+  const row = await dbClient.delete(likes_comment).where(and(eq(likes_comment.comment, commentId), eq(likes_comment.author, session.user.username)))
   return json({ success: true,message: "Like are deleted"});
 }
