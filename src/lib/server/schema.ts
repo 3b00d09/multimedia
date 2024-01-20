@@ -118,7 +118,7 @@ export const categoriesTable = pgTable("categories",{
 	}).notNull()
 })
 
-export const likes_post = pgTable("likesPost", {
+export const likesPostTable = pgTable("likes_post", {
 	id: varchar("id", {
 					length: 244
 	}).primaryKey(),
@@ -135,7 +135,7 @@ export const likes_post = pgTable("likesPost", {
 	date: timestamp("date")
 });
 
-export const likes_comment = pgTable("likesCommnet", {
+export const likesCommentTable = pgTable("likes_comment", {
 	id: varchar("id", {
 					length: 244
 	}).primaryKey(),

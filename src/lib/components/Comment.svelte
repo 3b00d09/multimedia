@@ -7,12 +7,27 @@
     import CommentLike from "./CommentLike.svelte";
     
 
+    let repliesCount = 0;
+    let likeCount = 0;
     type commentType = CommentWithProfileImage
     export let comment: commentType
 
     let replies: commentType[];
     let activeReply:boolean = false;
     export let postId: string;
+
+
+    const fetchLikeCount = async () => {
+        const response = await fetch(`/api/counter?src=comment&id=${comment.id}`);
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+                likeCount = data.count;
+                repliesCount = data.replyCount;
+            }
+        }
+    };
+
 
     const fetchReplies = async() =>{
         const data = await fetch(`/api/fetchReplies/?id=${comment.id}`)
@@ -26,6 +41,8 @@
 
     onMount(async()=>{
         fetchReplies();
+        fetchLikeCount();
+    
     })
 
 </script>
@@ -42,7 +59,9 @@
     <div class="comment-content">{comment.comment}</div>
     <div class="icons-container">
         <CommentLike {comment}/>
+        <span class="like-count">{likeCount}</span>
         <button on:click={()=>{activeReply = !activeReply}}><img src ="/images/icons/reply.png" alt="Reply Icon"></button>
+        <p>{repliesCount}</p>
         <button><img src ="/images/icons/forward.png" alt="Direct Message Icon"></button>
     </div>
 

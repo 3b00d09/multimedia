@@ -3,7 +3,13 @@
     import Linebreak from "$lib/components/Linebreak.svelte";
     import Post from "$lib/components/Post.svelte";
     import PostForm from "$lib/components/PostForm.svelte";
+  import { onMount } from "svelte";
 
+    onMount(
+  ()=>{
+    console.log(data);
+  }
+)
 </script>
 <div>
     <PostForm />

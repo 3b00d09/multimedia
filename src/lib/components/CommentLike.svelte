@@ -7,7 +7,7 @@
   export let comment: CommentType;
 
   let liked = false;
-
+  
   async function toggleLike() {
     
     const response = await fetch(`/api/likes/CommentLikes`, {
@@ -31,8 +31,6 @@
     const res = await data.json()
     liked = res.liked;
     console.log(res.liked)
-    
- 
     })
 </script>
 <button on:click={toggleLike} class:liked={liked}>
@@ -43,6 +41,7 @@
       alt="Like Icon"
     /></button
   >
+ 
 </button>
 
 <style>

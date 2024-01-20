@@ -2,12 +2,10 @@
   import type { PostType } from "$lib/types";
   import { onMount } from "svelte";
 
-
-
   export let post: PostType;
 
   let liked = false;
-  let like = false;
+
 
   async function toggleLike() {
     const response = await fetch(`/api/likes/PostLikes`, {
@@ -21,7 +19,6 @@
     const data = await response.json();
     if (data.success) {
       liked = !liked;
-     
     } else {
       console.error("Failed to toggle like:", data.message);
     }
@@ -32,8 +29,6 @@
     const res = await data.json()
     liked = res.liked;
     console.log(res.liked)
-    
- 
     })
 </script>
 

@@ -9,6 +9,7 @@
       <textarea name="reply-content" placeholder="Add reply..."></textarea>
       <button class="submit-btn" type="submit">Reply</button>
       <input type="hidden" name="parent_comment_id" value={`${commentId}`}/>
+      
   </form>
   
   

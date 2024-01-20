@@ -1,13 +1,11 @@
-import type { commentsTable, postsTable, usersTable } from './server/schema';
+import type { commentsTable, postsTable, usersTable,likesPostTable } from './server/schema';
 
 export type UserType = typeof usersTable.$inferSelect
 export type CommentType = typeof commentsTable.$inferSelect
+export type LikePost = typeof likesPostTable.$inferSelect
 export type PostType = typeof postsTable.$inferSelect
+
 export type PostWithProfileImage = PostType &{
-    imageUrl: string | null
-}
-export type PostWithCommentCount = PostType & {
-    commentCount?: number;
     imageUrl: string | null
 }
 

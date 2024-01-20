@@ -2,6 +2,7 @@
   import Post from '$lib/components/Post.svelte';
   import Comment from '$lib/components/Comment.svelte';
   import CommentForm from '$lib/components/CommentForm.svelte';
+  import { onMount } from 'svelte';
 
   let trigger:boolean = false;
   let replies;
@@ -15,7 +16,6 @@
   }
 
 export let data;
-
 </script>
 
 <div>

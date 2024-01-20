@@ -1,6 +1,6 @@
 import { dbClient } from "$lib/server/db"
 import { auth } from "$lib/server/lucia.js"
-import { commentsTable, likes_comment, postsTable, repliesTable, usersTable,likes_post } from "$lib/server/schema"
+import { commentsTable,  postsTable, repliesTable, usersTable,likesPostTable } from "$lib/server/schema"
 import { count, eq, like, sql } from "drizzle-orm"
 import {v4 as uuidv4} from "uuid"
 
@@ -25,14 +25,9 @@ async function fetchPosts(){
         content: postsTable.content,
         timestamp: postsTable.timestamp,
         imageUrl: usersTable.profilePictureUrl,
-        likesPost: sql<number>`cast(count(${likes_post.post}) as int)`,
-        likesComment: sql<number>`cast(count(${likes_comment.comment}) as int)`,
-        commentCount: sql<number>`cast(count(${commentsTable.post}) as int)`
     })
         .from(postsTable)
         .leftJoin(commentsTable,eq(postsTable.id, commentsTable.post))
-        .leftJoin(likes_post,eq(postsTable.id, likes_post.post))
-        .leftJoin(likes_comment,eq(likes_comment.id, likes_comment.comment))
         .leftJoin(usersTable,eq(postsTable.author, usersTable.username))
         .orderBy(postsTable.timestamp)
         .groupBy(postsTable.id, usersTable.id)

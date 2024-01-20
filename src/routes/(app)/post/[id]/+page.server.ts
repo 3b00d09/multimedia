@@ -1,8 +1,9 @@
 import { dbClient } from '$lib/server/db.js'
-import { commentsTable, postsTable, usersTable } from '$lib/server/schema.js'
+import { commentsTable, postsTable, usersTable, likesPostTable } from '$lib/server/schema.js'
 import { eq } from 'drizzle-orm'
 import { error } from '@sveltejs/kit'
-import type { PostWithCommentCount } from '$lib/types.js'
+import type { PostWithProfileImage } from '$lib/types'
+
 
 export const load = async({params})=>{
 
@@ -16,6 +17,14 @@ export const load = async({params})=>{
         throw error(500, {message:"Post not found."})
     }
 
+
+    const _like = await dbClient.select().from(likesPostTable).where(eq(likesPostTable.post,postId));
+    
+ 
+
+
+
+
     const comments = await dbClient
     .select({
         id: commentsTable.id,
@@ -25,7 +34,6 @@ export const load = async({params})=>{
         imageUrl: usersTable.profilePictureUrl,
         parentCommentId: commentsTable.parentCommentId,
         post: commentsTable.post
-        
     })
     .from(commentsTable)
     .where(eq(commentsTable.post, postId))
@@ -38,13 +46,13 @@ export const load = async({params})=>{
     if(!postAuthor){
         throw error(500, {message: "Unknown error occured."})
     }
-
-    const post:PostWithCommentCount = {
+    
+    const post:PostWithProfileImage = {
         ..._post,
-        commentCount: comments.length,
         imageUrl: postAuthor.profilePictureUrl
     }
+
     return {
-        post, comments, postAuthor
+        post, comments, postAuthor,
     }
 }

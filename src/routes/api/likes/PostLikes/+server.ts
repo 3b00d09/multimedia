@@ -1,6 +1,6 @@
 // src/routes/api/like/+server.js
 import { dbClient } from "$lib/server/db.js";
-import { likes_post } from "$lib/server/schema.js";
+import { likesPostTable } from "$lib/server/schema.js";
 import { json } from "@sveltejs/kit";
 import { eq, and} from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
@@ -21,14 +21,14 @@ export async function POST( request) {
 
   const existingLike = await dbClient
     .select()
-    .from(likes_post)
-    .where(and(eq(likes_post.post, postId), eq(likes_post.author, session.user.username)))
+    .from(likesPostTable)
+    .where(and(eq(likesPostTable.post, postId), eq(likesPostTable.author, session.user.username)))
     
     console.log(existingLike)
 
   if (existingLike.length === 0) {
    
-    await dbClient.insert(likes_post).values({
+    await dbClient.insert(likesPostTable).values({
       id: uuidv4(),
       post: postId,
       author: session.user.username,
@@ -50,7 +50,7 @@ export async function GET(request) {
   }
 
   const postId = request.url.searchParams.get('id') as string
-  const row = await dbClient .select().from(likes_post).where(and(eq(likes_post.post, postId), eq(likes_post.author, session.user.username)))
+  const row = await dbClient .select().from(likesPostTable).where(and(eq(likesPostTable.post, postId), eq(likesPostTable.author, session.user.username)))
 
 
 
@@ -71,6 +71,6 @@ export async function DELETE(request) {
   const body = await request.request.json();
   const { postId} = body;
  
-  const row = await dbClient.delete(likes_post).where(and(eq(likes_post.post, postId), eq(likes_post.author, session.user.username)))
+  const row = await dbClient.delete(likesPostTable).where(and(eq(likesPostTable.post, postId), eq(likesPostTable.author, session.user.username)))
   return json({ success: true,message: "Like are deleted"});
 }

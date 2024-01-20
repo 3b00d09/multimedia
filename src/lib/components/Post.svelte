@@ -1,12 +1,25 @@
 <script lang="ts">
-  import type { PostWithCommentCount } from "$lib/types";
+  import type { PostWithProfileImage } from "$lib/types";
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
   import PostLike from "./postLike.svelte";
-  
 
-    export let post: PostWithCommentCount;
+     let commentCount =0;
+    let likecount = 0;
+    export let post: PostWithProfileImage;
+
     let days:number;
+   
+    const fetchLikeCount = async () => {
+        const response = await fetch(`/api/counter?src=post&id=${post.id}`);
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+                likecount = data.likesCount;
+                commentCount = data.commentCount;
+            }
+        }
+    };
 
     onMount(()=>{
         const originalTime = post.timestamp!.getTime();
@@ -14,11 +27,11 @@
         const diffHours = (currTime - originalTime) / 3600000
         
         days = Math.floor(diffHours / 24)
-
+        
+        fetchLikeCount()
     })
-
+ 
     const navigateToPost = () => goto(`/post/${post.id}`)
-
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -35,10 +48,16 @@
     </div>
     <div  class="post-content"><p>{post.content}</p></div>
     <div  class="icons-container">
+       <button>
         <PostLike {post}/>
+        <p>{likecount}</p>
+       </button>
+
+
+        
         <button>
             <img src ="/images/icons/comment.png" alt="Reply Icon">
-            <p>{post.commentCount}</p>
+          <p>{commentCount}</p>
         </button>
         <button><img src ="/images/icons/forward.png" alt="Direct Message Icon"></button>
     </div>

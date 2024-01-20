@@ -10,7 +10,7 @@
     <a href="/" class="active"><li class="icon-container active"><SideBarBtn imgRoute={"home.png"} name={"Home"} iconsContainer={iconsContainer} /></li></a>
     <li class="icon-container"><SideBarBtn imgRoute={"search.png"} name={"Search"} iconsContainer={iconsContainer} /></li>
     <li class="icon-container"><SideBarBtn imgRoute={"inbox.png"} name={"Inbox"} iconsContainer={iconsContainer} /></li>
-    <li class="icon-container"><SideBarBtn imgRoute={"profile.png"} name={"Profile"} iconsContainer={iconsContainer} /></li>
+    <a href="/profile" class="active"><li class="icon-container active"><SideBarBtn imgRoute={"profile.png"} name={"Profile"} iconsContainer={iconsContainer} /></li></a>
     <li class="icon-container"><SideBarBtn imgRoute={"settings.png"} name={"Settings"} iconsContainer={iconsContainer} /></li>
 </ul>
 
