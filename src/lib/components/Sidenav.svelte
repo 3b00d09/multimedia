@@ -2,16 +2,14 @@
     import "../../global.css"
     import SideBarBtn from "./subcomponents/SideBarBtn.svelte";
 
-    let iconsContainer:HTMLUListElement;
-
 </script>
 
-<ul class="box-shadow" bind:this={iconsContainer}>
-    <a href="/" class="active"><li class="icon-container active"><SideBarBtn imgRoute={"home.png"} name={"Home"} iconsContainer={iconsContainer} /></li></a>
-    <li class="icon-container"><SideBarBtn imgRoute={"search.png"} name={"Search"} iconsContainer={iconsContainer} /></li>
-    <li class="icon-container"><SideBarBtn imgRoute={"inbox.png"} name={"Inbox"} iconsContainer={iconsContainer} /></li>
-    <a href="/profile" class="active"><li class="icon-container active"><SideBarBtn imgRoute={"profile.png"} name={"Profile"} iconsContainer={iconsContainer} /></li></a>
-    <li class="icon-container"><SideBarBtn imgRoute={"settings.png"} name={"Settings"} iconsContainer={iconsContainer} /></li>
+<ul class="box-shadow">
+    <a href="/"><li class="icon-container"><SideBarBtn imgRoute={"home.png"} name={"Home"} /></li></a>
+    <li class="icon-container"><SideBarBtn imgRoute={"search.png"} name={"Search"} /></li>
+    <li class="icon-container"><SideBarBtn imgRoute={"inbox.png"} name={"Inbox"} /></li>
+    <a href="/profile"><li class="icon-container"><SideBarBtn imgRoute={"profile.png"} name={"Profile"} /></li></a>
+    <li class="icon-container"><SideBarBtn imgRoute={"settings.png"} name={"Settings"} /></li>
 </ul>
 
 
@@ -47,28 +45,6 @@
 
     ul li:nth-child(5){
         align-self: end;
-    }
-
-
-    .icon-container{
-        opacity: 0.3;
-    }
-
-    .active{
-        opacity: 1;
-        position: relative;
-    }
-
-    .active::before{
-        content:"";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom :0;
-        background-color: var(--action);
-        filter: drop-shadow(0px 0px 5px rgba(108, 92, 214, 0.50));
-        width: 1px;
     }
 
 </style>

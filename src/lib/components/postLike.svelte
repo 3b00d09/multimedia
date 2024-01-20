@@ -28,7 +28,6 @@
     const data = await fetch(`/api/likes/PostLikes?id=${post.id}`)
     const res = await data.json()
     liked = res.liked;
-    console.log(res.liked)
     })
 </script>
 
