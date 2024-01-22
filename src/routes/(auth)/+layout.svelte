@@ -3,12 +3,13 @@
 </script>
 
 <div class="auth-container">
-    <div class="auth-bg-container">
-        <img class="auth-bg" src="/images/auth-bg-3.jpg" alt="man holding phone">
-    </div>
     <div class="slot-container">
         <slot/>
     </div>
+    <div class="auth-bg-container">
+        <img class="auth-bg" src="/images/auth-bg-3.jpg" alt="man holding phone">
+    </div>
+    
 </div>
 
 

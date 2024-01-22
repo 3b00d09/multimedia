@@ -1,13 +1,28 @@
+
+
+<script lang="ts">
+    import { onMount } from "svelte";
+    import { page } from '$app/stores';
+  
+    let currentLocation = "";
+    onMount(() => currentLocation = window.location.pathname);
+  
+    $: {
+        currentLocation = $page.url.pathname;
+        currentLocation = currentLocation;
+    }
+  </script>
+
 <div class="container">
     <div class="header">
-        <h1>Log in</h1>
-        <p><a href="/register">New user? Register</a></p>
+        <h1 class:active={currentLocation === '/register'}><a href="/register">Sign up</a></h1>
+        <h2 class:active={currentLocation === '/login'}>Log in</h2>
+      
     </div>
     <form method="post" class="form">
-        <label for="username">Username</label>
-        <input required type="text" name="username" placeholder="anon64942495"/>
-        <label for="password">Password</label>
-        <input required type="password" name="password" placeholder="*********"/>
+      
+        <input required type="text" name="username" placeholder="Username"/>
+        <input required type="password" name="password" placeholder="Password"/>
         <button type="submit">Log In</button>
         <div class="footer-links">
             <p><a href="/">Forgot Username</a></p>
@@ -17,7 +32,6 @@
 </div>
 
 <style>
-
 .container {
     display: grid;
     place-items: center;
@@ -29,15 +43,17 @@
 }
 
 .header {
+    display: flex;
+    justify-content: space-between;
     place-self: start;
     padding: 2rem;
+    width: 100%;
 }
-
 
 .form {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 2rem;
     width: 75%;
     padding: 0.5rem;
 }
@@ -54,14 +70,26 @@ h1{
     letter-spacing: -0.025em;
 }
 
+h2{
+    
+    font-size: 1.5rem;
+    line-height: 2rem;
+    letter-spacing: -0.025em;
+}
+
 input {
+    flex-grow: 1;
     padding: 1rem;
-    border: 1px solid white;
-    border-radius: 0.5rem;
+    border-radius: 1rem;
+    flex-basis: 90%;
+    height: auto;
+    box-shadow: -2px -2px 6px -4px rgba(226, 224, 224, 0.5) inset, 2px 2px 6px 4px rgba(0, 0, 0, 0.5) inset;
     background-color: transparent;
-    font-family: inherit;
-    font-size: inherit;
+    border: none;
     color: inherit;
+    font: inherit;
+    resize: none;
+    transition: border-radius 0.5s;
 }
 
 p {
@@ -76,12 +104,32 @@ a{
 }
 
 button {
-    border-radius: 0.5rem;
-    background-color: aliceblue;
-    color: black;
-    padding: 0.5rem;
-    font-family: inherit;
-    font-size: inherit;
-}
+        background-color: var(--action);
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 0.5rem;
+        font-family: inherit;
+        font-size: inherit;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
 
+    .active{
+        position: relative;
+    }
+
+    .active::before{
+        content:"";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        bottom :-1rem;
+        height: 5rem;
+        transform: rotate(90deg); 
+        width: 100%;
+        background-color: var(--action);
+        filter: drop-shadow(0px 0px 5px rgba(108, 92, 214, 0.50));
+        width: 2px;
+    }
 </style>

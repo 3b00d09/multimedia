@@ -1,5 +1,5 @@
-import { likesPostTable,likesCommentTable, commentsTable, repliesTable } from "$lib/server/schema.js";
-import { dbClient } from "$lib/server/db.js";
+import { likesPostTable,likesCommentTable, commentsTable } from "$lib/server/schema";
+import { dbClient } from "$lib/server/db";
 import { json } from "@sveltejs/kit";
 import { count } from 'drizzle-orm';
 import { eq} from "drizzle-orm";
