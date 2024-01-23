@@ -17,7 +17,6 @@
         <div class="main-container">
             
             <div class="main-content">
-                <Categories/>
                 <slot/>
             </div>
         </div>
@@ -38,7 +37,6 @@
     main > div{
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
-        align-items: baseline;
         gap: 3rem;
     }
 

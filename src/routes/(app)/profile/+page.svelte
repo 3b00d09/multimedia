@@ -1,5 +1,6 @@
 <script lang="ts">
   export let data;
+
 </script>
 
 {#if data.user}
@@ -15,14 +16,26 @@
       <p class="username">@{data.user.username}</p>
     </div>
     <div class="stats">
-      <span class="post-counter">5155 posts</span>
+      <span class="post-counter">{data.postsCount} posts</span>
       <span class="follower-counter">23 followers</span>
       <span class="following-counter">32 following</span>
     </div>
     <p class="description">agas adaw daw daf</p>
   </div>
+
+  <div class="content-container">
+    <div class="posts">
+      <p>temptemp</p>
+      <p>temptemp</p>
+      <p>temptemp</p>
+      <p>temptemp</p>
+      <p>temptemp</p>
+      
+    </div>
+  </div>
 {/if}
 <style>
+
  .profile-container {
     margin-top: 1rem;
     display: grid;
@@ -86,5 +99,19 @@
     .description {
       grid-area: description;
       color: #c3c0c0;
+    }
+
+
+    .content-container{
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+    }
+
+    .posts{
+      display: grid;
+      grid-template-columns: repeat(auto-fill, 90px);
+      gap: 1rem;
+      width: 50%;
     }
   </style>

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Categories from "$lib/components/Categories.svelte";
     export let data;
     import Linebreak from "$lib/components/Linebreak.svelte";
     import Post from "$lib/components/Post.svelte";
@@ -6,6 +7,7 @@
 
 </script>
 <div>
+    <Categories/>
     <PostForm />
     {#if data}
         <div class="posts-container">
@@ -22,6 +24,8 @@
 
     div{
         justify-self: center;
+        display: grid;
+        gap: 1.25rem;
     }
 
     .posts-container{
