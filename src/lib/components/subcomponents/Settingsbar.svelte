@@ -5,44 +5,65 @@
 
     export let imgRoute:string;
     export let name:string;
+    export let description: string;
+    export let key:string;
 
     let currentLocation:string = "";
     onMount(()=>currentLocation=window.location.pathname)
 
     $:{
       let path = $page.url.pathname.split("/")
-        currentLocation = path[1]
+      console.log(path)
+        currentLocation = path[path.length -1]
         currentLocation = currentLocation
+        console.log(currentLocation)
     }
+
 </script>
 
-<button class:active={name.toLowerCase()===currentLocation || name=="Home" && currentLocation.length === 0}>
-    <img src={`/images/icons/${imgRoute}`} alt={`${name} Icon`}/>
-    <p>{name}</p>
+<button class:active={key.toLowerCase() === currentLocation}>
+  <img src={`/images/icons/${imgRoute}`} alt={`${name} Icon`}/>
+  <div class="text-container">
+      <p>{name}</p>
+      <p>{description}</p>
+  </div>
 </button>
 
 
 
-
 <style>
-    button{
+  button {
+        display: flex;
+        align-items: center;
+        gap: 10px; /* Adjust the gap as needed */
         padding: .45rem;
         border: none;
         color: inherit;
-        text-align: center;
+        text-align: left;
         opacity: 0.2;
     }
+    button > img {
+    width: 3rem; 
+    height: 3rem; 
+    object-fit: contain; 
+}
 
-    button > img{
-        width: 100%;
+.text-container {
+        display: flex;
+        flex-direction: column;
     }
 
     
-    .active{
+    .active {
         opacity: 1;
         position: relative;
     }
-
+.text-container > p:first-child {
+        color: white; 
+        font-size: 1.2rem;
+        margin: 0; 
+    }
+    
     .active::before{
         content:"";
         position: absolute;

@@ -72,7 +72,6 @@
         outline: none;
     }
 
-
     textarea:focus{
         border: none;
     }

@@ -101,6 +101,7 @@
   color: inherit;
   font: inherit;
   }
+  
   .search-modal {
   display: flex;
   position: fixed; 
@@ -153,7 +154,7 @@
   }
 
   .user-item span {
-    color: #fff; /* Light text for dark theme */
+    color: #fff; 
     background-color: #131313;
   }
 </style>
