@@ -1,6 +1,5 @@
 import { dbClient } from '$lib/server/db.js'
 import { commentsTable, postsTable, usersTable } from '$lib/server/schema.js'
-import type { PostWithCommentCount } from '$lib/types'
 import { error } from '@sveltejs/kit'
 import { eq, getTableColumns } from 'drizzle-orm'
 
