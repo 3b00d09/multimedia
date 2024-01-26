@@ -24,14 +24,10 @@
   </div>
 
   <div class="content-container">
-    <div class="posts">
-      <p>temptemp</p>
-      <p>temptemp</p>
-      <p>temptemp</p>
-      <p>temptemp</p>
-      <p>temptemp</p>
-      
-    </div>
+    <button>Posts</button>
+    <button>Comments</button>
+    <button>Media</button>
+    <button>Likes</button>
   </div>
 {/if}
 <style>
@@ -56,62 +52,74 @@
     padding: 5rem 5rem 5rem 5rem;
   }
   
-    .pfp-container {
-      grid-area: picture;
-      place-content: center;
-      margin: auto; 
-    }
-  
-    .pfp-container > img {
-      width: 10rem; 
-      height: 10rem; 
-      object-fit: cover;
-      border-radius: 50%;
-    }
-  
-    .user-info {
-      grid-area: info;
-      text-align: center; 
-    }
-  
-    .user-info h2 {
-      color: white;
-      font-size: 2rem;
-      margin: 0;
-    }
-  
-    .user-info .username {
-      color: white;
-      margin: 0;
-    }
-  
-    .stats {
-    grid-area: stats;
-    display: flex;
-    justify-content: center; /* Center stats container */
-    gap: 2rem; /* Space between stat items */
+  .pfp-container {
+    grid-area: picture;
+    place-content: center;
+    margin: auto; 
   }
   
-    .stats > span {
-      color: white;
-    }
-  
-    .description {
-      grid-area: description;
-      color: #c3c0c0;
-    }
+  .pfp-container > img {
+    width: 10rem; 
+    height: 10rem; 
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .user-info {
+    grid-area: info;
+    text-align: center; 
+  }
+
+  .user-info h2 {
+    color: white;
+    font-size: 2rem;
+    margin: 0;
+  }
+
+  .user-info .username {
+    color: white;
+    margin: 0;
+  }
+
+  .stats {
+  grid-area: stats;
+  display: flex;
+  justify-content: center; /* Center stats container */
+  gap: 2rem; /* Space between stat items */
+}
+
+  .stats > span {
+    color: white;
+  }
+
+  .description {
+    grid-area: description;
+    color: #c3c0c0;
+  }
 
 
-    .content-container{
-      display: flex;
-      gap: 1rem;
-      justify-content: space-between;
-    }
+  .content-container{
+    display: flex;
+    gap: 1rem;
+    justify-content: space-evenly;
+    margin-top: 1rem;
+  }
 
-    .posts{
-      display: grid;
-      grid-template-columns: repeat(auto-fill, 90px);
-      gap: 1rem;
-      width: 50%;
-    }
+  .content-container > button{
+    all:unset;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0.75rem 1.15rem;
+    border-radius: 10px;
+    background: #131313;
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.50), -3px -3px 10px 0px rgba(255, 255, 255, 0.03);
+    min-width: fit-content;
+  }
+
+  /* .posts{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 90px);
+    gap: 1rem;
+    width: 50%;
+  } */
   </style>
