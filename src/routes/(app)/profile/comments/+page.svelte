@@ -1,16 +1,27 @@
 <script lang="ts">
+    //absolute mess of a file 
+    //@ts-nocheck
+    import Post from "$lib/components/post/Post.svelte";
 
-    import Comment from "$lib/components/comment/Comment.svelte"
     export let data;
 </script>
-
 
 <div>
     {#if data.userComments}
 
         {#each data.userComments as comment}
-            <div>{comment.posts?.content}</div>
-            <div>{comment.comments.comment}</div>
+            <Post post={
+                {
+                    id:comment.id, 
+                    content:comment.content,
+                    author:comment.author, 
+                    timestamp: comment.timestamp, 
+                    imageUrl:comment.imageUrl
+                }
+            }/>
+
+            <div>{comment.comment}</div>
+            
         {/each}
 
     {/if}

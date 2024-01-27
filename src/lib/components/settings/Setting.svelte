@@ -1,5 +1,5 @@
 <script lang="ts">
-  import "../../global.css";
+  import "../../../global.css";
   import Linebreak from "../Linebreak.svelte";
   import Settingsbar from "./Settingsbar.svelte";
 </script>

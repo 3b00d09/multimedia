@@ -1,5 +1,6 @@
 import { dbClient } from '$lib/server/db.js';
 import { commentsTable, postsTable, usersTable } from '$lib/server/schema.js';
+import { getTableColumns } from "drizzle-orm";
 import { redirect } from '@sveltejs/kit';
 import { eq, and, isNull } from 'drizzle-orm';
 
@@ -11,7 +12,11 @@ export const load =  async({locals})=>{
     }
            
     const userComments = await dbClient
-    .select()
+    .select({
+        ...getTableColumns(commentsTable),
+        ...getTableColumns(postsTable),
+        imageUrl: usersTable.profilePictureUrl
+    })
     .from(commentsTable)
     .where
     (
@@ -21,10 +26,9 @@ export const load =  async({locals})=>{
         )
     )
     .leftJoin(postsTable, eq(postsTable.id, commentsTable.post))
-
-    console.log(userComments)
+    .leftJoin(usersTable, eq(usersTable.username, postsTable.author))
 
     return {
-        userComments
+        userComments, userProfileImage: session.user.profilePictureUrl
     }
 }
