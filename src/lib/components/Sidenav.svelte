@@ -44,6 +44,7 @@
     }
 
     ul li:nth-child(5){
+      
         align-self: end;
     }
 

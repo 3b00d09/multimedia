@@ -13,10 +13,8 @@
 
     $:{
       let path = $page.url.pathname.split("/")
-      console.log(path)
         currentLocation = path[path.length -1]
         currentLocation = currentLocation
-        console.log(currentLocation)
     }
 
 </script>
@@ -35,16 +33,17 @@
   button {
         display: flex;
         align-items: center;
-        gap: 10px; /* Adjust the gap as needed */
+        gap: 1rem; 
         padding: .45rem;
         border: none;
         color: inherit;
         text-align: left;
         opacity: 0.2;
     }
+    
     button > img {
-    width: 3rem; 
-    height: 3rem; 
+    width: 2rem; 
+    height: 2rem; 
     object-fit: contain; 
 }
 
@@ -73,6 +72,6 @@
         bottom :0;
         background-color: var(--action);
         filter: drop-shadow(0px 0px 5px rgba(108, 92, 214, 0.50));
-        width: 1px;
+        width: 2px;
     }
 </style>
