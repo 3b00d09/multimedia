@@ -1,7 +1,7 @@
 <script lang="ts">
   import "../../global.css";
-  import Linebreak from "./Linebreak.svelte";
-  import Settingsbar from "./subcomponents/Settingsbar.svelte";
+  import Linebreak from "../Linebreak.svelte";
+  import Settingsbar from "./Settingsbar.svelte";
 </script>
 
 <ul class="box-shadow">

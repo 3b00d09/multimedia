@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import Linebreak from "./Linebreak.svelte";
+    import Linebreak from "../Linebreak.svelte";
     import ReplyForm from "./ReplyForm.svelte";
     import type { CommentWithProfileImage } from "$lib/types";
     import { goto } from "$app/navigation";

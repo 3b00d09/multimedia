@@ -1,9 +1,8 @@
 <script lang="ts">
     import "../../global.css"
     import Header from "$lib/components/Header.svelte";
-    import Sidenav from "$lib/components/Sidenav.svelte";
+    import Sidenav from "$lib/components/sidenav/Sidenav.svelte";
     import RecentMessages  from "$lib/components/RecentMessages.svelte";
-    import Categories from "$lib/components/Categories.svelte";
 
   export let data;
 

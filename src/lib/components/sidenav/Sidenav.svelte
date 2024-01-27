@@ -1,6 +1,6 @@
 <script lang="ts">
-    import "../../global.css"
-    import SideBarBtn from "./subcomponents/SideBarBtn.svelte";
+    import "../../../global.css"
+    import SideBarBtn from "./SideBarBtn.svelte";
 
 </script>
 

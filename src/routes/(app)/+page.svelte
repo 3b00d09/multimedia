@@ -2,8 +2,8 @@
   import Categories from "$lib/components/Categories.svelte";
     export let data;
     import Linebreak from "$lib/components/Linebreak.svelte";
-    import Post from "$lib/components/Post.svelte";
-    import PostForm from "$lib/components/PostForm.svelte";
+    import Post from "$lib/components/post/Post.svelte";
+    import PostForm from "$lib/components/post/PostForm.svelte";
 
 </script>
 <div>

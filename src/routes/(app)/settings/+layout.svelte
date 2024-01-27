@@ -1,6 +1,6 @@
 <script lang="ts">
   import "../../../global.css"
-  import Setting from "$lib/components/Setting.svelte";
+  import Setting from "$lib/components/settings/Setting.svelte";
 
 
 </script>

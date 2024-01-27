@@ -2,7 +2,7 @@
   import type { PostWithProfileImage } from "$lib/types";
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
-  import PostLike from "./postLike.svelte";
+    import PostLike from "./postLike.svelte";
 
      let commentCount =0;
     let likecount = 0;

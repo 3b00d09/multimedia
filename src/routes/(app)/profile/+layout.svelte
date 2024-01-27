@@ -1,6 +1,6 @@
 <script lang="ts">
     import Linebreak from "$lib/components/Linebreak.svelte";
-    import Post from "$lib/components/Post.svelte";
+    import Post from "$lib/components/post/Post.svelte";
     import ProfileSections from "$lib/components/profile/ProfileSections.svelte"
 
   export let data;

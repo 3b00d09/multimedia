@@ -1,6 +1,6 @@
 <script lang="ts">
 
-    import Comment from "$lib/components/Comment.svelte"
+    import Comment from "$lib/components/comment/Comment.svelte"
     export let data;
 </script>
 
