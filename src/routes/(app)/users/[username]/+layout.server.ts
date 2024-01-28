@@ -1,4 +1,5 @@
 import { dbClient } from '$lib/server/db.js';
+import { auth } from '$lib/server/lucia';
 import { commentsTable, postsTable, userFollowsTable, usersTable } from '$lib/server/schema.js';
 import { redirect } from '@sveltejs/kit';
 import { count, eq, ilike, and } from 'drizzle-orm';

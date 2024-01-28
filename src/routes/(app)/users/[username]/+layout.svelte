@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { enhance } from "$app/forms";
     import Linebreak from "$lib/components/Linebreak.svelte";
     import Post from "$lib/components/post//Post.svelte";
     import ProfileSections from "$lib/components/profile/ProfileSections.svelte"
@@ -25,9 +26,13 @@
       <span class="following-counter">{data.followingCount} following</span>
       {#if !data.personalProfile}
         {#if data.following}
-          <button>Unfollow</button>
+          <form use:enhance method="post" action="?/unfollow">
+            <button type="submit" class="followBtn">Unfollow</button>
+          </form>
         {:else}
-          <button>Follow</button>
+        <form use:enhance method="post" action="?/follow">
+          <button class="followBtn">Follow</button>
+        </form>
         {/if}
       {/if}
     </div>
@@ -104,6 +109,14 @@
   .description {
     grid-area: description;
     color: #c3c0c0;
+  }
+
+  .followBtn{
+    all: unset;
+    box-shadow:
+      -2px -2px 6px -4px rgba(226, 224, 224, 0.5),
+      2px 2px 6px 4px rgba(0, 0, 0, 0.5);
+
   }
 
   /* .posts{
