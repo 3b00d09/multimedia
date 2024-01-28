@@ -151,3 +151,16 @@ export const likesCommentTable = pgTable("likes_comment", {
 	}),
 	date: timestamp("date")
 });
+
+
+export const userFollowsTable = pgTable("user_follows",{
+	id: varchar("id",{
+		length: 244
+	}).notNull().primaryKey(),
+	follower: varchar("follower",{
+		length: 15,
+	}).notNull().references(()=>usersTable.username),
+	following: varchar("following",{
+		length: 15,
+	}).notNull().references(()=>usersTable.username)
+})

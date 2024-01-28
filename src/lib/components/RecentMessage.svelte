@@ -1,5 +1,5 @@
 <div class="recent-message-container">
-    <img src="images/icons/profile.png" alt="Profile Icon"/>
+    
     <div class="recent-message-author">
         <p>ANNON</p>
         <p>lorem idk...</p>
@@ -15,10 +15,10 @@
         display: flex;
     }
     
-    img{
+    /* img{
         width: 28px;
         justify-self: flex-start;
         border-radius: 50%;
         object-fit: contain;
-    }
+    } */
 </style>

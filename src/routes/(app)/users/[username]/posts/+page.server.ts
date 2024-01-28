@@ -1,16 +1,12 @@
 import { dbClient } from '$lib/server/db.js';
 import { commentsTable, postsTable, usersTable } from '$lib/server/schema.js';
 import { redirect } from '@sveltejs/kit';
-import { eq } from 'drizzle-orm';
+import { eq, ilike } from 'drizzle-orm';
 
-export const load =  async({locals})=>{
-    const session = await locals.auth.validate();
-
-    if(!session){
-        throw redirect(302, "/login")
-    }
-
-    const _user = await dbClient.select().from(usersTable).where(eq(usersTable.id, session.user.userId))
+export const load =  async({locals, params})=>{
+    
+    const username = params.username
+    const _user = await dbClient.select().from(usersTable).where(ilike(usersTable.username, username))
     
     const userPosts = await dbClient.select({
         id:postsTable.id,
@@ -20,7 +16,7 @@ export const load =  async({locals})=>{
         imageUrl: usersTable.profilePictureUrl,
     })
         .from(postsTable)
-        .where(eq(postsTable.author, session.user.username))
+        .where(ilike(postsTable.author, username))
         .leftJoin(usersTable,eq(postsTable.author, usersTable.username))
         .orderBy(postsTable.timestamp)
         .groupBy(postsTable.id, usersTable.id)    

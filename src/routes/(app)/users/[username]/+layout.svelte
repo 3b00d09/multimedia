@@ -1,6 +1,6 @@
 <script lang="ts">
     import Linebreak from "$lib/components/Linebreak.svelte";
-    import Post from "$lib/components/post/Post.svelte";
+    import Post from "$lib/components/post//Post.svelte";
     import ProfileSections from "$lib/components/profile/ProfileSections.svelte"
 
   export let data;
@@ -21,9 +21,17 @@
     </div>
     <div class="stats">
       <span class="post-counter">{data.postsCount} posts</span>
-      <span class="follower-counter">23 followers</span>
-      <span class="following-counter">32 following</span>
+      <span class="follower-counter">{data.followerCount} followers</span>
+      <span class="following-counter">{data.followingCount} following</span>
+      {#if !data.personalProfile}
+        {#if data.following}
+          <button>Unfollow</button>
+        {:else}
+          <button>Follow</button>
+        {/if}
+      {/if}
     </div>
+
     <p class="description">agas adaw daw daf</p>
   </div>
 
