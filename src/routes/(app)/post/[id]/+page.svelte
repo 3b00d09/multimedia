@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Post from '$lib/components/Post.svelte';
-  import Comment from '$lib/components/Comment.svelte';
-  import CommentForm from '$lib/components/CommentForm.svelte';
+  import Post from '$lib/components/post/Post.svelte';
+  import Comment from '$lib/components/comment/Comment.svelte';
+  import CommentForm from '$lib/components/comment/CommentForm.svelte';
   import { onMount } from 'svelte';
 
   let trigger:boolean = false;
