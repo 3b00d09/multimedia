@@ -4,7 +4,7 @@
   let showEmailChange = false;
   let showDeleteAccount = false;
 
-  function toggleSection(section: 'password' | 'email' | 'delete') {
+  function toggleSection(section: "password" | "email" | "delete") {
     showPasswordChange = false;
     showEmailChange = false;
     showDeleteAccount = false;
@@ -65,7 +65,7 @@
   <li class="delete-account">
     <button on:click={() => toggleSection("delete")}>Delete Account</button>
     {#if showDeleteAccount}
-    <button type="submit">Delete your account</button>
+      <button type="submit">Delete your account</button>
     {/if}
     <Linebreak />
   </li>
@@ -125,7 +125,8 @@
   button {
     color: white;
     padding: 10px 15px;
-    border: none;
+    width: 100%;
+    margin-top:0.5rem;
     border-radius: 0.5rem;
     font-family: inherit;
     font-size: inherit;
