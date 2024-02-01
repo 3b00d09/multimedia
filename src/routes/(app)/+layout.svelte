@@ -12,7 +12,7 @@
    
     <Header user={data.user}/>
     <div>
-        <Sidenav/>
+        <Sidenav user={data.user?.username}/>
         <div class="main-container">
             
             <div class="main-content">

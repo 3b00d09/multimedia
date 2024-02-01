@@ -2,14 +2,16 @@
     import "../../../global.css"
     import SideBarBtn from "./SideBarBtn.svelte";
 
+    export let user: string | undefined;
+
 </script>
 
 <ul class="box-shadow">
     <a href="/"><li class="icon-container"><SideBarBtn imgRoute={"home.png"} name={"Home"} /></li></a>
     <li class="icon-container"><SideBarBtn imgRoute={"search.png"} name={"Search"} /></li>
     <li class="icon-container"><SideBarBtn imgRoute={"inbox.png"} name={"Inbox"} /></li>
-    <a href="/profile/posts"><li class="icon-container"><SideBarBtn imgRoute={"profile.png"} name={"Profile"} /></li></a>
-     <a href="/settings"><li class="icon-container"><SideBarBtn imgRoute={"settings.png"} name={"Settings"} /></li></a>
+    <a href={user ? `users/${user}/posts` : "/login"}><li class="icon-container"><SideBarBtn imgRoute={"profile.png"} name={"Profile"}/></li></a>
+    <a href="/settings"><li class="icon-container"><SideBarBtn imgRoute={"settings.png"} name={"Settings"} /></li></a>
 </ul>
 
 
