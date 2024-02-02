@@ -16,6 +16,3 @@
     {/each}
   </div>
 {/if}
-<style>
-
-  </style>

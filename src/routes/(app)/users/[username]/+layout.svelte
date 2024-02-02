@@ -49,7 +49,7 @@
  .profile-container {
     margin-top: 1rem;
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto;
     grid-template-rows: 2fr auto 2fr auto;
     align-items: center;
     grid-template-areas:

@@ -5,18 +5,25 @@
 
     export let imgRoute:string;
     export let name:string;
+    export let username: string | undefined = undefined;
 
     let currentLocation:string = "";
+    let user: string | undefined;
     onMount(()=>currentLocation=window.location.pathname)
 
     $:{
-      let path = $page.url.pathname.split("/")
+        let path = $page.url.pathname.split("/")
         currentLocation = path[1]
         currentLocation = currentLocation
+        user = "";
+
+        if(currentLocation === "users"){
+            user = path[2]
+        }
     }
 </script>
 
-<button class:active={name.toLowerCase()===currentLocation || name=="Home" && currentLocation.length === 0}>
+<button class:active={name.toLowerCase()===currentLocation || name=="Home" && currentLocation.length === 0 || name == "Profile" && user === username}>
     <img src={`/images/icons/${imgRoute}`} alt={`${name} Icon`}/>
     <p>{name}</p>
 </button>

@@ -39,7 +39,6 @@
 
     .main-container{
         display: grid;
-        justify-items: center;
         grid-template-columns: repeat(1, 100%);
         gap:1rem;
     }
