@@ -26,6 +26,7 @@
         justify-self: center;
         display: grid;
         gap: 1.25rem;
+        width: 100%;
     }
 
     .posts-container{

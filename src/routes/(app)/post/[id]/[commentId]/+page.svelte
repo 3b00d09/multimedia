@@ -28,6 +28,8 @@
   div{
     display: grid;
     gap: 1rem;
+    width: 100%;
+    padding: 1rem;
   }
 
   .replies{

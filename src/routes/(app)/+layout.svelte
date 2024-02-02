@@ -14,16 +14,14 @@
     <div>
         <Sidenav user={data.user?.username}/>
         <div class="main-container">
-            
-            <div class="main-content">
-                <slot/>
-            </div>
+            <slot/>
         </div>
         <RecentMessages/>
     </div>
 </main>
 
 <style>
+
 
     main {
         position: relative;
@@ -42,15 +40,11 @@
     .main-container{
         display: grid;
         justify-items: center;
+        grid-template-columns: repeat(1, 100%);
         gap:1rem;
     }
 
-    .main-content{
-        display: grid;
-        align-items: center;
-        gap: 1rem;
-        grid-template-columns: repeat(1, 100%);
-    }
+
 
     @media(max-width: 1440px){
         main{

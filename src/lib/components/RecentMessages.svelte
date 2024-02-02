@@ -27,7 +27,6 @@
               0px 0px 5px 0px rgba(0, 0, 0, 0.5);
         width: fit-content;
         height:fit-content;
-        margin: 0 1.75rem;
     }
 
     .recent-messages-header > h2{

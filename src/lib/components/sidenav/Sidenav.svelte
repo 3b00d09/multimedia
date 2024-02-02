@@ -32,7 +32,6 @@
         grid-auto-rows: min-content;
         gap: 2rem;
 
-        margin: 0 1.75rem;
         justify-self: end;
         width: fit-content;
 
