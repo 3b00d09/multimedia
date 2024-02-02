@@ -16,7 +16,7 @@
       searchResults = [];
       return;
     }
-    const response = await fetch(`/api/users=${encodeURIComponent(modalSearchTerm.trim())}`);
+    const response = await fetch(`/api/users?search-query${encodeURIComponent(modalSearchTerm.trim())}`);
     if (response.ok) {
       searchResults = await response.json();
       isSearching = searchResults.length > 0;

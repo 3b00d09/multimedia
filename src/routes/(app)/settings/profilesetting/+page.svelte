@@ -81,11 +81,7 @@
     transition: border-radius 0.5s;
   }
 
-  p {
-    color: hsl(240, 5%, 64.9%);
-    font-size: 0.875rem;
-    margin-top: 0.5rem;
-  }
+
 
   button {
     color: white;
