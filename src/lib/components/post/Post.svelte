@@ -1,15 +1,18 @@
 <script lang="ts">
-  import type { PostWithProfileImage } from "$lib/types";
-  import { onMount } from "svelte";
-  import { goto } from "$app/navigation";
+    import type { PostWithProfileImage } from "$lib/types";
+    import { onMount } from "svelte";
+    import { goto } from "$app/navigation";
     import PostLike from "./postLike.svelte";
+    import LikesModal from "../LikesModal.svelte";
 
-     let commentCount =0;
+    let commentCount = 0;
     let likecount = 0;
     export let post: PostWithProfileImage;
 
-    let days:number;
-   
+    let showModal:boolean = false;
+
+    let days: number;
+
     const fetchLikeCount = async () => {
         const response = await fetch(`/api/counter?src=post&id=${post.id}`);
         if (response.ok) {
@@ -21,18 +24,20 @@
         }
     };
 
-    onMount(()=>{
+    onMount(() => {
         const originalTime = post.timestamp!.getTime();
-        const currTime = new Date().getTime()
-        const diffHours = (currTime - originalTime) / 3600000
-        
-        days = Math.floor(diffHours / 24)
-        
-        fetchLikeCount()
-    })
- 
-    const navigateToPost = () => goto(`/post/${post.id}`)
+        const currTime = new Date().getTime();
+        const diffHours = (currTime - originalTime) / 3600000;
+
+        days = Math.floor(diffHours / 24);
+
+        fetchLikeCount();
+    });
+
+    const navigateToPost = () => goto(`/post/${post.id}`);
 </script>
+
+<LikesModal visable={showModal} on:toggle={()=>showModal = false}/>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -40,37 +45,42 @@
     <div on:click|self={navigateToPost} class="post-header">
         <div class="post-author">
             <a href={`/users/${post.author}`}>
-            <img class="profile-image" src={post.imageUrl} alt="Profile icon"/>
-            <p class="author">{post.author}</p>
+                <img
+                    class="profile-image"
+                    src={post.imageUrl}
+                    alt="Profile icon"
+                />
+                <p class="author">{post.author}</p>
             </a>
             <p class="timestamp">{`.${days}d`}</p>
         </div>
 
         <p>...</p>
     </div>
-    <div  class="post-content"><p>{post.content}</p></div>
-    <div  class="icons-container">
-       <button>
-        <PostLike {post}/>
-        <p>{likecount}</p>
-       </button>
-
-
-        
+    <div class="post-content"><p>{post.content}</p></div>
+    <div class="icons-container">
         <button>
-            <img src ="/images/icons/comment.png" alt="Reply Icon">
-          <p>{commentCount}</p>
+            <PostLike {post} />
+            <p on:click|self={()=>showModal = true}>
+                {likecount}
+            </p>
         </button>
-        <button><img src ="/images/icons/forward.png" alt="Direct Message Icon"></button>
-    </div>
-    
 
-    
+        <button>
+            <img src="/images/icons/comment.png" alt="Reply Icon" />
+            <p>{commentCount}</p>
+        </button>
+        <button
+            ><img
+                src="/images/icons/forward.png"
+                alt="Direct Message Icon"
+            /></button
+        >
+    </div>
 </div>
 
 <style>
-
-    .post-container{
+    .post-container {
         display: grid;
         gap: 0.75rem;
         cursor: pointer;
@@ -78,43 +88,44 @@
         border-radius: 16px;
     }
 
-    .post-container:hover{
+    .post-container:hover {
         background-color: rgba(226, 224, 224, 0.075);
         transition: 300ms ease;
     }
-    .post-header{
+    .post-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
     }
-    
-    .post-author, .post-author > a{
+
+    .post-author,
+    .post-author > a {
         display: flex;
         align-items: center;
         gap: 0.5rem;
     }
 
-    a{
+    a {
         text-decoration: none;
         color: inherit;
     }
-    
-    .author{
+
+    .author {
         font-size: 1.2rem;
     }
 
-    .timestamp{
+    .timestamp {
         font-size: 0.75rem;
         color: var(--text-secondary);
     }
 
-    .post-content{
+    .post-content {
         color: var(--text-secondary);
         line-height: 22px;
         width: fit-content;
     }
 
-    .icons-container{
+    .icons-container {
         display: flex;
         align-items: center;
         gap: 1rem;
@@ -130,17 +141,17 @@
     }
 
     button {
-        padding: .45rem;
+        padding: 0.45rem;
         width: 2.5rem;
         height: 2.5rem;
         border: none;
     }
 
-    .icons-container > button > img{
+    .icons-container > button > img {
         width: 100%;
     }
 
-    .profile-image{
+    .profile-image {
         border-radius: 50%;
         object-fit: cover;
         width: 3rem;
