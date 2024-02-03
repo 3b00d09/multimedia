@@ -16,7 +16,7 @@ export const load =  async({locals})=>{
     .where
     (
         and(
-            eq(commentsTable.author, "Diyara"),
+            eq(commentsTable.author, session.user.username),
             isNull(commentsTable.parentCommentId)
         )
     )

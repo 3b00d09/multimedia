@@ -15,7 +15,7 @@ export const load = async({url, params})=>{
         throw error(500, {message:"Post not found."})
     }
 
-    const parentComment = await dbClient.select({
+    const _parentComment = await dbClient.select({
         ...getTableColumns(commentsTable),
         imageUrl:usersTable.profilePictureUrl
     })
@@ -23,6 +23,8 @@ export const load = async({url, params})=>{
     .where(eq(commentsTable.id, commentId))
     .leftJoin(usersTable, eq(commentsTable.author, usersTable.username))
     .limit(1)
+
+    const parentComment = _parentComment[0]
 
 
 

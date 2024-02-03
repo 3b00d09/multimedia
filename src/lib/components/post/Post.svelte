@@ -38,9 +38,11 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div on:click|self={navigateToPost} class="post-container">
     <div on:click|self={navigateToPost} class="post-header">
-        <div  class="post-author">
+        <div class="post-author">
+            <a href={`/users/${post.author}`}>
             <img class="profile-image" src={post.imageUrl} alt="Profile icon"/>
             <p class="author">{post.author}</p>
+            </a>
             <p class="timestamp">{`.${days}d`}</p>
         </div>
 
@@ -86,10 +88,15 @@
         justify-content: space-between;
     }
     
-    .post-author{
+    .post-author, .post-author > a{
         display: flex;
         align-items: center;
         gap: 0.5rem;
+    }
+
+    a{
+        text-decoration: none;
+        color: inherit;
     }
     
     .author{

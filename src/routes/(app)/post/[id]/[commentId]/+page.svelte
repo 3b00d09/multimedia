@@ -4,6 +4,7 @@
     import CommentFrom from "$lib/components/comment/CommentForm.svelte"
 
     export let data;
+
 </script>
 
 
@@ -13,7 +14,7 @@
 
       <CommentFrom postId={data.post.id}/>
 
-      <Comment postId={data.post.id} comment={data.parentComment[0]} />
+      <Comment postId={data.post.id} comment={data.parentComment} />
 
     <div class="replies">
         {#each data.childComments as reply}

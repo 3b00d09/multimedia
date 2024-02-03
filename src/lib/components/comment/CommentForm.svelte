@@ -5,7 +5,7 @@
 </script>
 
 
-<form method="post" action="?/comment" use:enhance>
+<form method="post" action="/?/comment" use:enhance>
     <textarea name="comment-content" placeholder="Add comment..."></textarea>
     <button class="submit-btn" type="submit">Reply</button>
     <input type="hidden" name="post_id" value={`${postId}`}/>

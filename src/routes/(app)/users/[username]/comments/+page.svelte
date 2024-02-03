@@ -1,6 +1,7 @@
 <script lang="ts">
 
     import Comment from "$lib/components/comment/Comment.svelte"
+    import Post from "$lib/components/post/Post.svelte";
     export let data;
 </script>
 
@@ -9,7 +10,7 @@
     {#if data.userComments}
 
         {#each data.userComments as comment}
-            <div>{comment.posts?.content}</div>
+            <Post post={comment.posts}/>
             <div>{comment.comments.comment}</div>
         {/each}
 

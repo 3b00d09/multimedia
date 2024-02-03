@@ -6,18 +6,6 @@ import { and, ilike } from "drizzle-orm"
 import {v4 as uuidv4} from "uuid"
 
 
-export const load = async({locals}) =>{
-    const session = await locals.auth.validate()
-
-    if(session){
-        throw redirect(301, `/users/${session.user.username}/posts`)
-    }
-
-    else{
-        throw redirect(301, "/login")
-    }
-}
-
 export const actions= {
 
     follow: async(request)=>{

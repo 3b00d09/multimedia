@@ -1,7 +1,8 @@
 import { dbClient } from "$lib/server/db"
 import { auth } from "$lib/server/lucia.js"
 import { commentsTable,  postsTable, repliesTable, usersTable,likesPostTable } from "$lib/server/schema"
-import { count, eq, like, sql } from "drizzle-orm"
+import { redirect } from "@sveltejs/kit"
+import { count, desc, eq, like, sql } from "drizzle-orm"
 import {v4 as uuidv4} from "uuid"
 
 // until i figure out how to infer type from joined select
@@ -29,7 +30,7 @@ async function fetchPosts(){
         .from(postsTable)
         .leftJoin(commentsTable,eq(postsTable.id, commentsTable.post))
         .leftJoin(usersTable,eq(postsTable.author, usersTable.username))
-        .orderBy(postsTable.timestamp)
+        .orderBy(desc(postsTable.timestamp))
         .groupBy(postsTable.id, usersTable.id)
         
     return rows;
@@ -41,7 +42,7 @@ export const actions ={
         const authRequest = auth.handleRequest(request)
         const session = await authRequest.validate()
         if(!session){
-            return {status: 401, success: false}
+            throw redirect(301, "/login")
         }
         
         const data = await request.request.formData()
@@ -66,7 +67,7 @@ export const actions ={
         const session = await authRequest.validate()
 
         if(!session){
-            return {status: 401, success: false}
+            throw redirect(301, "/login")
         }
 
         const data = await request.request.formData()
@@ -97,7 +98,7 @@ export const actions ={
         const session = await authRequest.validate()
 
         if(!session){
-            return {status: 401, success: false}
+            throw redirect(301, "/login")
         }
 
         const data = await request.request.formData()
