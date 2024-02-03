@@ -6,7 +6,7 @@
 
 <header>
   <div></div>
-  <SearchBar/>
+ 
 
   <div class="user-info">
     {#if !user}

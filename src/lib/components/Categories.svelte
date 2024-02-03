@@ -1,4 +1,6 @@
 <script lang="ts">
+  import SearchBar from "./SearchBar.svelte";
+
 
     let btnContainer: HTMLDivElement;
     const setActive = (e:MouseEvent & { currentTarget: HTMLButtonElement; }) =>{
@@ -9,7 +11,7 @@
         e.currentTarget.classList.add("active")
     }
 </script>
-
+<SearchBar/>
 <div bind:this={btnContainer} class="categories-header">
     <button class="active" on:click={setActive}>For You</button>
     <button on:click={setActive}>Following</button>

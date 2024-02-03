@@ -167,4 +167,5 @@
     color: #fff; /* Light text for dark theme */
     background-color: #131313;
   }
+  
 </style>

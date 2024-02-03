@@ -61,6 +61,7 @@
     <div class="icons-container">
         <button>
             <PostLike {post} />
+            <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
             <p on:click|self={()=>showModal = true}>
                 {likecount}
             </p>

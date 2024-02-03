@@ -8,7 +8,7 @@
 
 <ul class="box-shadow">
     <a href="/"><li class="icon-container"><SideBarBtn imgRoute={"home.png"} name={"Home"} /></li></a>
-    <li class="icon-container"><SideBarBtn imgRoute={"search.png"} name={"Search"} /></li>
+    <a href="/search"><li class="icon-container"><SideBarBtn imgRoute={"search.png"} name={"Search"} /></li></a>
     <li class="icon-container"><SideBarBtn imgRoute={"inbox.png"} name={"Inbox"} /></li>
     <a href={user ? `/users/${user}/posts` : "/login"}><li class="icon-container"><SideBarBtn username={user} imgRoute={"profile.png"} name={"Profile"}/></li></a>
     <a href="/settings"><li class="icon-container"><SideBarBtn imgRoute={"settings.png"} name={"Settings"} /></li></a>
