@@ -1,6 +1,7 @@
 <script lang="ts">
   import "../../../global.css";
   import SearchBtn from "./SearchBtn.svelte";
+  let displayMode = 'all';
 </script>
 
 <ul>

@@ -4,7 +4,12 @@ export type UserType = typeof usersTable.$inferSelect
 export type CommentType = typeof commentsTable.$inferSelect
 export type LikePost = typeof likesPostTable.$inferSelect
 export type PostType = typeof postsTable.$inferSelect
-
+interface User {
+    username: string;
+    imageUrl: string;
+   
+  }
+  
 export type PostWithProfileImage = PostType &{
     imageUrl: string | null
 }

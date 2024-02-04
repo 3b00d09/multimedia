@@ -11,7 +11,7 @@ export const load = async ({ locals }) => {
         .from(usersTable)
     
 
-    console.log({ allUsers });
+
     return {
       allUsers
     };

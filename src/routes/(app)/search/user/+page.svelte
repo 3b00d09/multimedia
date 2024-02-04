@@ -1,23 +1,14 @@
 <script lang="ts">
   import Linebreak from "$lib/components/Linebreak.svelte";
   export let data;
-  let searchTerm = "";
-
-  $: filteredUsers = data.allUsers.filter((user) =>
-    user.username.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 </script>
 
-<input
-  type="text"
-  bind:value={searchTerm}
-  placeholder="Search users..."
-  class="search-input"
-/>
 
-{#if filteredUsers && filteredUsers.length > 0}
+
+
+{#if data.allUsers && data.allUsers.length > 0}
   <div class="grid">
-    {#each filteredUsers as user (user.username)}
+    {#each data.allUsers as user (user.username)}
       <div class="user" style="background-image: url({user.imageUrl});">
         <div class="info">
           <img src={user.imageUrl} alt="{user.username}'s profile picture" />
@@ -30,6 +21,7 @@
 {:else}
   <p>No users found.</p>
 {/if}
+
 
 <style>
   .grid {
@@ -77,19 +69,6 @@
     color: white;
   }
 
-  .search-input {
-    padding: 0.75rem;
-    border-radius: 20px;
-    font-size: 1rem;
-    margin-bottom: 1rem;
-    width: 100%;
-    box-shadow:
-      -2px -2px 6px -4px rgba(226, 224, 224, 0.5) inset,
-      2px 2px 6px 4px rgba(0, 0, 0, 0.5) inset;
-    background: transparent;
-    border: none;
-    outline: none;
-    color: inherit;
-    font: inherit;
-  }
 </style>
+
+
