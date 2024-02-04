@@ -37,7 +37,7 @@
     const navigateToPost = () => goto(`/post/${post.id}`);
 </script>
 
-<LikesModal visable={showModal} on:toggle={()=>showModal = false}/>
+<LikesModal visable={showModal} postId={post.id} on:toggle={()=>showModal = false}/>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
