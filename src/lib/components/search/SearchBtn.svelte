@@ -1,21 +1,20 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import { page } from "$app/stores";
+  import { page } from '$app/stores';
 
   export let name: string;
 
-  let currentLocation: string = "";
-  let user: string | undefined;
-  onMount(() => (currentLocation = window.location.pathname));
+  $: pathSegments = $page.url.pathname.split('/').filter(Boolean); 
 
-  $: {
-    let path = $page.url.pathname.split("/");
-    currentLocation = path[1];
-    currentLocation = currentLocation;
-  }
+  $: isActive = (() => {
+    if (name.toLowerCase() === 'search') {
+      return pathSegments.length === 1 && pathSegments[0].toLowerCase() === 'search';
+    }
+ 
+    return pathSegments.length > 1 && pathSegments[1].toLowerCase() === name.toLowerCase();
+  })();
 </script>
 
-<button class:active={name.toLowerCase() === currentLocation}>
+<button class:active={isActive}>
   <p>{name}</p>
 </button>
 
@@ -45,15 +44,17 @@
     position: relative;
   }
 
-  .active::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: white;
-    filter: drop-shadow(0px 0px 5px rgba(248, 248, 250, 0.5));
-    width: 6px;
-  }
+  .active::before{
+        content:"";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        bottom :-1rem;
+        height: 5rem;
+        transform: rotate(90deg); 
+        width: 100%;
+        background-color: var(--action);
+        filter: drop-shadow(0px 0px 5px rgba(108, 92, 214, 0.50));
+        width: 2px;
+    }
 </style>

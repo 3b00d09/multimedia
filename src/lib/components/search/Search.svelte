@@ -9,8 +9,11 @@
     ><li class="icon-container"><SearchBtn name={"User"} /></li></a
   >
   <a href="/search/post"
-    ><li class="icon-container"><SearchBtn name={"Post"} /></li></a
+    ><li class="icon-container"><SearchBtn name={"post"} /></li></a
   >
+  <a href="/search"
+  ><li class="icon-container"><SearchBtn name={"Search"} /></li></a
+>
 </ul>
 
 <style>

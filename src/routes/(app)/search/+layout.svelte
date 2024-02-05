@@ -47,12 +47,7 @@
   <Search />
   <div class="main container">
     <div class="container">
-      <input
-        type="text"
-        placeholder="Search posts and users..."
-        bind:value={searchTerm}
-        on:keydown={handleKeyPress}
-      />
+  
 
       {#if searchPerformed}
         <div>
