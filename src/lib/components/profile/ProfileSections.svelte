@@ -1,11 +1,13 @@
-<script>
+<script lang="ts">
     import SectionBtn from "./SectionBtn.svelte";
+
+    export let username:string;
     
 </script>
 <div class="content-container">
-    <SectionBtn name="Posts"/>
-    <SectionBtn name="Comments"/>
-    <SectionBtn name="Likes"/>
+    <SectionBtn {username} name="Posts"/>
+    <SectionBtn {username} name="Comments"/>
+    <SectionBtn {username} name="Likes"/>
 </div>
 
 

@@ -3,12 +3,9 @@ import { likesPostTable, postsTable, usersTable } from '$lib/server/schema.js';
 import { redirect } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
 
-export const load =  async({locals})=>{
-    const session = await locals.auth.validate();
+export const load =  async({locals, params})=>{
 
-    if(!session){
-        throw redirect(302, "/login")
-    }
+    const username = params.username
 
     const userLikes = await dbClient.select({
         id:postsTable.id,
@@ -20,7 +17,7 @@ export const load =  async({locals})=>{
         .from(postsTable)
         .leftJoin(likesPostTable,eq(likesPostTable.post, postsTable.id))
         .leftJoin(usersTable,eq(postsTable.author,usersTable.username))
-        .where(eq(likesPostTable.author, session.user.username))
+        .where(eq(likesPostTable.author, username))
         .orderBy(postsTable.timestamp) 
         
     return {

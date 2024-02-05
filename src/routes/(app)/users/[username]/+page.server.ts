@@ -1,10 +1,31 @@
 import { dbClient } from "$lib/server/db.js"
 import { auth } from "$lib/server/lucia"
-import { userFollowsTable, usersTable } from "$lib/server/schema.js"
+import { postsTable, userFollowsTable, usersTable } from "$lib/server/schema.js"
 import { redirect } from "@sveltejs/kit"
-import { and, ilike } from "drizzle-orm"
+import { and, eq, ilike } from "drizzle-orm"
 import {v4 as uuidv4} from "uuid"
 
+export const load =  async({params})=>{
+    
+    const username = params.username
+    
+    const userPosts = await dbClient.select({
+        id:postsTable.id,
+        author: postsTable.author,
+        content: postsTable.content,
+        timestamp: postsTable.timestamp,
+        imageUrl: usersTable.profilePictureUrl,
+    })
+        .from(postsTable)
+        .where(ilike(postsTable.author, username))
+        .leftJoin(usersTable,eq(postsTable.author, usersTable.username))
+        .orderBy(postsTable.timestamp)
+        .groupBy(postsTable.id, usersTable.id)    
+
+    return {
+        userPosts
+    }
+}
 
 export const actions= {
 

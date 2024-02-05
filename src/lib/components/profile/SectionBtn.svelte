@@ -4,6 +4,7 @@
     import { page } from '$app/stores';
 
     export let name:string;
+    export let username:string = "";
 
     let currentLocation:string = "";
     onMount(()=>currentLocation=window.location.pathname)
@@ -15,8 +16,8 @@
     }
 </script>
 
-<button class:active={name.toLowerCase() === currentLocation}>
-    <a href={`${name.toLowerCase()}`}>{name}</a>
+<button class:active={name.toLowerCase() === currentLocation || currentLocation === username && name==="Posts"}>
+    <a href={name === "Posts" ? `/users/${username}` : `/users/${username}/${name.toLowerCase()}`}>{name}</a>
 </button>
 
 <style>

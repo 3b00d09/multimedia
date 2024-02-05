@@ -40,7 +40,7 @@
     <p class="description">agas adaw daw daf</p>
   </div>
 
-  <ProfileSections/>
+  <ProfileSections username={data.user.username}/>
 
   <slot/>
 {/if}

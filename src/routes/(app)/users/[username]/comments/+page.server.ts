@@ -3,12 +3,8 @@ import { commentsTable, postsTable, usersTable } from '$lib/server/schema.js';
 import { redirect } from '@sveltejs/kit';
 import { eq, and, isNull } from 'drizzle-orm';
 
-export const load =  async({locals})=>{
-    const session = await locals.auth.validate();
-
-    if(!session){
-        throw redirect(302, "/login")
-    }
+export const load =  async({params})=>{
+    const username = params.username
            
     const userComments = await dbClient
     .select()
@@ -16,7 +12,7 @@ export const load =  async({locals})=>{
     .where
     (
         and(
-            eq(commentsTable.author, session.user.username),
+            eq(commentsTable.author, username),
             isNull(commentsTable.parentCommentId)
         )
     )
