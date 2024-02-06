@@ -1,6 +1,5 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import Linebreak from "../Linebreak.svelte";
     import ReplyForm from "./ReplyForm.svelte";
     import type { CommentWithProfileImage } from "$lib/types";
     import { goto } from "$app/navigation";
@@ -47,7 +46,6 @@
 
 </script>
 
-<Linebreak/>
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div class="comment-container" on:click|self={navigateToComment}>

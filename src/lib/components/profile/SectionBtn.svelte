@@ -16,9 +16,11 @@
     }
 </script>
 
-<button class:active={name.toLowerCase() === currentLocation || currentLocation === username && name==="Posts"}>
-    <a href={name === "Posts" ? `/users/${username}` : `/users/${username}/${name.toLowerCase()}`}>{name}</a>
-</button>
+<a href={name === "Posts" ? `/users/${username}` : `/users/${username}/${name.toLowerCase()}`}>
+    <button class:active={name.toLowerCase() === currentLocation || currentLocation === username && name==="Posts"}>
+        {name}
+    </button>
+</a>
 
 <style>
     button{
