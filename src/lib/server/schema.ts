@@ -95,20 +95,6 @@ export const commentsTable = pgTable("comments",{
 })
 
 
-export const repliesTable = pgTable("replies",{
-	id: varchar("id",{
-		length:244
-	}).notNull().primaryKey(),
-	reply: varchar("reply",{
-		length:256
-	}).notNull(),
-	originalComment:varchar("original_comment",{
-		length: 256
-	}).notNull().references(()=>{
-		return commentsTable.id
-	})
-})
-
 export const categoriesTable = pgTable("categories",{
 	id: varchar("id",{
 		length: 244

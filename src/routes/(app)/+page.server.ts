@@ -1,6 +1,6 @@
 import { dbClient } from "$lib/server/db"
 import { auth } from "$lib/server/lucia.js"
-import { commentsTable,  postsTable, repliesTable, usersTable,likesPostTable } from "$lib/server/schema"
+import { commentsTable,  postsTable, usersTable,likesPostTable } from "$lib/server/schema"
 import { redirect } from "@sveltejs/kit"
 import { count, desc, eq, like, sql } from "drizzle-orm"
 import {v4 as uuidv4} from "uuid"
