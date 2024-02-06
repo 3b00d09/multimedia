@@ -37,9 +37,8 @@
         <div class="info">
           <img src={user.imageUrl} alt="{user.username}'s profile picture" />
           <p>{user.username}</p>
-          <p class="bio">Annon stll figuring it out so we are sleeping</p>
+          <p class="bio">{user.bio}</p>
         </div>
-        <Linebreak />
       </div>
     {/each}
   </div>
@@ -90,7 +89,13 @@
   position: relative;
   overflow: hidden;
 }
-
+.user:hover,
+  .user:focus {
+    transform: translateY(-5px);
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  }
 .info {
   display: flex;
   flex-direction: column; 
@@ -99,7 +104,7 @@
   background: rgba(5, 5, 5, 0.8);
   border-radius: 1rem;
   padding: 1rem; 
-  gap: 5px; 
+  gap: 10px; 
 }
 
 img {

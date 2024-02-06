@@ -4,6 +4,7 @@
     import Post from "$lib/components/post//Post.svelte";
     import ProfileSections from "$lib/components/profile/ProfileSections.svelte"
 
+
   export let data;
 
 </script>
@@ -37,7 +38,7 @@
       {/if}
     </div>
 
-    <p class="description">agas adaw daw daf</p>
+    <p class="description">{data.user.bio}</p>
   </div>
 
   <ProfileSections username={data.user.username}/>
