@@ -8,6 +8,15 @@ export const usersTable = pgTable("user", {
 	username: varchar("username",{
 		length: 24
 	}).notNull().unique(),
+	firstName:varchar("first_name",{
+		length:24
+	}),
+	lastName:varchar("last_name",{
+		length:24
+	}),
+	bio:varchar("bio",{
+		length: 244
+	}),
 	profilePictureUrl: varchar("profile_pic_url").default("https://ikcxvcutdjftdsvbpwsa.supabase.co/storage/v1/object/sign/profile-images/default-img.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJwcm9maWxlLWltYWdlcy9kZWZhdWx0LWltZy5wbmciLCJpYXQiOjE3MDM0ODg4NjYsImV4cCI6MjAxODg0ODg2Nn0.EeYXUptq697XMxEb5XpbVTtwzm2qwrI2w8cxrD4OySk&t=2023-12-25T07%3A21%3A06.400Z").notNull()
 });
 
