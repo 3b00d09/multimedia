@@ -1,12 +1,9 @@
 <script lang="ts">
-  import SearchBar from "$lib/components/SearchBar.svelte";
   import type { User } from "lucia";
   export let user: User | null;
 </script>
 
 <header>
-  <div></div>
- 
 
   <div class="user-info">
     {#if !user}
@@ -42,8 +39,7 @@
   header {
     display: grid;
     gap: 3rem;
-    align-items: baseline;
-    grid-template-columns: repeat(3, 1fr);
+    align-items: baseline;  
     /* * 33% because main page has grid 33-33-33 and the header should be as wide as the middle section of the grid
     width: 33%; */
   }
