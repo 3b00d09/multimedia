@@ -50,7 +50,14 @@
                     src={post.imageUrl}
                     alt="Profile icon"
                 />
-                <p class="author">{post.author}</p>
+                {#if post.firstName || post.lastName}
+                    <div>
+                        <p class="author-name">{`${post.firstName ? post.firstName.concat(" ",post.lastName || "")  : "" + post.lastName ? post.lastName : ""}`}</p>
+                        <p class="author-secondary">{"@" + post.author}</p>
+                    </div>
+                {:else}
+                    <p class="author">{post.author}</p>
+                {/if}
             </a>
             <p class="timestamp">{`.${days}d`}</p>
         </div>
@@ -115,13 +122,22 @@
         font-size: 1.2rem;
     }
 
+    .author-name{
+        font-size: 1.2rem;
+    }
+
+    .author-secondary{
+        font-size: 0.8rem;
+        color:var(--text-secondary)
+    }
+
     .timestamp {
         font-size: 0.75rem;
         color: var(--text-secondary);
     }
 
     .post-content {
-        color: var(--text-secondary);
+        color: var(--text-primary);
         line-height: 22px;
         width: fit-content;
     }

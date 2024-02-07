@@ -26,6 +26,8 @@ async function fetchPosts(){
         content: postsTable.content,
         timestamp: postsTable.timestamp,
         imageUrl: usersTable.profilePictureUrl,
+        firstName: usersTable.firstName,
+        lastName: usersTable.lastName
     })
         .from(postsTable)
         .leftJoin(commentsTable,eq(postsTable.id, commentsTable.post))

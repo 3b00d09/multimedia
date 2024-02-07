@@ -10,7 +10,9 @@ export interface User {
   }
   
 export type PostWithProfileImage = PostType &{
-    imageUrl: string | null
+    imageUrl: string | null,
+    firstName: string | null,
+    lastName: string | null
 }
 
 export type CommentWithProfileImage = CommentType &{

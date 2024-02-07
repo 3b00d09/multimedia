@@ -1,7 +1,5 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
-    import Linebreak from "$lib/components/Linebreak.svelte";
-    import Post from "$lib/components/post//Post.svelte";
     import ProfileSections from "$lib/components/profile/ProfileSections.svelte"
 
 
@@ -18,8 +16,14 @@
       />
     </div>
     <div class="user-info">
-      <h2>{data.user.username}</h2>
-      <p class="username">@{data.user.username}</p>
+      {#if data.user.firstName || data.user.lastName}
+        <div>
+            <h2>{`${data.user.firstName ? data.user.firstName.concat(" ",data.user.lastName || "")  : "" + data.user.lastName ? data.user.lastName : ""}`}</h2>
+            <p class="last-name">{"@" + data.user.username}</p>
+        </div>
+      {:else}
+          <h2>{data.user.username}</h2>
+      {/if}
     </div>
     <div class="stats">
       <span class="post-counter">{data.postsCount} posts</span>
@@ -91,16 +95,16 @@
     margin: 0;
   }
 
-  .user-info .username {
-    color: white;
-    margin: 0;
+  .last-name{
+    color:var(--text-secondary)
   }
 
   .stats {
   grid-area: stats;
   display: flex;
-  justify-content: center; /* Center stats container */
-  gap: 2rem; /* Space between stat items */
+  justify-content: center;
+  align-items: center;
+  gap: 2rem; 
 }
 
   .stats > span {
@@ -117,6 +121,9 @@
     box-shadow:
       -2px -2px 6px -4px rgba(226, 224, 224, 0.5),
       2px 2px 6px 4px rgba(0, 0, 0, 0.5);
+  
+    padding: 0.5rem;
+    border-radius: 25%;
 
   }
 
