@@ -19,7 +19,7 @@
   <li class="icon-container">
     <SideBarBtn imgRoute={"inbox.png"} name={"Inbox"} />
   </li>
-  <a href={user ? `/users/${user}/posts` : "/login"}
+  <a href={user ? `/users/${user}` : "/login"}
     ><li class="icon-container">
       <SideBarBtn username={user} imgRoute={"profile.png"} name={"Profile"} />
     </li></a
