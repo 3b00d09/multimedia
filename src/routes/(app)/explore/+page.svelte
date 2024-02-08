@@ -1,7 +1,7 @@
 <script lang="ts">
-  export let data: { allUsers: any[]; allPosts: any[] };
+  export let data;
   import PostCard from "$lib/components/search/PostCard.svelte";
-  import Linebreak from "$lib/components/Linebreak.svelte";
+
 
   let startIndex = 0;
   const usersToShow = 3; 

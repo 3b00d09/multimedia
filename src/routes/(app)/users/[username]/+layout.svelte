@@ -41,8 +41,9 @@
         {/if}
       {/if}
     </div>
-
+      {#if data.user.bio}
     <p class="description">{data.user.bio}</p>
+    {/if}
   </div>
 
   <ProfileSections username={data.user.username}/>

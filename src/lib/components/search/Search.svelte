@@ -5,15 +5,13 @@
 </script>
 
 <ul>
-  <a href="/search/user"
+  <a href="/explore/user"
     ><li class="icon-container"><SearchBtn name={"User"} /></li></a
   >
-  <a href="/search/post"
+  <a href="/explore/post"
     ><li class="icon-container"><SearchBtn name={"post"} /></li></a
   >
-  <a href="/search"
-  ><li class="icon-container"><SearchBtn name={"Search"} /></li></a
->
+
 </ul>
 
 <style>
