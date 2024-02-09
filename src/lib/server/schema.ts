@@ -159,3 +159,32 @@ export const userFollowsTable = pgTable("user_follows",{
 		length: 15,
 	}).notNull().references(()=>usersTable.username,{onUpdate:"cascade"})
 })
+
+export const notificationsTable = pgTable("notifications",{
+	id: varchar("id",{
+		length:15,
+	}).primaryKey().notNull(),
+	sourceUser: varchar("source_user",{
+		length: 15
+	}).notNull().references(()=>{
+		return usersTable.id
+	}),
+	targetUser: varchar("target_user",{
+		length: 15
+	}).notNull().references(()=>{
+		return usersTable.id
+	}),
+	postId:varchar("post_id",{
+		length:255
+	}).references(()=>{
+		return postsTable.id
+	}),
+	commentId:varchar("post_id",{
+		length:255
+	}).references(()=>{
+		return commentsTable.id
+	}),
+	type:varchar("type",{
+		length: 15
+	}).notNull()
+})
