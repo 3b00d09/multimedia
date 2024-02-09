@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { User } from "lucia";
+  import NotificationBell from "./NotificationBell.svelte";
   export let user: User | null;
 </script>
 
@@ -10,6 +11,7 @@
       <button><a href="/login">Login</a></button>
       <button><a href="/register">Register</a></button>
     {:else}
+      <NotificationBell/>
       {`Welcome ${user.username}`}
       <button><a href="/logout">Logout</a></button>
     {/if}
@@ -22,6 +24,7 @@
   .user-info{
     justify-self: flex-end;
     display: flex;
+    align-items: center;
     gap: 1rem;
   }
 
