@@ -4,13 +4,14 @@
     import Sidenav from "$lib/components/sidenav/Sidenav.svelte";
     import RecentMessages  from "$lib/components/RecentMessages.svelte";
 
+
   export let data;
 
 </script>
 
 <main>
    
-    <Header user={data.user}/>
+    <Header user={data.user} notifications={data.notifications}/>
     <div>
         <Sidenav user={data.user?.username}/>
         <div class="main-container">

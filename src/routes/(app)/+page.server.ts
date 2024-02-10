@@ -1,6 +1,6 @@
 import { dbClient } from "$lib/server/db"
 import { auth } from "$lib/server/lucia.js"
-import { commentsTable,  postsTable, usersTable,likesPostTable } from "$lib/server/schema"
+import { commentsTable,  postsTable, usersTable,likesPostTable, notificationsTable } from "$lib/server/schema"
 import { redirect } from "@sveltejs/kit"
 import { count, desc, eq, like, sql } from "drizzle-orm"
 import {v4 as uuidv4} from "uuid"
@@ -83,15 +83,28 @@ export const actions ={
         }
 
 
+        const newCommentId = uuidv4()
         if(commentContent && commentAuthor){
             const newComment: typeof commentsTable.$inferInsert = {
-                id: uuidv4(),
+                id: newCommentId,
                 comment: commentContent,
                 author: commentAuthor,
                 post: postId,
                 date: date,
             }
             const createComment = await dbClient.insert(commentsTable).values(newComment)
+
+            if(createComment){
+                const targetUser = await dbClient.select({userId: usersTable.id}).from(postsTable).where(eq(postsTable.id, postId)).leftJoin(usersTable,eq(usersTable.username,postsTable.author))
+                await dbClient.insert(notificationsTable).values({
+                    id: uuidv4(),
+                    sourceUser: session.user.userId,
+                    targetUser: targetUser[0].userId!,
+                    postId: postId,
+                    commentId: newCommentId,
+                    type: "comment"
+                  });
+            }
         }
     },
 

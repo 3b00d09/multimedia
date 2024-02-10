@@ -1,7 +1,9 @@
 <script lang="ts">
   import type { User } from "lucia";
-  import NotificationBell from "./NotificationBell.svelte";
+  import NotificationBell from "./notification/NotificationBell.svelte";
+  import type { NotificationType } from "$lib/types";
   export let user: User | null;
+  export let notifications: NotificationType[] | undefined
 </script>
 
 <header>
@@ -11,7 +13,7 @@
       <button><a href="/login">Login</a></button>
       <button><a href="/register">Register</a></button>
     {:else}
-      <NotificationBell/>
+      <NotificationBell {notifications}/>
       {`Welcome ${user.username}`}
       <button><a href="/logout">Logout</a></button>
     {/if}

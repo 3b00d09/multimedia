@@ -1,6 +1,6 @@
 // src/routes/api/like/+server.js
 import { dbClient } from "$lib/server/db.js";
-import { likesPostTable } from "$lib/server/schema.js";
+import { likesPostTable, notificationsTable, postsTable, usersTable } from "$lib/server/schema.js";
 import { json } from "@sveltejs/kit";
 import { eq, and} from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
@@ -33,6 +33,16 @@ export async function POST( request) {
       post: postId,
       author: session.user.username,
       date: new Date(),
+    });
+
+    const targetUser = await dbClient.select({userId: usersTable.id}).from(postsTable).where(eq(postsTable.id, postId)).leftJoin(usersTable,eq(usersTable.username,postsTable.author))
+    
+    await dbClient.insert(notificationsTable).values({
+      id: uuidv4(),
+      sourceUser: session.user.userId,
+      targetUser: targetUser[0].userId!,
+      postId: postId,
+      type: "like"
     });
 
     return json({ success: true, message: "Like added successfully." });

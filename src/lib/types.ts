@@ -1,6 +1,10 @@
-import type { commentsTable, postsTable, usersTable,likesPostTable } from './server/schema';
+import type { commentsTable, postsTable, usersTable,likesPostTable, notificationsTable } from './server/schema';
 
 export type UserType = typeof usersTable.$inferSelect
+export type NotificationType = {
+    notifications: typeof notificationsTable.$inferSelect,
+    user: UserType | null
+}
 export type CommentType = typeof commentsTable.$inferSelect
 export type LikePost = typeof likesPostTable.$inferSelect
 export type PostType = typeof postsTable.$inferSelect

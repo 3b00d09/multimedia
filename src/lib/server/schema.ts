@@ -1,4 +1,4 @@
-import { pgTable, bigint, varchar, timestamp, foreignKey } from "drizzle-orm/pg-core";
+import { pgTable, bigint, varchar, timestamp, foreignKey, boolean } from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable("user", {
 	id: varchar("id", {
@@ -162,7 +162,7 @@ export const userFollowsTable = pgTable("user_follows",{
 
 export const notificationsTable = pgTable("notifications",{
 	id: varchar("id",{
-		length:15,
+		length:244,
 	}).primaryKey().notNull(),
 	sourceUser: varchar("source_user",{
 		length: 15
@@ -179,12 +179,13 @@ export const notificationsTable = pgTable("notifications",{
 	}).references(()=>{
 		return postsTable.id
 	}),
-	commentId:varchar("post_id",{
+	commentId:varchar("comment_id",{
 		length:255
 	}).references(()=>{
 		return commentsTable.id
 	}),
 	type:varchar("type",{
 		length: 15
-	}).notNull()
+	}).notNull(),
+	read:boolean("read").default(false)
 })
