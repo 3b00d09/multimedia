@@ -3,6 +3,7 @@ import { usersTable } from "$lib/server/schema";
 import { json } from "@sveltejs/kit";
 import { auth } from "$lib/server/lucia.js";
 import { eq } from "drizzle-orm";
+
 export const GET = async ({ url }) => {
   const searchQuery = url.searchParams.get("search-query");
 
@@ -44,7 +45,7 @@ export async function POST(request) {
     .update(usersTable)
     .set({ username: username })
     .where(eq(usersTable.username, session.user.username));
-    console.log(newusername)
+  console.log(newusername);
 
-  return json({ newusername,success: true, message: "Username has changed."});
+  return json({ newusername, success: true, message: "Username has changed." });
 }

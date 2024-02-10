@@ -1,37 +1,36 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
-  import Search from '$lib/components/search/Search.svelte';
-  let query: string = '';
+  import { goto } from "$app/navigation";
+
+  let query: string = "";
 
   function performSearch() {
     if (query.trim()) {
-      goto(`/explore/search?q=${encodeURIComponent(query)}`);
+      goto(`/explore/search/${encodeURIComponent(query)}`);
     }
   }
 
   function handleKeydown(event: KeyboardEvent) {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       performSearch();
     }
   }
 </script>
 
 <main>
-
   <form on:submit|preventDefault={performSearch} class="search-form">
     <input
       type="text"
       bind:value={query}
       placeholder="Search..."
-      class="search-input"  
-      on:keydown={handleKeydown} 
+      class="search-input"
+      on:keydown={handleKeydown}
     />
   </form>
-  <Search/>
+
   <slot />
 </main>
-<style>
 
+<style>
   .search-form {
     display: grid;
     width: 100%;

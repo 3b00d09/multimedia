@@ -1,6 +1,7 @@
 <script lang="ts">
   export let data;
   import PostCard from "$lib/components/search/PostCard.svelte";
+  import SearchResult from "$lib/components/search/SearchResult.svelte";
 
   let startIndex = 0;
   const itemsToShow = 3;
@@ -18,7 +19,7 @@
 
   $: visibleUsers = data.allUsers.slice(startIndex, startIndex + itemsToShow);
 </script>
-
+<SearchResult/>
 <div class="container">
   <button
     class="navigation-button left"
