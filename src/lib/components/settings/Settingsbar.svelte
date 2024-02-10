@@ -71,7 +71,7 @@
         right: 0;
         bottom :0;
         background-color: var(--action);
-        filter: drop-shadow(0px 0px 5px rgba(108, 92, 214, 0.50));
+     
         width: 2px;
     }
 </style>

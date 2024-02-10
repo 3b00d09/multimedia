@@ -4,10 +4,13 @@
   export let name: string;
 
   $: pathSegments = $page.url.pathname.split("/").filter(Boolean);
+  $: currentLocation = pathSegments[pathSegments.length - 1];
 
-  $: isActive = name.toLowerCase() === "show all"
-    ? pathSegments.length === 1 && pathSegments[0].toLowerCase() === "explore"
-    : pathSegments.length >= 1 && pathSegments.includes(name.toLowerCase());
+  $: isBasePath = pathSegments.length === 3;
+
+  $: isActive =
+    (name.toLowerCase() === currentLocation && pathSegments.length > 3) ||
+    (name === "Show All" && isBasePath);
 </script>
 
 <button class:active={isActive}>

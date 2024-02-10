@@ -29,7 +29,7 @@
 
   <div class="grid">
     {#each visibleUsers as user (user.username)}
-      <div class="user" style="background-image: url({user.imageUrl});">
+      <div class="user" style="background-image: url({user.backgroungimg});">
         <div class="info">
           <img src={user.imageUrl} alt="{user.username}'s profile picture" />
           <p>{user.username}</p>

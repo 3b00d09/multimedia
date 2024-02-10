@@ -26,6 +26,7 @@ export async function load({ url,params }) {
       username: usersTable.username,
       imageUrl: usersTable.profilePictureUrl,
       bio: usersTable.bio,
+      backgroungimg:usersTable.profileBackgroundUrl,
     })
     .from(usersTable)
     .where(ilike(usersTable.username, `%${searchQuery}%`));

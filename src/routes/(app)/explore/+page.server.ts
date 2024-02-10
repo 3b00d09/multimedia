@@ -22,6 +22,7 @@ export const load = async ({ locals }) => {
       username: usersTable.username,
       imageUrl: usersTable.profilePictureUrl,
       bio:usersTable.bio,
+      backgroungimg:usersTable.profileBackgroundUrl
     })
     .from(usersTable)
     

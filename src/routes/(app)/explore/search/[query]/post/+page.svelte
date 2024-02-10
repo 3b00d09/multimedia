@@ -12,8 +12,6 @@
 </div>
 
 <style>
-
-
   .posts-container {
     display: flex;
     flex-direction: column;

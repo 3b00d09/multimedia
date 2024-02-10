@@ -1,7 +1,7 @@
 <script lang="ts">
   import "../../../global.css";
   import SearchBtn from "./SearchBtn.svelte";
-  let displayMode = 'all';
+
 </script>
 
 <ul>
@@ -9,7 +9,11 @@
     ><li class="icon-container"><SearchBtn name={"User"} /></li></a
   >
   <a href="/explore/post"
-    ><li class="icon-container"><SearchBtn name={"post"} /></li></a
+    ><li class="icon-container"><SearchBtn name={"Post"} /></li></a
+  >
+
+  <a href="/explore"
+    ><li class="icon-container"><SearchBtn name={"Show All"} /></li></a
   >
 
 </ul>
@@ -26,5 +30,9 @@
     display: flex;
     justify-content: center;
     gap: 20px;
+  }
+  a {
+    text-decoration: none; 
+    color: inherit; 
   }
 </style>

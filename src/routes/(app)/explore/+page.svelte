@@ -5,7 +5,7 @@
 
 
   let startIndex = 0;
-  const usersToShow = 3; 
+  const usersToShow = 4; 
 
 
   $: disableLeft = startIndex <= 0;
@@ -34,7 +34,7 @@
 
   <div class="grid">
     {#each visibleUsers as user (user.username)}
-      <div class="user" style="background-image: url({user.imageUrl});">
+      <div class="user" style="background-image: url({user.backgroungimg});">
         <div class="info">
           <img src={user.imageUrl} alt="{user.username}'s profile picture" />
           <p>{user.username}</p>
@@ -72,7 +72,7 @@
   display: grid;
   gap: 2rem; 
   grid-auto-flow: column;
-  grid-auto-columns: minmax(16rem, 1fr); 
+  grid-auto-columns: minmax(14rem, 1fr); 
   overflow-x: hidden; 
   padding: 1rem 0;
   grid-template-rows: min-content;
@@ -90,6 +90,7 @@
   position: relative;
   overflow: hidden;
 }
+
 .user:hover,
   .user:focus {
     transform: translateY(-5px);
@@ -97,6 +98,7 @@
       0 10px 15px -3px rgba(0, 0, 0, 0.1),
       0 4px 6px -4px rgba(0, 0, 0, 0.1);
   }
+  
 .info {
   display: flex;
   flex-direction: column; 
@@ -127,6 +129,7 @@ p {
   max-width: 100%; 
   word-wrap: break-word; 
 }
+
 .navigation-button {
   cursor: pointer; 
   padding: 0.5rem 1rem;
