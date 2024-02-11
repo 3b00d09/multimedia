@@ -9,7 +9,12 @@
     <SectionBtn {username} name="Comments"/>
     <SectionBtn {username} name="Likes"/>
 </div>
-
+<form method="POST" action="?/uploadImage" enctype="multipart/form-data">
+    <input name="image" type="file" accept="image/png,image/jpeg"/>
+    <button type="submit">Upload</button>
+</form>
+  
+  
 
 <style>
 
