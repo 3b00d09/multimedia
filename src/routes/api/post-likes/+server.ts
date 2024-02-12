@@ -18,7 +18,7 @@ export const GET = async({url}) =>{
     }
 
     const {id, ...rest} = getTableColumns(usersTable)
-    const postLikes = await dbClient.select({...rest}).from(likesPostTable).leftJoin(usersTable,eq(usersTable.username, likesPostTable.author)).where(eq(likesPostTable.post, postId))
+    const postLikes = await dbClient.select({...rest}).from(likesPostTable).leftJoin(usersTable,eq(usersTable.id, likesPostTable.author)).where(eq(likesPostTable.post, postId))
     
     return json({success: true, data: postLikes})
 }

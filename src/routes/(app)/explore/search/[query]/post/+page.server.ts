@@ -12,13 +12,13 @@ export async function load({ url,params }) {
   const allPosts = dbClient
     .select({
       id: postsTable.id,
-      author: postsTable.author,
+      author: usersTable.username,
       content: postsTable.content,
       timestamp: postsTable.timestamp,
       imageUrl: usersTable.profilePictureUrl,
     })
     .from(postsTable)
-    .leftJoin(usersTable, eq(postsTable.author, usersTable.username))
+    .leftJoin(usersTable, eq(postsTable.author, usersTable.id))
     .where(ilike(postsTable.content, `%${searchQuery}%`));
 
 

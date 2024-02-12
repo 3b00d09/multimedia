@@ -13,14 +13,18 @@ export interface User {
     imageUrl: string;
   }
   
-export type PostWithProfileImage = PostType &{
+export type PostWithProfile = PostType &{
+    author: string,
     imageUrl: string | null,
     firstName: string | null,
     lastName: string | null
 }
 
 export type CommentWithProfileImage = CommentType &{
-    imageUrl: string | null
+    author: string,
+    imageUrl: string | null,
+    firstName: string | null,
+    lastName: string | null
 }
 
 export type AggregatedPost = { post: typeof postsTable.$inferInsert; comments: typeof commentsTable.$inferInsert[] }

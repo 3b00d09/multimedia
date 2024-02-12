@@ -22,7 +22,7 @@ export async function POST( request) {
   const existingLike = await dbClient
     .select()
     .from(likesCommentTable)
-    .where(and(eq(likesCommentTable.comment, commentId), eq(likesCommentTable.author, session.user.username)))
+    .where(and(eq(likesCommentTable.comment, commentId), eq(likesCommentTable.author, session.user.userId)))
     
     console.log(existingLike)
 
@@ -31,7 +31,7 @@ export async function POST( request) {
     await dbClient.insert(likesCommentTable).values({
       id: uuidv4(),
       comment: commentId,
-      author: session.user.username,
+      author: session.user.userId,
       date: new Date(),
     });
 
@@ -49,7 +49,7 @@ export async function GET(request) {
   }
 
   const commentId = request.url.searchParams.get('id') as string
-  const row = await dbClient .select().from(likesCommentTable).where(and(eq(likesCommentTable.comment, commentId), eq(likesCommentTable.author, session.user.username)))
+  const row = await dbClient .select().from(likesCommentTable).where(and(eq(likesCommentTable.comment, commentId), eq(likesCommentTable.author, session.user.userId)))
 
 
 return json({ success: true,liked:row.length>0 });
@@ -66,6 +66,6 @@ export async function DELETE(request) {
   const body = await request.request.json();
   const { commentId} = body;
  
-  const row = await dbClient.delete(likesCommentTable).where(and(eq(likesCommentTable.comment, commentId), eq(likesCommentTable.author, session.user.username)))
+  const row = await dbClient.delete(likesCommentTable).where(and(eq(likesCommentTable.comment, commentId), eq(likesCommentTable.author, session.user.userId)))
   return json({ success: true,message: "Like are deleted"});
 }

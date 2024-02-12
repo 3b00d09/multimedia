@@ -8,13 +8,13 @@ export const load = async ({ locals }) => {
   const allPosts = await dbClient
     .select({
       id: postsTable.id,
-      author: postsTable.author,
+      author: usersTable.username,
       content: postsTable.content,
       timestamp: postsTable.timestamp,
       imageUrl: usersTable.profilePictureUrl,
     })
     .from(postsTable)
-    .leftJoin(usersTable, eq(postsTable.author, usersTable.username))
+    .leftJoin(usersTable, eq(postsTable.author, usersTable.id))
   
  
   const allUsers = await dbClient

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { PostWithProfileImage } from "$lib/types";
+    import type { PostWithProfile } from "$lib/types";
     import { onMount } from "svelte";
     import { goto } from "$app/navigation";
     import PostLike from "./postLike.svelte";
@@ -7,7 +7,7 @@
 
     let commentCount = 0;
     let likecount = 0;
-    export let post: PostWithProfileImage;
+    export let post: PostWithProfile;
 
     let showModal:boolean = false;
 

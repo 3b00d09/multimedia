@@ -66,11 +66,8 @@ export const postsTable = pgTable("posts",{
     .notNull(),
 	author: varchar("author",{
 		length: 24
-	}).notNull().references(()=>
-		usersTable.username, {onUpdate:"cascade"}
-),
+	}).notNull().references(()=>usersTable.id),
 	timestamp: timestamp("timestamp") 
-
 })
 
 export const commentsTable = pgTable("comments",{
@@ -83,8 +80,7 @@ export const commentsTable = pgTable("comments",{
 	}).notNull(),
 	author:varchar("author",{
 		length: 24
-	}).notNull().references(()=>
-		 usersTable.username,{onUpdate:"cascade"}
+	}).notNull().references(()=>usersTable.id,{onUpdate:"cascade"}
 	),
 	post: varchar("post",{
 		length: 255
@@ -126,8 +122,7 @@ export const likesPostTable = pgTable("likes_post", {
 	}),
 	author: varchar("author", {
 					length: 24
-	}).references(() => 
-			 usersTable.username,{onUpdate:"cascade"} 
+	}).notNull().references(() => usersTable.id,{onUpdate:"cascade"} 
 	),
 	date: timestamp("date")
 });
@@ -143,8 +138,7 @@ export const likesCommentTable = pgTable("likes_comment", {
 	}),
 	author: varchar("author", {
 					length: 24
-	}).references(() => 
-				 usersTable.username,{onUpdate:"cascade"} 
+	}).notNull().references(() => usersTable.id,{onUpdate:"cascade"} 
 	),
 	date: timestamp("date")
 });
@@ -156,10 +150,10 @@ export const userFollowsTable = pgTable("user_follows",{
 	}).notNull().primaryKey(),
 	follower: varchar("follower",{
 		length: 15,
-	}).notNull().references(()=>usersTable.username,{onUpdate:"cascade"}),
+	}).notNull().references(()=>usersTable.id,{onUpdate:"cascade"}),
 	following: varchar("following",{
 		length: 15,
-	}).notNull().references(()=>usersTable.username,{onUpdate:"cascade"})
+	}).notNull().references(()=>usersTable.id,{onUpdate:"cascade"})
 })
 
 export const notificationsTable = pgTable("notifications",{

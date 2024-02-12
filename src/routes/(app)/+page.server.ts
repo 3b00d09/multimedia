@@ -1,6 +1,7 @@
 import { dbClient } from "$lib/server/db"
 import { auth } from "$lib/server/lucia.js"
 import { commentsTable,  postsTable, usersTable,likesPostTable, notificationsTable } from "$lib/server/schema"
+import type { PostWithProfile } from "$lib/types.js"
 import { redirect } from "@sveltejs/kit"
 import { count, desc, eq, like, sql } from "drizzle-orm"
 import {v4 as uuidv4} from "uuid"
@@ -20,9 +21,9 @@ export const load = async() =>{
 }
 
 async function fetchPosts(){
-    const rows = await dbClient.select({
+    const _rows = await dbClient.select({
         id:postsTable.id,
-        author: postsTable.author,
+        author: usersTable.username,
         content: postsTable.content,
         timestamp: postsTable.timestamp,
         imageUrl: usersTable.profilePictureUrl,
@@ -30,12 +31,13 @@ async function fetchPosts(){
         lastName: usersTable.lastName
     })
         .from(postsTable)
-        .leftJoin(commentsTable,eq(postsTable.id, commentsTable.post))
-        .leftJoin(usersTable,eq(postsTable.author, usersTable.username))
+        .leftJoin(usersTable,eq(postsTable.author, usersTable.id))
         .orderBy(desc(postsTable.timestamp))
         .groupBy(postsTable.id, usersTable.id)
         
-    return rows;
+    // left join is setting author to be nullable even though in the schema it is declared that it cant be null so here we
+    const rows = _rows.filter((data)=>data.author !== null)
+    return rows as PostWithProfile[];
 }
 
 export const actions ={
@@ -49,7 +51,7 @@ export const actions ={
         
         const data = await request.request.formData()
         const postContent = data.get("post-content")?.toString()
-        const postAuthor = session.user.username
+        const postAuthor = session.user.userId
         const date = new Date();
 
         if(postAuthor && postContent){
@@ -74,7 +76,7 @@ export const actions ={
 
         const data = await request.request.formData()
         const commentContent = data.get("comment-content")?.toString()
-        const commentAuthor = session.user.username
+        const commentAuthor = session.user.userId
         const date = new Date();
         const postId = data.get("post_id")?.toString();
 
@@ -95,7 +97,7 @@ export const actions ={
             const createComment = await dbClient.insert(commentsTable).values(newComment)
 
             if(createComment){
-                const targetUser = await dbClient.select({userId: usersTable.id}).from(postsTable).where(eq(postsTable.id, postId)).leftJoin(usersTable,eq(usersTable.username,postsTable.author))
+                const targetUser = await dbClient.select({userId: usersTable.id}).from(postsTable).where(eq(postsTable.id, postId)).leftJoin(usersTable,eq(usersTable.id,postsTable.author))
                 await dbClient.insert(notificationsTable).values({
                     id: uuidv4(),
                     sourceUser: session.user.userId,
@@ -118,7 +120,7 @@ export const actions ={
 
         const data = await request.request.formData()
         const replyContent = data.get("reply-content")?.toString()
-        const replyAuthor = session.user.username
+        const replyAuthor = session.user.userId
         const date = new Date();
         const parentCommentId = data.get("parent_comment_id")?.toString();
 

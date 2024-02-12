@@ -21,7 +21,7 @@ export const load = async({url, params})=>{
     })
     .from(commentsTable)
     .where(eq(commentsTable.id, commentId))
-    .leftJoin(usersTable, eq(commentsTable.author, usersTable.username))
+    .leftJoin(usersTable, eq(commentsTable.author, usersTable.id))
     .limit(1)
 
     const parentComment = _parentComment[0]
@@ -36,18 +36,18 @@ export const load = async({url, params})=>{
     })
     .from(commentsTable)
     .where(eq(commentsTable.parentCommentId, commentId))
-    .leftJoin(usersTable, eq(commentsTable.author, usersTable.username))
+    .leftJoin(usersTable, eq(commentsTable.author, usersTable.id))
 
 
     const postAuthor = await dbClient.query.usersTable.findFirst({
-        where:eq(usersTable.username, _post.author)
+        where:eq(usersTable.id, _post.author)
     })
 
     if(!postAuthor){
         throw error(500, {message: "Unknown error occured."})
     }
 
-    const post:PostWithCommentCount = {
+    const post = {
         ..._post,
         commentCount: childComments.length,
         imageUrl: postAuthor.profilePictureUrl

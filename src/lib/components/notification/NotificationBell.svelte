@@ -40,6 +40,7 @@
     .container{
         display: flex;
         flex-direction: column;
+        z-index: 9999;
     }
 
     /**https://codepen.io/lideo/pen/KKGeQG*/
