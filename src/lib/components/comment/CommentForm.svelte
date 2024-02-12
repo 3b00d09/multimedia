@@ -7,7 +7,7 @@
 
 <form method="post" action="/?/comment" use:enhance>
     <textarea name="comment-content" placeholder="Add comment..."></textarea>
-    <button class="submit-btn" type="submit">Reply</button>
+    <button class="submit-btn" type="submit">Comment</button>
     <input type="hidden" name="post_id" value={`${postId}`}/>
 </form>
 
