@@ -21,6 +21,7 @@ export const load =  async({locals, params})=>{
     const postsCount = await dbClient.select({value:count(postsTable.id)}).from(postsTable).where(eq(postsTable.author, username))
     const followerCount = await dbClient.select({value:count(userFollowsTable.id)}).from(userFollowsTable).where(ilike(userFollowsTable.following, username))
     const followingCount = await dbClient.select({value:count(userFollowsTable.id)}).from(userFollowsTable).where(ilike(userFollowsTable.follower, username))
+    
 
     if(session){
         const followers = await dbClient.

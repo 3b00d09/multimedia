@@ -44,7 +44,7 @@ export async function POST(request) {
   const newusername = await dbClient
     .update(usersTable)
     .set({ username: username })
-    .where(eq(usersTable.username, session.user.username));
+    .where(eq(usersTable.id, session.user.userId));
   console.log(newusername);
 
   return json({ newusername, success: true, message: "Username has changed." });

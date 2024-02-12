@@ -1,6 +1,6 @@
 import { dbClient } from "$lib/server/db"
 import { auth } from "$lib/server/lucia.js"
-import { commentsTable,  postsTable, usersTable,likesPostTable, notificationsTable } from "$lib/server/schema"
+import { commentsTable,  postsTable, usersTable,likesPostTable, notificationsTable, likesCommentTable } from "$lib/server/schema"
 import type { PostWithProfile } from "$lib/types.js"
 import { redirect } from "@sveltejs/kit"
 import { count, desc, eq, like, sql } from "drizzle-orm"
@@ -28,12 +28,14 @@ async function fetchPosts(){
         timestamp: postsTable.timestamp,
         imageUrl: usersTable.profilePictureUrl,
         firstName: usersTable.firstName,
-        lastName: usersTable.lastName
+        lastName: usersTable.lastName,
+        likeCount:count(likesPostTable.post)
     })
         .from(postsTable)
         .leftJoin(usersTable,eq(postsTable.author, usersTable.id))
+        .leftJoin(likesPostTable,eq(postsTable.id, likesPostTable.post))
         .orderBy(desc(postsTable.timestamp))
-        .groupBy(postsTable.id, usersTable.id)
+        .groupBy(postsTable.id, usersTable.id,likesPostTable.post)
         
     // left join is setting author to be nullable even though in the schema it is declared that it cant be null so here we
     const rows = _rows.filter((data)=>data.author !== null)

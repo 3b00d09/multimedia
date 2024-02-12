@@ -8,6 +8,7 @@ export type NotificationType = {
 export type CommentType = typeof commentsTable.$inferSelect
 export type LikePost = typeof likesPostTable.$inferSelect
 export type PostType = typeof postsTable.$inferSelect
+
 export interface User {
     username: string;
     imageUrl: string;
@@ -17,7 +18,8 @@ export type PostWithProfile = PostType &{
     author: string,
     imageUrl: string | null,
     firstName: string | null,
-    lastName: string | null
+    lastName: string | null,
+    likeCount:number
 }
 
 export type CommentWithProfileImage = CommentType &{

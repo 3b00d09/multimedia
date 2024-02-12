@@ -6,23 +6,13 @@
     import LikesModal from "../LikesModal.svelte";
 
     let commentCount = 0;
-    let likecount = 0;
+  
     export let post: PostWithProfile;
 
     let showModal:boolean = false;
 
     let days: number;
 
-    const fetchLikeCount = async () => {
-        const response = await fetch(`/api/counter?src=post&id=${post.id}`);
-        if (response.ok) {
-            const data = await response.json();
-            if (data.success) {
-                likecount = data.likesCount;
-                commentCount = data.commentCount;
-            }
-        }
-    };
 
     onMount(() => {
         const originalTime = post.timestamp!.getTime();
@@ -30,8 +20,9 @@
         const diffHours = (currTime - originalTime) / 3600000;
 
         days = Math.floor(diffHours / 24);
+     
 
-        fetchLikeCount();
+       
     });
 
     const navigateToPost = () => goto(`/post/${post.id}`);
@@ -67,11 +58,9 @@
     <div class="post-content"><p>{post.content}</p></div>
     <div class="icons-container">
         <button>
-            <PostLike {post} />
-            <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-            <p on:click|self={()=>showModal = true}>
-                {likecount}
-            </p>
+            <PostLike {post} likecount={post.likeCount}/>
+           
+            
         </button>
 
         <button>
