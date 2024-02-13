@@ -1,106 +1,45 @@
 <script lang="ts">
-  import { createEventDispatcher, onDestroy } from "svelte";
-  import LoadingSpinner from "./LoadingSpinner.svelte";
+    import { createEventDispatcher, onMount } from "svelte";
+    export let visable:boolean = false;
 
-  type response = {
-    username: string;
-    profilePictureUrl: string;
-  }[];
+    const dispatch = createEventDispatcher()
 
-  export let postId: string;
-  export let visable: boolean = false;
+    let likes;
 
-  const dispatch = createEventDispatcher();
-
-  let promise: Promise<response>;
-
-  const toggleOff = () => {
-    visable = !visable;
-    dispatch("toggle");
-  };
-
-  async function fetchUsers() {
-    const data = await fetch(`/api/post-likes/?post=${postId}`);
-    const res = await data.json();
-    if (res.error) {
-      return Promise.reject(res.message);
+    const toggleOff = () =>{
+        visable = !visable;
+        dispatch("toggle")
     }
-    return res.data;
-  }
 
-  $: {
-    if (visable) {
-      promise = fetchUsers();
-    }
-  }
+    onMount(async()=>{
+        const data = await fetch("")
+    })
 
-  onDestroy(() => {
-    visable = false;
-  });
 </script>
 
-<button class="modal" class:visable on:click={toggleOff}>
-  {#await promise}
-    <LoadingSpinner />
-  {:then likes}
-    {#if likes}
-      {#if likes.length === 0}
-        <p>no users found</p>
-      {:else}
-        <div class="users-container">
-          {#each likes as user}
-            <a href={`/users/${user.username}`} class="user">
-              <img src={user.profilePictureUrl} alt="Profile Icon" />
-              <p>{user.username}</p>
-            </a>
-          {/each}
-        </div>
-      {/if}
-    {/if}
-  {:catch error}
-    <p>{error}</p>
-  {/await}
-</button>
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<div class="modal" class:visable={visable} on:click={toggleOff}>
+    <p>HELLO</p>
+</div>
+
 
 <style>
-  .modal {
-    all: unset;
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.4);
-    justify-content: center;
-    align-items: center;
-    backdrop-filter: blur(4px);
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.4);
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(4px);
   }
 
-  .visable {
-    display: flex;
-  }
-
-  .users-container {
-    display: grid;
-    gap: 1rem;
-  }
-
-  .user > img {
-    border-radius: 50%;
-    object-fit: cover;
-    width: 5rem;
-    height: 5rem;
-  }
-  .user {
-    text-decoration: none;
-    color: inherit;
-    border-radius: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 3rem;
-    padding: 1rem;
-    background: rgba(5, 5, 5, 0.8);
-  }
+    .visable{
+        display: flex;
+    }
 </style>

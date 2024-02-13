@@ -1,7 +1,7 @@
 import { getPosts } from "$lib/server/data/posts.js"
 import { dbClient } from "$lib/server/db"
 import { auth } from "$lib/server/lucia.js"
-import { commentsTable,  postsTable, usersTable,likesPostTable, notificationsTable } from "$lib/server/schema"
+import { commentsTable,  postsTable, usersTable,likesPostTable, notificationsTable, likesCommentTable } from "$lib/server/schema"
 import type { PostWithProfile } from "$lib/types.js"
 import { redirect } from "@sveltejs/kit"
 import { count, desc, eq, like, sql } from "drizzle-orm"

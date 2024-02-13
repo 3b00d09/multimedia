@@ -6,7 +6,7 @@
     import LikesModal from "../LikesModal.svelte";
 
     let commentCount = 0;
-    let likecount = 0;
+  
     export let post: PostWithProfile;
 
     let showModal:boolean = false;
@@ -19,7 +19,9 @@
         const diffHours = (currTime - originalTime) / 3600000;
 
         days = Math.floor(diffHours / 24);
+     
 
+       
     });
 
     const navigateToPost = () => goto(`/post/${post.post.id}`);
@@ -55,11 +57,9 @@
     <div class="post-content"><p>{post.post.content}</p></div>
     <div class="icons-container">
         <button>
-            <PostLike post={post.post} />
-            <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-            <p on:click|self={()=>showModal = true}>
-                {post.post.likeCount}
-            </p>
+            <PostLike {post} likecount={post.likeCount}/>
+           
+            
         </button>
 
         <button>
