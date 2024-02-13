@@ -10,7 +10,7 @@
 <Search />
 {#if data.allPosts && data.allPosts.length > 0}
   <div class="grid">
-    {#each data.allPosts as post (post.id)}
+    {#each data.allPosts as post}
       <div class="post">
         <Post {post} />
         <Linebreak />

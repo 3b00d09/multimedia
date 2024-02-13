@@ -10,22 +10,20 @@ import { redirect } from "@sveltejs/kit";
 import { and, eq, ilike } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
 import { SUPABASE_URL, KEY } from "$env/static/private";
+import { getPostByUser } from "$lib/server/data/posts.js";
 export const load = async ({ params }) => {
   const username = params.username;
 
-  const userPosts = await dbClient
-    .select({
-      id: postsTable.id,
-      author: postsTable.author,
-      content: postsTable.content,
-      timestamp: postsTable.timestamp,
-      imageUrl: usersTable.profilePictureUrl,
-    })
-    .from(postsTable)
-    .where(ilike(postsTable.author, username))
-    .leftJoin(usersTable, eq(postsTable.author, usersTable.username))
-    .orderBy(postsTable.timestamp)
-    .groupBy(postsTable.id, usersTable.id);
+  const user = await dbClient
+    .select()
+    .from(usersTable)
+    .where(eq(usersTable.username, username));
+
+  if (!user[0]) {
+    return { 404: "explosion" };
+  }
+
+  const userPosts = getPostByUser(user[0].id);
 
   return {
     userPosts,
@@ -49,24 +47,20 @@ export const actions = {
       .where(ilike(usersTable.username, username));
     const followedUser = _followedUser[0].username;
 
-    const row = await dbClient
-      .insert(userFollowsTable)
-      .values({
-        follower: session.user.username,
-        following: followedUser,
-        id: uuidv4(),
-      });
+    const row = await dbClient.insert(userFollowsTable).values({
+      follower: session.user.username,
+      following: followedUser,
+      id: uuidv4(),
+    });
   },
 
   uploadImage: async (request) => {
- 
     const authRequest = auth.handleRequest(request);
     const session = await authRequest.validate();
 
     if (!session) {
       throw redirect(301, "/login");
     }
-
 
     const imageUUID = uuidv4();
     const fileName = `image_${imageUUID}.JPG`;

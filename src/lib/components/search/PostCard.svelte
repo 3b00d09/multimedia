@@ -1,8 +1,7 @@
-<script>
-  /**
-   * @type {any}
-   */
-   export let post;
+<script lang="ts">
+  import type{PostWithProfile} from "$lib/types"
+
+  export let post: PostWithProfile;
   import Linebreak from "$lib/components/Linebreak.svelte";
   import Post from "$lib/components/post/Post.svelte";
 </script>

@@ -1,3 +1,4 @@
+import { getPosts } from "$lib/server/data/posts.js"
 import { dbClient } from "$lib/server/db"
 import { auth } from "$lib/server/lucia.js"
 import { commentsTable,  postsTable, usersTable,likesPostTable, notificationsTable } from "$lib/server/schema"
@@ -6,38 +7,16 @@ import { redirect } from "@sveltejs/kit"
 import { count, desc, eq, like, sql } from "drizzle-orm"
 import {v4 as uuidv4} from "uuid"
 
-// until i figure out how to infer type from joined select
-export type PostsJoined = ReturnType<Awaited<typeof fetchPosts>>
 
 type Post = typeof postsTable.$inferInsert
 type Comment = typeof commentsTable.$inferInsert
 
 export const load = async() =>{
-    const rows = await fetchPosts()
+    const rows = await getPosts()
   
     return {
         rows
     }
-}
-
-async function fetchPosts(){
-    const _rows = await dbClient.select({
-        id:postsTable.id,
-        author: usersTable.username,
-        content: postsTable.content,
-        timestamp: postsTable.timestamp,
-        imageUrl: usersTable.profilePictureUrl,
-        firstName: usersTable.firstName,
-        lastName: usersTable.lastName
-    })
-        .from(postsTable)
-        .leftJoin(usersTable,eq(postsTable.author, usersTable.id))
-        .orderBy(desc(postsTable.timestamp))
-        .groupBy(postsTable.id, usersTable.id)
-        
-    // left join is setting author to be nullable even though in the schema it is declared that it cant be null so here we
-    const rows = _rows.filter((data)=>data.author !== null)
-    return rows as PostWithProfile[];
 }
 
 export const actions ={

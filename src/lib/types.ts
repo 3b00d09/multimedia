@@ -12,12 +12,14 @@ export interface User {
     username: string;
     imageUrl: string;
   }
-  
-export type PostWithProfile = PostType &{
-    author: string,
-    imageUrl: string | null,
-    firstName: string | null,
-    lastName: string | null
+
+export type PostWithProfile = {
+    post:PostType &
+    {
+        likeCount: number,
+        commentCount: number
+    }, 
+    author: UserType,
 }
 
 export type CommentWithProfileImage = CommentType &{

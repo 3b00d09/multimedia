@@ -18,9 +18,9 @@ export const load =  async({locals, params})=>{
     if(_user.length === 0){
         throw redirect(301, "/")
     }
-    const postsCount = await dbClient.select({value:count(postsTable.id)}).from(postsTable).where(eq(postsTable.author, username))
-    const followerCount = await dbClient.select({value:count(userFollowsTable.id)}).from(userFollowsTable).where(ilike(userFollowsTable.following, username))
-    const followingCount = await dbClient.select({value:count(userFollowsTable.id)}).from(userFollowsTable).where(ilike(userFollowsTable.follower, username))
+    const postsCount = await dbClient.select({value:count(postsTable.id)}).from(postsTable).where(eq(postsTable.author, _user[0].id))
+    const followerCount = await dbClient.select({value:count(userFollowsTable.id)}).from(userFollowsTable).where(ilike(userFollowsTable.following, _user[0].id))
+    const followingCount = await dbClient.select({value:count(userFollowsTable.id)}).from(userFollowsTable).where(ilike(userFollowsTable.follower, _user[0].id))
 
     if(session){
         const followers = await dbClient.
@@ -28,8 +28,8 @@ export const load =  async({locals, params})=>{
         .from(userFollowsTable)
         .where(
             and(
-                ilike(userFollowsTable.follower, session.user.username),
-                ilike(userFollowsTable.following, username)
+                ilike(userFollowsTable.follower, session.user.userId),
+                ilike(userFollowsTable.following, session.user.userId)
             )
         )
 

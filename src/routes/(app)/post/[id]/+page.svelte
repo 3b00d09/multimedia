@@ -11,11 +11,11 @@
     <Post post={data.post} />
   {/if}
 
-  <CommentForm postId={data.post.id} />
+  <CommentForm postId={data.post.post.id} />
 
   <div>
     {#each data.comments as comment}
-      <Comment {comment} postId={data.post.id} />
+      <Comment {comment} postId={data.post.post.id} />
     {/each}
   </div>
 </div>

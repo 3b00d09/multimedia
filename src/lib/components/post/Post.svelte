@@ -13,31 +13,19 @@
 
     let days: number;
 
-    const fetchLikeCount = async () => {
-        const response = await fetch(`/api/counter?src=post&id=${post.id}`);
-        if (response.ok) {
-            const data = await response.json();
-            if (data.success) {
-                likecount = data.likesCount;
-                commentCount = data.commentCount;
-            }
-        }
-    };
-
     onMount(() => {
-        const originalTime = post.timestamp!.getTime();
+        const originalTime = post.post.timestamp!.getTime();
         const currTime = new Date().getTime();
         const diffHours = (currTime - originalTime) / 3600000;
 
         days = Math.floor(diffHours / 24);
 
-        fetchLikeCount();
     });
 
-    const navigateToPost = () => goto(`/post/${post.id}`);
+    const navigateToPost = () => goto(`/post/${post.post.id}`);
 </script>
 
-<LikesModal visable={showModal} postId={post.id} on:toggle={()=>showModal = false}/>
+<LikesModal visable={showModal} postId={post.post.id} on:toggle={()=>showModal = false}/>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -47,13 +35,13 @@
             <a href={`/users/${post.author}`}>
                 <img
                     class="profile-image"
-                    src={post.imageUrl}
+                    src={post.author.profilePictureUrl}
                     alt="Profile icon"
                 />
-                {#if post.firstName || post.lastName}
+                {#if post.author.firstName || post.author.lastName}
                     <div>
-                        <p class="author-name">{`${post.firstName ? post.firstName.concat(" ",post.lastName || "")  : "" + post.lastName ? post.lastName : ""}`}</p>
-                        <p class="author-secondary">{"@" + post.author}</p>
+                        <p class="author-name">{`${post.author.firstName ? post.author.firstName.concat(" ",post.author.lastName || "")  : "" + post.author.lastName ? post.author.lastName : ""}`}</p>
+                        <p class="author-secondary">{"@" + post.post.author}</p>
                     </div>
                 {:else}
                     <p class="author">{post.author}</p>
@@ -64,19 +52,19 @@
 
         <p>...</p>
     </div>
-    <div class="post-content"><p>{post.content}</p></div>
+    <div class="post-content"><p>{post.post.content}</p></div>
     <div class="icons-container">
         <button>
-            <PostLike {post} />
+            <PostLike post={post.post} />
             <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
             <p on:click|self={()=>showModal = true}>
-                {likecount}
+                {post.post.likeCount}
             </p>
         </button>
 
         <button>
             <img src="/images/icons/comment.png" alt="Reply Icon" />
-            <p>{commentCount}</p>
+            <p>{post.post.commentCount}</p>
         </button>
         <button
             ><img

@@ -1,12 +1,12 @@
 import { dbClient } from '$lib/server/db.js';
 import { commentsTable, postsTable, usersTable } from '$lib/server/schema.js';
-import type { CommentWithProfileImage, PostWithProfileImage } from '$lib/types';
+import type { CommentWithProfileImage, PostWithProfile } from '$lib/types';
 import { redirect } from '@sveltejs/kit';
 import { eq, and, isNull, getTableColumns } from 'drizzle-orm';
 import { alias } from 'drizzle-orm/pg-core';
 
 type commentWithPost = {
-    post: PostWithProfileImage,
+    post: PostWithProfile,
     comment: CommentWithProfileImage
 }[]
 

@@ -12,13 +12,13 @@
     {#if data}
       <Post post={data.post} />
 
-      <CommentFrom postId={data.post.id}/>
+      <CommentFrom postId={data.post.post.id}/>
 
-      <Comment postId={data.post.id} comment={data.parentComment} />
+      <Comment postId={data.post.post.id} comment={data.parentComment} />
 
     <div class="replies">
         {#each data.childComments as reply}
-            <Comment postId={data.post.id} comment={reply}/>
+            <Comment postId={data.post.post.id} comment={reply}/>
         {/each}
     </div>
     {/if}

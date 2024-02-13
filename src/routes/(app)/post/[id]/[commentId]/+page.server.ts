@@ -1,3 +1,4 @@
+import { getPostById } from '$lib/server/data/posts.js'
 import { dbClient } from '$lib/server/db.js'
 import { commentsTable, postsTable, usersTable } from '$lib/server/schema.js'
 import type { CommentWithProfileImage, PostWithProfile } from '$lib/types.js'
@@ -8,11 +9,9 @@ export const load = async({url, params})=>{
     const commentId = params.commentId
     const postId = params.id
 
-    const _post = await dbClient.query.postsTable.findFirst({
-        where:eq(postsTable.id, postId)
-    }) as PostWithProfile
+    const post = await getPostById(postId)
     
-    if(!_post){
+    if(!post){
         throw error(500, {message:"Post not found."})
     }
 
@@ -45,22 +44,15 @@ export const load = async({url, params})=>{
 
 
     const postAuthor = await dbClient.query.usersTable.findFirst({
-        where:eq(usersTable.id, _post.author)
+        where:eq(usersTable.id, post.author.id)
     })
 
     if(!postAuthor){
         throw error(500, {message: "Unknown error occured."})
     }
 
-    const post = {
-        ..._post,
-        commentCount: childComments.length,
-        imageUrl: postAuthor.profilePictureUrl
-    }
-
-
     return {
-        post, childComments, postAuthor, parentComment
+        post, childComments, parentComment
     }
 
 }
