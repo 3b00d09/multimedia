@@ -1,7 +1,7 @@
 import { postsTable, usersTable, likesPostTable, commentsTable, } from "../schema";
 import { dbClient } from "../db";
 import {eq, desc, getTableColumns, count, like} from "drizzle-orm"
-import type { PostWithProfile } from "$lib/types";
+import type {PostWithProfile} from "../../types"
 
 export async function getPosts(){
 

@@ -2,7 +2,7 @@
   import type { PostType } from "$lib/types";
   import { onMount } from "svelte";
 
-  export let post: PostType;
+  export let postId: string;
 
   let liked = false;
  export let likecount: Number;
@@ -13,7 +13,7 @@
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ postId: post.id }),
+      body: JSON.stringify({ postId: postId }),
     });
 
     const data = await response.json();
@@ -26,7 +26,7 @@
   }
 
   const fetchLikeCount = async () => {
-        const response = await fetch(`/api/counter?src=post&id=${post.id}`);
+        const response = await fetch(`/api/counter?src=post&id=${postId}`);
         if (response.ok) {
             const data = await response.json();
             if (data.success) {
@@ -36,7 +36,7 @@
     };
 
   onMount(async()=>{
-    const data = await fetch(`/api/likes/PostLikes?id=${post.id}`)
+    const data = await fetch(`/api/likes/PostLikes?id=${postId}`)
     const res = await data.json()
     liked = res.liked;
  

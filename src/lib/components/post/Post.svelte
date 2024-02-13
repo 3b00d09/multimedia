@@ -57,7 +57,7 @@
     <div class="post-content"><p>{post.post.content}</p></div>
     <div class="icons-container">
         <button>
-            <PostLike {post} likecount={post.likeCount}/>
+            <PostLike postId={post.post.id} likecount={post.post.likeCount}/>
            
             
         </button>
