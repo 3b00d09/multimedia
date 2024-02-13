@@ -13,7 +13,7 @@
                 <div style="margin-left: 2rem; margin-bottom: 1rem;">
                     <Comment postId={comment.post.id} comment={comment.comment}/>
                 </div>
-                <Linebreak/>
+               
             </div>   
         {/each}
     </div>

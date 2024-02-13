@@ -54,7 +54,7 @@ export const actions = {
     });
   },
 
-  uploadImage: async (request) => {
+  updateProfileImage: async (request) => {
     const authRequest = auth.handleRequest(request);
     const session = await authRequest.validate();
 
@@ -95,6 +95,25 @@ export const actions = {
     } else {
       console.log("Failed to upload image");
     }
+  },
+
+  deleteProfileImage: async (request) => {
+    const authRequest = auth.handleRequest(request);
+    const session = await authRequest.validate();
+
+    if (!session) {
+      throw redirect(301, "/login");
+    }
+
+    const defaultImageUrl =
+      "https://ikcxvcutdjftdsvbpwsa.supabase.co/storage/v1/object/sign/profile-images/default-img.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJwcm9maWxlLWltYWdlcy9kZWZhdWx0LWltZy5wbmciLCJpYXQiOjE3MDM0ODg4NjYsImV4cCI6MjAxODg0ODg2Nn0.EeYXUptq697XMxEb5XpbVTtwzm2qwrI2w8cxrD4OySk&t=2023-12-25T07%3A21%3A06.400Z";
+
+    await dbClient
+      .update(usersTable)
+      .set({ profilePictureUrl: defaultImageUrl })
+      .where(eq(usersTable.username, session.user.username));
+
+    console.log("Profile image set to default successfully", defaultImageUrl);
   },
 
   unfollow: async (request) => {
