@@ -3,13 +3,13 @@
     import Comment from '$lib/components/comment/Comment.svelte';
     import CommentFrom from "$lib/components/comment/CommentForm.svelte"
 
-    export let data;
+    //export let data;
 
 </script>
 
 
 <div>
-    {#if data}
+    <!-- {#if data}
       <Post post={data.post} />
 
       <CommentFrom postId={data.post.post.id}/>
@@ -21,7 +21,9 @@
             <Comment postId={data.post.post.id} comment={reply}/>
         {/each}
     </div>
-    {/if}
+    {/if} -->
+
+    <p>TO FIX</p>
     
 </div>
 
@@ -32,7 +34,7 @@
     padding: 1rem;
   }
 
-  .replies{
+  /* .replies{
     margin-left: 1.75rem;
-  }
+  } */
 </style>

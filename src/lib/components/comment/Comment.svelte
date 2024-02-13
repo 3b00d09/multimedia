@@ -1,47 +1,22 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import ReplyForm from "./ReplyForm.svelte";
-    import type { CommentWithProfileImage } from "$lib/types";
+    import type { CommentWithProfile } from "$lib/types";
     import { goto } from "$app/navigation";
     import CommentLike from "./CommentLike.svelte";
     
 
-    let repliesCount = 0;
-    let likeCount = 0;
-    type commentType = CommentWithProfileImage
-    export let comment: commentType
+    export let comment: CommentWithProfile
 
-    let replies: commentType[];
     let activeReply:boolean = false;
     export let postId: string;
 
-
-    const fetchLikeCount = async () => {
-        const response = await fetch(`/api/counter?src=comment&id=${comment.id}`);
-        if (response.ok) {
-            const data = await response.json();
-            if (data.success) {
-                likeCount = data.count;
-                repliesCount = data.replyCount;
-            }
-        }
-    };
-
-
-    const fetchReplies = async() =>{
-        const data = await fetch(`/api/fetchReplies/?id=${comment.id}`)
-        const res = await data.json()
-        replies = res
-    }
-
     const navigateToComment = () =>{
-        goto(`/post/${postId}/${comment.id}`)
+        goto(`/post/${postId}/${comment.comment.id}`)
     }
 
-    onMount(async()=>{
-        fetchReplies();
-        fetchLikeCount();
-    
+    onMount(()=>{
+        console.log(comment)
     })
 
 </script>
@@ -50,21 +25,21 @@
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div class="comment-container" on:click|self={navigateToComment}>
     <div class="comment-author" on:click|self={navigateToComment}>
-            <img class="profile-image" src={comment.imageUrl} alt="Profile icon"/>
-            <p class="author">{comment.author}</p>
+            <img class="profile-image" src={comment.author.profilePictureUrl} alt="Profile icon"/>
+            <p class="author">{comment.author.username}</p>
             <p class="timestamp">{`.${"3"}d`}</p>
     </div>
-    <div class="comment-content">{comment.comment}</div>
+    <div class="comment-content">{comment.comment.comment}</div>
     <div class="icons-container">
-        <CommentLike {comment}/>
-        <span class="like-count">{likeCount}</span>
+        <CommentLike comment = {comment.comment}/>
+        <span class="like-count">{comment.comment.likeCount}</span>
         <button on:click={()=>{activeReply = !activeReply}}><img src ="/images/icons/reply.png" alt="Reply Icon"></button>
-        <p>{repliesCount}</p>
+        <p>{comment.comment.replyCount}</p>
         <button><img src ="/images/icons/forward.png" alt="Direct Message Icon"></button>
     </div>
 
     {#if activeReply}
-        <ReplyForm commentId={comment.id}/>
+        <ReplyForm commentId={comment.comment.id}/>
     {/if}
 </div>
 

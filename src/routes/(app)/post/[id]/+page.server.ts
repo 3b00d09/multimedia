@@ -4,6 +4,7 @@ import { eq, getTableColumns } from 'drizzle-orm'
 import { error } from '@sveltejs/kit'
 import type { CommentWithProfileImage, PostWithProfile } from '$lib/types'
 import { getPostById } from '$lib/server/data/posts.js'
+import { getComments } from '$lib/server/data/comments.js'
 
 
 export const load = async({params})=>{
@@ -16,21 +17,7 @@ export const load = async({params})=>{
         throw error(500, {message:"Post not found."})
     }
 
-    const comments = await dbClient
-    .select({
-        id: commentsTable.id,
-        comment: commentsTable.comment,
-        date: commentsTable.date,
-        author: usersTable.username,
-        imageUrl: usersTable.profilePictureUrl,
-        firstName: usersTable.firstName,
-        lastName: usersTable.lastName,
-        parentCommentId: commentsTable.parentCommentId,
-        post: commentsTable.post
-    })
-    .from(commentsTable)
-    .where(eq(commentsTable.post, postId))
-    .leftJoin(usersTable, eq(commentsTable.author, usersTable.id)) as CommentWithProfileImage[]
+    const comments = await getComments(postId)
 
     return {
         post, comments,

@@ -25,7 +25,7 @@ export async function getPosts(){
         if(data.post.commentCount === null){
             data.post.commentCount = 0
         }
-        else if (data.post.likeCount === null){
+        if (data.post.likeCount === null){
             data.post.likeCount = 0
         }
         return data

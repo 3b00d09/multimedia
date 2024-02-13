@@ -23,6 +23,15 @@ export type PostWithProfile = {
     author: UserType,
 }
 
+export type CommentWithProfile = {
+    comment: CommentType &
+    {
+        likeCount: number,
+        replyCount: number
+    },
+    author: UserType
+}
+
 export type CommentWithProfileImage = CommentType &{
     author: string,
     imageUrl: string | null,
