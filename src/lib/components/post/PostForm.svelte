@@ -13,14 +13,14 @@
             name="video" 
             type="file"
             accept="video/mp4,video/x-m4v,video/*" 
-            hidden> 
+           > 
         <input
             bind:this={imageInput}
             class="file-input"
             name="pictureUrl"
             type="file"
             accept="image/png,image/jpeg"
-            hidden>
+           >
         <div class="icons-container">
             <div class="post-icons">
                 <button on:click={() => videoInput.click()}><img src="/images/icons/upload-video.png" alt="Upload Video Icon"></button>
@@ -57,9 +57,6 @@
         border: 0;
         padding: 0;
     }
-    .file-input {
-  display: none; /* This makes the input invisible but still functional */
-}
     button > img{
         width: 100%;
     }

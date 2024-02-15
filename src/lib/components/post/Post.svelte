@@ -58,7 +58,7 @@
             <p class="author-secondary">{"@" + post.post.author}</p>
           </div>
         {:else}
-          <p class="author">{post.author}</p>
+          <p class="author">{post.author.username}</p>
         {/if}
       </a>
       <p class="timestamp">{`.${days}d`}</p>
