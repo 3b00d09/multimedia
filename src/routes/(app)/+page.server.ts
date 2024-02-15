@@ -37,8 +37,8 @@ export const actions = {
     const data1 = await request.request.formData();
     const postContent = data1.get("post-content")?.toString();
     const postAuthor = session.user.userId;
-   if (!postAuthor || !postContent) {
-      return {error:"missing field"};
+    if (!postAuthor || !postContent) {
+      return new Response("Missing fields", { status: 500 });
     }
 
     const date = new Date();
