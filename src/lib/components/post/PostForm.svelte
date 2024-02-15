@@ -57,9 +57,6 @@
         border: 0;
         padding: 0;
     }
-    .file-input {
-  display: none; /* This makes the input invisible but still functional */
-}
     button > img{
         width: 100%;
     }
