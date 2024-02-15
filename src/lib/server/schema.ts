@@ -64,6 +64,12 @@ export const postsTable = pgTable("posts",{
         length: 255,
     })
     .notNull(),
+		videoUrl: varchar("video_url", {
+			length: 255,
+	}),
+	pictureUrl: varchar("picture_url", {
+		length: 255,
+}),
 	author: varchar("author",{
 		length: 24
 	}).notNull().references(()=>usersTable.id),
