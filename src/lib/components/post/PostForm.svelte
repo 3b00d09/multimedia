@@ -2,10 +2,23 @@
   import { enhance } from "$app/forms";
 
 </script>
-<form use:enhance method="POST" action="?/post">
+<form use:enhance method="POST" action="?/post" enctype="multipart/form-data">
     <i class="fa-solid fa-circle-user fa-2xl"></i>
     <div class="container">
         <textarea name="post-content" placeholder="How was your day?"></textarea>
+       <input
+            id="file"
+            class="file-input"
+            name="video" 
+            type="file"
+            accept="video/mp4,video/x-m4v,video/*" > 
+            <input
+            id="file"
+            class="file-input"
+            name="pictureUrl"
+            type="file"
+            accept="image/png,image/jpeg"
+          />
         <div class="icons-container">
             <div class="post-icons">
                 <!-- svelte-ignore a11y-img-redundant-alt -->
@@ -18,7 +31,14 @@
     </div>
 </form>
 
+
+
+
+
 <style>
+    .file-input2{
+        color: red;
+    }
     form{
         display: flex;
         gap: 1rem;

@@ -54,7 +54,18 @@
 
         <p>...</p>
     </div>
-    <div class="post-content"><p>{post.post.content}</p></div>
+    <div class="post-content">
+        <p>{post.post.content}</p>
+        {#if post.post.pictureUrl }
+            <img src={post.post.pictureUrl} alt="Description of image"><img>
+        {/if}
+
+        {#if post.post.videoUrl }
+        <video src ={post.post.videoUrl} controls width="300px" height="auto" ><track kind="captions"> </video> 
+    {/if}
+      
+        
+    </div>
     <div class="icons-container">
         <button>
             <PostLike postId={post.post.id} likecount={post.post.likeCount}/>
