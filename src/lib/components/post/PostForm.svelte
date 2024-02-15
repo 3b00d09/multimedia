@@ -1,29 +1,31 @@
-<script>
+<script lang="ts">
   import { enhance } from "$app/forms";
-
+  let videoInput: HTMLInputElement;
+  let imageInput: HTMLInputElement;
 </script>
 <form use:enhance method="POST" action="?/post" enctype="multipart/form-data">
     <i class="fa-solid fa-circle-user fa-2xl"></i>
     <div class="container">
         <textarea name="post-content" placeholder="How was your day?"></textarea>
-       <input
-            id="file"
+        <input
+            bind:this={videoInput}
             class="file-input"
             name="video" 
             type="file"
-            accept="video/mp4,video/x-m4v,video/*" > 
-            <input
-            id="file"
+            accept="video/mp4,video/x-m4v,video/*" 
+            hidden> 
+        <input
+            bind:this={imageInput}
             class="file-input"
             name="pictureUrl"
             type="file"
             accept="image/png,image/jpeg"
-          />
+            hidden>
         <div class="icons-container">
             <div class="post-icons">
+                <button on:click={() => videoInput.click()}><img src="/images/icons/upload-video.png" alt="Upload Video Icon"></button>
                 <!-- svelte-ignore a11y-img-redundant-alt -->
-                <button><img src="/images/icons/upload-image.png" alt="Upload Image Icon"></button>
-                <button><img src="/images/icons/upload-video.png" alt="Upload Video Icon"></button>
+                <button on:click={() => imageInput.click()}><img src="/images/icons/upload-image.png" alt="Upload Image Icon"></button>
                 <button><img src="/images/icons/upload-gif.png" alt="Upload GIF Icon"></button>
             </div>
             <button class="submit-btn" type="submit">Post</button>
@@ -34,11 +36,8 @@
 
 
 
-
 <style>
-    .file-input2{
-        color: red;
-    }
+   
     form{
         display: flex;
         gap: 1rem;
@@ -58,7 +57,9 @@
         border: 0;
         padding: 0;
     }
-
+    .file-input {
+  display: none; /* This makes the input invisible but still functional */
+}
     button > img{
         width: 100%;
     }

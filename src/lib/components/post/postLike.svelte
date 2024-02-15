@@ -62,8 +62,11 @@
 
 <style>
   button {
+    
     all: unset;
+    
   }
+
   img.like {
     width: 1.6rem; 
     height: auto; 
