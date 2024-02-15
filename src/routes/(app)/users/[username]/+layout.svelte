@@ -2,7 +2,7 @@
   import { enhance } from "$app/forms";
   import ProfileSections from "$lib/components/profile/ProfileSections.svelte";
   import Linebreak from "$lib/components/Linebreak.svelte";
-  import SearchBar from "$lib/components/SearchBar.svelte";
+
 
   export let data;
 
