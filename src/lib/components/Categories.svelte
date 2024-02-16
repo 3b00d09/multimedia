@@ -1,20 +1,22 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import SearchBar from "./SearchBar.svelte";
+  import { page } from "$app/stores";
+  
+    let currentLocation:string = "";
+    onMount(()=>currentLocation=window.location.pathname)
 
-
-    let btnContainer: HTMLDivElement;
-    const setActive = (e:MouseEvent & { currentTarget: HTMLButtonElement; }) =>{
-        btnContainer.querySelectorAll("button").forEach((btn)=>{
-            btn.classList.remove("active")
-        })
-
-        e.currentTarget.classList.add("active")
+    $:{
+        let path = $page.url.pathname.split("/")
+        currentLocation = path[1]
+        currentLocation = currentLocation
     }
+
 </script>
 <SearchBar/>
-<div bind:this={btnContainer} class="categories-header">
-    <button class="active" on:click={setActive}>For You</button>
-    <button on:click={setActive}>Following</button>
+<div class="categories-header">
+    <a href="/"><button class:active={currentLocation.length === 0}>For You</button></a>
+    <a href="/following"><button class:active={currentLocation === "following"}>Following</button></a>
 </div>
 <ul>
     <li>Comedy</li>
@@ -25,7 +27,9 @@
 
 
 <style>
-
+    a{
+        all:unset;
+    }
     .categories-header{
         display: flex;
         justify-content: center;
