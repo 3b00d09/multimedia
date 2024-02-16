@@ -1,27 +1,62 @@
 <script lang="ts">
-    import { createEventDispatcher, onMount } from "svelte";
+    import { createEventDispatcher, onDestroy, onMount } from "svelte";
+    import LoadingSpinner from "./LoadingSpinner.svelte";
     export let visable:boolean = false;
-
-    const dispatch = createEventDispatcher()
-
+    type response = {
+        username: string;
+        profilePictureUrl: string;
+    }[];
     let likes;
 
-    const toggleOff = () =>{
-        visable = !visable;
-        dispatch("toggle")
-    }
+    export let postId: string;
 
-    onMount(async()=>{
-        const data = await fetch("")
-    })
+    const dispatch = createEventDispatcher();
+    let promise: Promise<response>;
+    const toggleOff = () => {
+        visable = !visable;
+        dispatch("toggle");
+    };
+    async function fetchUsers() {
+        const data = await fetch(`/api/post-likes/?post=${postId}`);
+        const res = await data.json();
+        if (res.error) {
+        return Promise.reject(res.message);
+        }
+        return res.data;
+    }
+    $: {
+        if (visable) {
+        promise = fetchUsers();
+        }
+    }
+    onDestroy(() => {
+        visable = false;
+    });
 
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class="modal" class:visable={visable} on:click={toggleOff}>
-    <p>HELLO</p>
-</div>
+<button class="modal" class:visable on:click={toggleOff}>
+  {#await promise}
+    <LoadingSpinner />
+  {:then likes}
+    {#if likes}
+      {#if likes.length === 0}
+        <p>no users found</p>
+      {:else}
+        <div class="users-container">
+          {#each likes as user}
+            <a href={`/users/${user.username}`} class="user">
+              <img src={user.profilePictureUrl} alt="Profile Icon" />
+              <p>{user.username}</p>
+            </a>
+          {/each}
+        </div>
+      {/if}
+    {/if}
+  {:catch error}
+    <p>{error}</p>
+  {/await}
+</button>
 
 
 <style>
@@ -39,7 +74,28 @@
         backdrop-filter: blur(4px);
   }
 
-    .visable{
+    .visable {
         display: flex;
+    }
+    .users-container {
+        display: grid;
+        gap: 1rem;
+    }
+    .user > img {
+        border-radius: 50%;
+        object-fit: cover;
+        width: 5rem;
+        height: 5rem;
+    }
+    .user {
+        text-decoration: none;
+        color: var(--text);
+        font-size: 1.25rem;
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        background: rgba(5, 5, 5, 0.8);
     }
 </style>

@@ -1,11 +1,13 @@
 <script lang="ts">
   import type { PostType } from "$lib/types";
   import { onMount } from "svelte";
+  import LikesModal from "../LikesModal.svelte";
 
   export let postId: string;
 
   let liked = false;
- export let likecount: Number;
+  let showModal: boolean = false;
+  export let likecount: Number;
 
   async function toggleLike() {
     const response = await fetch(`/api/likes/PostLikes`, {
@@ -42,29 +44,31 @@
  
     })
 </script>
+<LikesModal
+  visable={showModal}
+  {postId}
+  on:toggle={() => (showModal = false)}
+/>
 
 
+<button class:liked={liked} class="main-btn">
 
-<button on:click={toggleLike} class:liked={liked}>
-
-  <button
+  <button on:click={toggleLike}
     ><img
      class:like ={liked}
       src={!liked ? "/images/icons/like.png" : "/images/icons/likeFilled.png"}
       alt="Like Icon"
     /></button
   >    
-     <p>
-      {likecount}
-  </p>
+     <button on:click|self={()=>showModal = true}>
+        {likecount}
+    </button>
 
 </button>
 
 <style>
   button {
-    
     all: unset;
-    
   }
 
   img.like {
@@ -74,5 +78,11 @@
   img:not(.like) {
     width: 1.6rem; 
     height: auto; 
+  }
+
+  .main-btn{
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
   }
 </style>

@@ -5,8 +5,6 @@
   import PostLike from "./postLike.svelte";
   import LikesModal from "../LikesModal.svelte";
 
-  let commentCount = 0;
-
   export let post: PostWithProfile;
 
   let showModal: boolean = false;
@@ -24,11 +22,11 @@
   const navigateToPost = () => goto(`/post/${post.post.id}`);
 </script>
 
-<!-- <LikesModal
+<LikesModal
   visable={showModal}
   postId={post.post.id}
   on:toggle={() => (showModal = false)}
-/> -->
+/>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
