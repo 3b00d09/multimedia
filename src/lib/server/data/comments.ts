@@ -1,6 +1,6 @@
 import { postsTable, usersTable, likesPostTable, commentsTable, likesCommentTable, } from "../schema";
 import { dbClient } from "../db";
-import {eq, desc, getTableColumns, count} from "drizzle-orm"
+import {eq, desc, getTableColumns, count, and, isNull} from "drizzle-orm"
 import type {CommentWithProfile, PostWithProfile} from "../../types"
 
 export async function getComments(postId: string){
@@ -16,7 +16,12 @@ export async function getComments(postId: string){
         author: {...getTableColumns(usersTable)},
     })
         .from(commentsTable)
-        .where(eq(commentsTable.post, postId))
+        .where(
+            and(
+            eq(commentsTable.post, postId),
+            isNull(commentsTable.parentCommentId)
+            )
+        )
         .leftJoin(usersTable,eq(commentsTable.author, usersTable.id))
         .leftJoin(likeSubquery,eq(commentsTable.id, likeSubquery.comment))
         .leftJoin(repliesSubquery,eq(commentsTable.id, repliesSubquery.comment)) as CommentWithProfile[]

@@ -2,7 +2,7 @@ import { dbClient } from '$lib/server/db.js'
 import { commentsTable, postsTable, usersTable, likesPostTable } from '$lib/server/schema.js'
 import { eq, getTableColumns } from 'drizzle-orm'
 import { error } from '@sveltejs/kit'
-import type { CommentWithProfileImage, PostWithProfile } from '$lib/types'
+import type { CommentWithProfile, PostWithProfile } from '$lib/types'
 import { getPostById } from '$lib/server/data/posts.js'
 import { getComments } from '$lib/server/data/comments.js'
 

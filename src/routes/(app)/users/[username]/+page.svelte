@@ -6,7 +6,7 @@
 
 </script>
 
-{#if data.user}
+{#if data.user && data.userPosts}
 
   <div>
     {#each data.userPosts as post}

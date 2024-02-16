@@ -9,11 +9,12 @@
     <div class="comments-container">
         {#each data.userComments as comment}
             <div>
-                <Post post={comment.post}/>
-                <div style="margin-left: 2rem; margin-bottom: 1rem;">
-                    <Comment postId={comment.post.id} comment={comment.comment}/>
-                </div>
-               
+                {#if comment}
+                    <Post post={comment.post}/>
+                    <div style="margin-left: 2rem; margin-bottom: 1rem;">
+                        <Comment postId={comment.post.post.id} comment={comment.comment}/>
+                    </div>
+                {/if}
             </div>   
         {/each}
     </div>

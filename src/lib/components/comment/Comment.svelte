@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { onMount } from "svelte";
     import ReplyForm from "./ReplyForm.svelte";
     import type { CommentWithProfile } from "$lib/types";
     import { goto } from "$app/navigation";
@@ -14,10 +13,6 @@
     const navigateToComment = () =>{
         goto(`/post/${postId}/${comment.comment.id}`)
     }
-
-    onMount(()=>{
-        console.log(comment)
-    })
 
 </script>
 
@@ -65,7 +60,6 @@
     }
 
     .comment-content{
-        color: var(--text-secondary);
         line-height: 22px;
         width: fit-content
     }

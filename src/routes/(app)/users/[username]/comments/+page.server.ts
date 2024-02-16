@@ -1,14 +1,14 @@
 import { dbClient } from '$lib/server/db.js';
 import { commentsTable, likesCommentTable, likesPostTable, postsTable, usersTable } from '$lib/server/schema.js';
-import type { CommentWithProfileImage, PostWithProfile } from '$lib/types';
+import type { CommentWithProfile, PostWithProfile } from '$lib/types';
 import { redirect } from '@sveltejs/kit';
-import { eq, and, isNull, getTableColumns, count } from 'drizzle-orm';
+import { eq, and, isNull, getTableColumns, count, sql } from 'drizzle-orm';
 import { alias } from 'drizzle-orm/pg-core';
 
 type commentWithPost = {
     post: PostWithProfile,
-    comment: CommentWithProfileImage
-}[]
+    comment: CommentWithProfile
+}
 
 export const load =  async({params})=>{
     const username = params.username
@@ -23,16 +23,25 @@ export const load =  async({params})=>{
     
     const commentAuthor = alias(usersTable, "commentAuthor");
     const postAuthor = alias(usersTable, "postAuthor");
-    const userComments = await dbClient
+    const replies = alias(commentsTable, "commentsReplies")
+    const commentLikes = alias(likesCommentTable, "commentLikes")
+    const _userComments = await dbClient
     .select({
         comment: {
             ...getTableColumns(commentsTable),
-            imageUrl: commentAuthor.profilePictureUrl,
+            replyCount: count(replies.id),
+            likeCount: count(commentLikes.comment)
+
         },
         post: {
             ...getTableColumns(postsTable),
-            imageUrl: postAuthor.profilePictureUrl
+            commentCount:count(commentsTable.post),
+            likeCount: count(likesPostTable.post),
+        },
+        postAuthor:{
+            ...getTableColumns(usersTable)
         }
+
     })
     .from(commentsTable)
     .where(
@@ -42,11 +51,30 @@ export const load =  async({params})=>{
         )
     )
     .leftJoin(postsTable, eq(postsTable.id, commentsTable.post))
+    .leftJoin(usersTable, eq(postsTable.author, usersTable.id))
+    .leftJoin(replies, eq(commentsTable.id, replies.parentCommentId))
+    .leftJoin(likesPostTable, eq(postsTable.id, likesPostTable.post))
+    .leftJoin(commentLikes, eq(commentsTable.id, commentLikes.comment))
     .leftJoin(commentAuthor, eq(commentsTable.author, commentAuthor.username))
-    .leftJoin(postAuthor, eq(postsTable.author, postAuthor.username));
+    .leftJoin(postAuthor, eq(postsTable.author, postAuthor.username))
+    .groupBy(commentsTable.id, commentAuthor.profilePictureUrl, postsTable.id, postAuthor.profilePictureUrl, replies.parentCommentId, usersTable.id)
 
-    console.log(userComments)
-
+    const userComments = _userComments.map((row)=>{
+        if(row.post && row.postAuthor){
+            const data: commentWithPost = {
+                post:{
+                    post: row.post,
+                    author: row.postAuthor
+                },
+                comment:{
+                    comment:row.comment,
+                    author: user[0]
+                }
+            }
+            return data
+        }
+    })
+    
     return {
         userComments
     }

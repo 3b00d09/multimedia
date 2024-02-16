@@ -24,11 +24,11 @@
   const navigateToPost = () => goto(`/post/${post.post.id}`);
 </script>
 
-<LikesModal
+<!-- <LikesModal
   visable={showModal}
   postId={post.post.id}
   on:toggle={() => (showModal = false)}
-/>
+/> -->
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -111,6 +111,7 @@
     margin: auto;
     padding: 0.35rem;
     border-radius: 16px;
+    min-width: 100%;
   }
 
   .post-container:hover {
