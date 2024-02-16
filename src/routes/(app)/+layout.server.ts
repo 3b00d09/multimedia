@@ -4,7 +4,7 @@ import type { LayoutServerLoad } from "./$types";
 import { dbClient } from "$lib/server/db";
 import { notificationsTable, usersTable } from "$lib/server/schema";
 import { eq } from "drizzle-orm"
-import { getPosts } from "$lib/server/data/posts";
+import { getFollowingPosts, getLikedPosts, getPosts } from "$lib/server/data/posts";
 import { getComments } from "$lib/server/data/comments";
 
 export const load: LayoutServerLoad = async ({ locals }) => {

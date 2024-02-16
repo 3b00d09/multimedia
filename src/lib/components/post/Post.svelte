@@ -3,11 +3,8 @@
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
   import PostLike from "./postLike.svelte";
-  import LikesModal from "../LikesModal.svelte";
 
   export let post: PostWithProfile;
-
-  let showModal: boolean = false;
 
   let days: number;
 
@@ -22,18 +19,14 @@
   const navigateToPost = () => goto(`/post/${post.post.id}`);
 </script>
 
-<LikesModal
-  visable={showModal}
-  postId={post.post.id}
-  on:toggle={() => (showModal = false)}
-/>
+
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div on:click|self={navigateToPost} class="post-container">
   <div on:click|self={navigateToPost} class="post-header">
     <div class="post-author">
-      <a href={`/users/${post.author}`}>
+      <a href={`/users/${post.author.username}`}>
         <img
           class="profile-image"
           src={post.author.profilePictureUrl}
@@ -53,7 +46,7 @@
                     : ""
               }`}
             </p>
-            <p class="author-secondary">{"@" + post.post.author}</p>
+            <p class="author-secondary">{"@" + post.author.username}</p>
           </div>
         {:else}
           <p class="author">{post.author.username}</p>

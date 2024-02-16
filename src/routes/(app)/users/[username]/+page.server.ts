@@ -45,10 +45,10 @@ export const actions = {
       .select()
       .from(usersTable)
       .where(ilike(usersTable.username, username));
-    const followedUser = _followedUser[0].username;
+    const followedUser = _followedUser[0].id;
 
     const row = await dbClient.insert(userFollowsTable).values({
-      follower: session.user.username,
+      follower: session.user.userId,
       following: followedUser,
       id: uuidv4(),
     });
@@ -125,15 +125,16 @@ export const actions = {
 
     const username = request.params.username;
 
+    const user = await dbClient.select().from(usersTable).where(ilike(usersTable.username, username))
+
     const row = await dbClient
       .delete(userFollowsTable)
       .where(
         and(
-          ilike(userFollowsTable.follower, session.user.username),
-          ilike(userFollowsTable.following, username)
+          ilike(userFollowsTable.follower, session.user.userId),
+          ilike(userFollowsTable.following, user[0].id)
         )
       );
 
-    console.log(row);
   },
 };

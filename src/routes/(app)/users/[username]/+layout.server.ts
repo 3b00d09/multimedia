@@ -15,6 +15,7 @@ export const load =  async({locals, params})=>{
     // using ilike for case insensitive search
     const _user = await dbClient.select().from(usersTable).where(ilike(usersTable.username, username))
 
+
     if(_user.length === 0){
         throw redirect(301, "/")
     }
@@ -28,11 +29,10 @@ export const load =  async({locals, params})=>{
         .from(userFollowsTable)
         .where(
             and(
-                ilike(userFollowsTable.follower, session.user.userId),
-                ilike(userFollowsTable.following, session.user.userId)
+                eq(userFollowsTable.follower, session.user.userId),
+                eq(userFollowsTable.following, _user[0].id)
             )
         )
-
         following = followers.length > 0
     }
 

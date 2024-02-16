@@ -6,8 +6,8 @@
   let modalSearchTerm = "";
   let searchResults: User[] = [];
 
-  export let searchModal: HTMLDivElement;
-  export let initialSearchInput: HTMLInputElement;
+  let searchModal: HTMLDivElement;
+  let initialSearchInput: HTMLInputElement;
 
   const searchUsers = async () => {
     isSearching = !!modalSearchTerm.trim();
