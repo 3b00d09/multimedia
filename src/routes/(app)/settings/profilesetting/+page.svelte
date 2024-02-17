@@ -3,41 +3,48 @@
   import type { User } from "lucia";
 
   let user: User;
-  let newUsername = '';
-  let repeatNewUsername = '';
+  let firstName = ''; // Added for the first name
+  let lastName = ''; // Added for the last name
 
   const handleSubmit = async () => {
-     if (!newUsername) {
-      return alert("Please enter a new username");
+     if (!firstName || !lastName) {
+      return alert("Please enter both first name and last name");
     }
 
     const response = await fetch('/api/users', {
-   method: 'POST',
-   headers: {
-     'Content-Type': 'application/json',
-   },
-   body: JSON.stringify({ username: newUsername }),
-});
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ firstName, lastName }), 
+    });
+  
   }
 </script>
 
 <ul class="box-shadow">
   <li class="change-username">
-  
     <form on:submit|preventDefault={handleSubmit} class="modal-search-form">
-      <label for="new-username">New Username</label>
+
+      <label for="first-name">First Name</label>
       <input
         type="text"
-        id="new-username"
-        bind:value={newUsername}
-        placeholder="New Username"
+        id="first-name"
+        bind:value={firstName}
+        placeholder="First Name"
       />
 
-     
+   
+      <label for="last-name">Last Name</label>
+      <input
+        type="text"
+        id="last-name"
+        bind:value={lastName}
+        placeholder="Last Name"
+      />
 
-      <button type="submit">Update Username</button>
+      <button type="submit">Update Name</button>
     </form>
-
   </li>
 </ul>
 <style>

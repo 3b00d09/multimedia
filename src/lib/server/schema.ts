@@ -30,7 +30,7 @@ export const sessionsTable = pgTable("user_session", {
 		length: 15
 	})
 		.notNull()
-		.references(() => usersTable.id),
+		.references(() => usersTable.id,{onDelete:"cascade", onUpdate:"cascade"},),
 	activeExpires: bigint("active_expires", {
 		mode: "number"
 	}).notNull(),
@@ -47,9 +47,9 @@ export const keysTable = pgTable("user_key", {
 		length: 15
 	})
 		.notNull()
-		.references(() => {
-			return usersTable.id
-		}),
+		.references(() => 
+			 usersTable.id,{onDelete:"cascade", onUpdate:"cascade"},
+		),
 	hashedPassword: varchar("hashed_password", {
 		length: 255
 	})
@@ -72,7 +72,7 @@ export const postsTable = pgTable("posts",{
 }),
 	author: varchar("author",{
 		length: 24
-	}).notNull().references(()=>usersTable.id),
+	}).notNull().references(()=>usersTable.id,{onDelete:"cascade"}),
 	timestamp: timestamp("timestamp") 
 })
 
@@ -86,7 +86,7 @@ export const commentsTable = pgTable("comments",{
 	}).notNull(),
 	author:varchar("author",{
 		length: 24
-	}).notNull().references(()=>usersTable.id,{onUpdate:"cascade"}
+	}).notNull().references(()=>usersTable.id,{onDelete:"cascade"}
 	),
 	post: varchar("post",{
 		length: 255
@@ -128,7 +128,7 @@ export const likesPostTable = pgTable("likes_post", {
 	}),
 	author: varchar("author", {
 					length: 24
-	}).notNull().references(() => usersTable.id,{onUpdate:"cascade"} 
+	}).notNull().references(() => usersTable.id,{onDelete:"cascade"}
 	),
 	date: timestamp("date")
 });
@@ -144,7 +144,7 @@ export const likesCommentTable = pgTable("likes_comment", {
 	}),
 	author: varchar("author", {
 					length: 24
-	}).notNull().references(() => usersTable.id,{onUpdate:"cascade"} 
+	}).notNull().references(() => usersTable.id,{onDelete:"cascade"}
 	),
 	date: timestamp("date")
 });
@@ -156,10 +156,10 @@ export const userFollowsTable = pgTable("user_follows",{
 	}).notNull().primaryKey(),
 	follower: varchar("follower",{
 		length: 15,
-	}).notNull().references(()=>usersTable.id,{onUpdate:"cascade"}),
+	}).notNull().references(()=>usersTable.id,{onDelete:"cascade"}),
 	following: varchar("following",{
 		length: 15,
-	}).notNull().references(()=>usersTable.id,{onUpdate:"cascade"})
+	}).notNull().references(()=>usersTable.id,{onDelete:"cascade", onUpdate:"cascade"},)
 })
 
 export const notificationsTable = pgTable("notifications",{
@@ -168,14 +168,13 @@ export const notificationsTable = pgTable("notifications",{
 	}).primaryKey().notNull(),
 	sourceUser: varchar("source_user",{
 		length: 15
-	}).notNull().references(()=>{
-		return usersTable.id
-	}),
+	}).notNull().references(()=> usersTable.id,{onDelete:"cascade", onUpdate:"cascade"},
+	),
 	targetUser: varchar("target_user",{
 		length: 15
-	}).notNull().references(()=>{
-		return usersTable.id
-	}),
+	}).notNull().references(()=>
+		usersTable.id,{onDelete:"cascade", onUpdate:"cascade"},
+	),
 	postId:varchar("post_id",{
 		length:255
 	}).references(()=>{

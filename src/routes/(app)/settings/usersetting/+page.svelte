@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { goto } from "$app/navigation";
   import Linebreak from "$lib/components/Linebreak.svelte";
   let showPasswordChange = false;
   let showEmailChange = false;
@@ -15,6 +16,26 @@
       showEmailChange = true;
     } else if (section === "delete") {
       showDeleteAccount = true;
+    }
+  }
+
+
+  const handleDeleteAccount = async () => {
+    if (!confirm('Are you sure you want to delete your account? This cannot be undone.')) {
+      return;
+    }
+
+    const response = await fetch('/api/users', {
+      method: 'DELETE',
+    });
+
+
+    const result = await response.json();
+    if (result.success) {
+      alert('Your account has been successfully deleted.');
+      goto('/login');
+    } else {
+      alert('There was an issue deleting your account.');
     }
   }
 </script>
@@ -65,7 +86,8 @@
   <li class="delete-account">
     <button on:click={() => toggleSection("delete")}>Delete Account</button>
     {#if showDeleteAccount}
-      <button type="submit">Delete your account</button>
+      <!-- Updated to call handleDeleteAccount function -->
+      <button type="button" on:click={handleDeleteAccount}>Delete your account</button>
     {/if}
     <Linebreak />
   </li>
