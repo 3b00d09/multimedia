@@ -1,3 +1,4 @@
+import { queryPost } from "$lib/server/data/posts.js";
 import { dbClient } from "$lib/server/db.js";
 import { postsTable, usersTable } from "$lib/server/schema.js";
 import { ilike, eq } from "drizzle-orm";
@@ -9,17 +10,7 @@ export async function load({ url,params }) {
     throw new Error("Search query is required");
   }
 
-  const allPosts = dbClient
-    .select({
-      id: postsTable.id,
-      author: usersTable.username,
-      content: postsTable.content,
-      timestamp: postsTable.timestamp,
-      imageUrl: usersTable.profilePictureUrl,
-    })
-    .from(postsTable)
-    .leftJoin(usersTable, eq(postsTable.author, usersTable.id))
-    .where(ilike(postsTable.content, `%${searchQuery}%`));
+  const allPosts = await queryPost(searchQuery)
 
 
   return {
