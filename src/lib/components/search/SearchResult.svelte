@@ -7,7 +7,6 @@
 </script>
 
 <ul>
- 
   <a href={`/explore/search/${query}/user`}>
     <li class="icon-container"><SerachResBtn name={"User"} /></li>
   </a>

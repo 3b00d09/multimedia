@@ -173,7 +173,7 @@ export async function queryPost(query: string){
         .leftJoin(usersTable,eq(postsTable.author, usersTable.id))
         .leftJoin(likeSubquery,eq(postsTable.id, likeSubquery.post))
         .leftJoin(commentSubquery,eq(postsTable.id, commentSubquery.post))
-        .where(ilike(postsTable.content, query))
+        .where(ilike(postsTable.content, `%${query}%`))
         .orderBy(desc(postsTable.timestamp)) as PostWithProfile[]
 
     const rows = _rows.map((data)=>{

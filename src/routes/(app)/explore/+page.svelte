@@ -38,7 +38,7 @@
         <div class="info">
           <img src={user.imageUrl} alt="{user.username}'s profile picture" />
           <p>{user.username}</p>
-          <p class="bio">{user.bio}</p>
+          <p class="bio">{user.bio? user.bio : "No bio provided"}</p>
         </div>
       </div>
     {/each}
