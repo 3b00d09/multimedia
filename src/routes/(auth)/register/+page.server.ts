@@ -1,12 +1,18 @@
 // routes/signup/+page.server.ts
 import { auth } from "$lib/server/lucia";
-import { fail, redirect, type Actions } from "@sveltejs/kit";
+import { fail, redirect } from "@sveltejs/kit";
+import { Lucia, generateId } from "lucia";
+import { Argon2id } from "oslo/password";
+import { v4 as uuidv4 } from "uuid";
+
+import type { Actions } from "./$types";
+import { dbClient } from "$lib/server/db";
+import { usersTable } from "$lib/server/schema";
 
 
-
-export const actions: Actions = {
-	default: async ({ request, locals }) => {
-		const formData = await request.formData();
+export const actions:Actions = {
+	default: async (request) => {
+		const formData = await request.request.formData();
 		const username = formData.get("username");
 		const password = formData.get("password");
 		// basic check
@@ -26,33 +32,23 @@ export const actions: Actions = {
 				message: "Invalid password"
 			});
 		}
-		try {
-			const user = await auth.createUser({
-				key: {
-					providerId: "username", // auth method
-					providerUserId: username.toLowerCase(), // unique id when using "username" auth method
-					password // hashed by Lucia
-				},
-				attributes: {
-					username
-				}
-			});
-			const session = await auth.createSession({
-				userId: user.userId,
-				attributes: {}
-			});
-			locals.auth.setSession(session); // set session cookie
-		} catch (e) {
-			// this part depends on the database you're using
-{
-    console.log(e)        
-	return fail(400, {
-					message: "Username already taken"
-				});
-			}
-		}
+		const userId = generateId(15)
+		const hashedPassword = await new Argon2id().hash(password)
+
+		const newUser = await dbClient.insert(usersTable).values({
+			id: userId,
+			username: username,
+			password: hashedPassword
+		})
+
+		const session = await auth.createSession(userId, {})
+		const sessionCookie = auth.createSessionCookie(session.id)
+		request.cookies.set(sessionCookie.name, sessionCookie.value, {
+			path: ".",
+			...sessionCookie.attributes
+		});
 		// redirect to
 		// make sure you don't throw inside a try/catch block!
-		throw redirect(302, "/welcome");
+		throw redirect(302, "/");
 	}
 };

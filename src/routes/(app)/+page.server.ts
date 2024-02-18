@@ -28,15 +28,15 @@ export const load = async () => {
 
 export const actions = {
   post: async (request) => {
-    const authRequest = auth.handleRequest(request);
-    const session = await authRequest.validate();
-    if (!session) {
-      throw redirect(301, "/login");
-    }
+    const session = request.locals.session
+    if(!session) throw redirect(301, "/")
+
+
+
 
     const data1 = await request.request.formData();
     const postContent = data1.get("post-content")?.toString();
-    const postAuthor = session.user.userId;
+    const postAuthor = session.userId;
     if (!postAuthor || !postContent) {
       return {error:"missing field"};
     }
@@ -103,16 +103,12 @@ export const actions = {
   },
 
   comment: async (request) => {
-    const authRequest = auth.handleRequest(request);
-    const session = await authRequest.validate();
-
-    if (!session) {
-      throw redirect(301, "/login");
-    }
+    const session = request.locals.session
+    if(!session) throw redirect(301, "/")
 
     const data = await request.request.formData();
     const commentContent = data.get("comment-content")?.toString();
-    const commentAuthor = session.user.userId;
+    const commentAuthor = session.userId;
     const date = new Date();
     const postId = data.get("post_id")?.toString();
 
@@ -141,7 +137,7 @@ export const actions = {
           .leftJoin(usersTable, eq(usersTable.id, postsTable.author));
         await dbClient.insert(notificationsTable).values({
           id: uuidv4(),
-          sourceUser: session.user.userId,
+          sourceUser: session.userId,
           targetUser: targetUser[0].userId!,
           postId: postId,
           commentId: newCommentId,
@@ -152,16 +148,12 @@ export const actions = {
   },
 
   reply: async (request) => {
-    const authRequest = auth.handleRequest(request);
-    const session = await authRequest.validate();
-
-    if (!session) {
-      throw redirect(301, "/login");
-    }
+    const session = request.locals.session
+    if(!session) throw redirect(301, "/")
 
     const data = await request.request.formData();
     const replyContent = data.get("reply-content")?.toString();
-    const replyAuthor = session.user.userId;
+    const replyAuthor = session.userId;
     const date = new Date();
     const parentCommentId = data.get("parent_comment_id")?.toString();
 

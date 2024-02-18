@@ -7,18 +7,12 @@ import { eq } from "drizzle-orm"
 import { getFollowingPosts, getLikedPosts, getPosts } from "$lib/server/data/posts";
 import { getComments } from "$lib/server/data/comments";
 
-export const load: LayoutServerLoad = async ({ locals }) => {
+export const load: LayoutServerLoad = async (request) => {
     await getComments("e4cf216a-29ff-48fa-aa46-080a7519f792")
-	const session = await locals.auth.validate();
-	if (session){
-        const notifications = await dbClient.select().from(notificationsTable).where(eq(notificationsTable.targetUser, session.user.userId)).leftJoin(usersTable,eq(usersTable.id, notificationsTable.sourceUser))
-        return {
-            user: session.user,
-            notifications
-        };
-    }
+	if(!request.locals.user) throw redirect(302, "/login")
+
     return{
-        user: null
+        user: request.locals.user
     }
     
 	

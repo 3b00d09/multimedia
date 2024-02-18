@@ -1,4 +1,4 @@
-import { pgTable, bigint, varchar, timestamp, foreignKey, boolean } from "drizzle-orm/pg-core";
+import { pgTable, bigint, varchar, timestamp, foreignKey, boolean, integer } from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable("user", {
 	id: varchar("id", {
@@ -11,6 +11,9 @@ export const usersTable = pgTable("user", {
 	firstName:varchar("first_name",{
 		length:24
 	}),
+	password: varchar("hashed_password",{
+		length: 255
+	}).notNull(),
 	lastName:varchar("last_name",{
 		length:24
 	}),
@@ -31,29 +34,12 @@ export const sessionsTable = pgTable("user_session", {
 	})
 		.notNull()
 		.references(() => usersTable.id,{onDelete:"cascade", onUpdate:"cascade"},),
-	activeExpires: bigint("active_expires", {
-		mode: "number"
-	}).notNull(),
-	idleExpires: bigint("idle_expires", {
-		mode: "number"
+	expiresAt: timestamp("expires_at", {
+		withTimezone: true,
+		mode: "date"
 	}).notNull()
 });
 
-export const keysTable = pgTable("user_key", {
-	id: varchar("id", {
-		length: 255
-	}).primaryKey(),
-	userId: varchar("user_id", {
-		length: 15
-	})
-		.notNull()
-		.references(() => 
-			 usersTable.id,{onDelete:"cascade", onUpdate:"cascade"},
-		),
-	hashedPassword: varchar("hashed_password", {
-		length: 255
-	})
-});
 
 export const postsTable = pgTable("posts",{
     id: varchar("id",{
@@ -159,7 +145,7 @@ export const userFollowsTable = pgTable("user_follows",{
 	}).notNull().references(()=>usersTable.id,{onDelete:"cascade"}),
 	following: varchar("following",{
 		length: 15,
-	}).notNull().references(()=>usersTable.id,{onDelete:"cascade", onUpdate:"cascade"},)
+	}).notNull().references(()=>usersTable.id,{onDelete:"cascade"})
 })
 
 export const notificationsTable = pgTable("notifications",{

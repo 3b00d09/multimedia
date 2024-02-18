@@ -4,22 +4,13 @@
 declare global {
 	namespace App {
 		interface Locals {
-			auth: import("lucia").AuthRequest;
+			user: import("lucia").User | null;
+			session: import("lucia").Session | null;
 		}
 		// interface Error {}
 		// interface Locals {}
 		// interface PageData {}
 		// interface Platform {}
-	}
-	namespace Lucia {
-		type Auth = import("$lib/server/lucia").Auth;
-		type DatabaseUserAttributes = {
-			username: string;
-			profilePictureUrl?: string;
-			firstName?: string,
-			lastName? :string,
-		};
-		type DatabaseSessionAttributes = {};
 	}
 }
 

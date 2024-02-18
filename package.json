@@ -24,12 +24,13 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@lucia-auth/adapter-postgresql": "^2.0.1",
+		"@lucia-auth/adapter-postgresql": "^3.0.0",
 		"@supabase/supabase-js": "^2.39.3",
 		"dotenv": "^16.3.1",
 		"drizzle-orm": "^0.29.3",
 		"lodash-es": "^4.17.21",
-		"lucia": "^2.7.1",
+		"lucia": "^3.0.1",
+		"oslo": "^1.1.2",
 		"postgres": "^3.4.0",
 		"uuid": "^9.0.1"
 	}
