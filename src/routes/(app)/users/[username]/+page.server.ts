@@ -32,11 +32,8 @@ export const load = async ({ params }) => {
 
 export const actions = {
   follow: async (request) => {
-    const authRequest = auth.handleRequest(request);
-    const session = await authRequest.validate();
-    if (!session) {
-      throw redirect(301, "/login");
-    }
+    const session = request.locals.session
+    if(!session) throw redirect(301, "/")
 
     const username = request.params.username;
 
@@ -48,19 +45,15 @@ export const actions = {
     const followedUser = _followedUser[0].id;
 
     const row = await dbClient.insert(userFollowsTable).values({
-      follower: session.user.userId,
+      follower: session.userId,
       following: followedUser,
       id: uuidv4(),
     });
   },
 
   updateProfileImage: async (request) => {
-    const authRequest = auth.handleRequest(request);
-    const session = await authRequest.validate();
-
-    if (!session) {
-      throw redirect(301, "/login");
-    }
+    const session = request.locals.session
+    if(!session) throw redirect(301, "/")
 
     const imageUUID = uuidv4();
     const fileName = `image_${imageUUID}.JPG`;
@@ -89,7 +82,7 @@ export const actions = {
       await dbClient
         .update(usersTable)
         .set({ profilePictureUrl: imageUrl })
-        .where(eq(usersTable.username, session.user.username));
+        .where(eq(usersTable.id, session.userId));
 
       console.log("Profile image updated successfully", imageUrl);
     } else {
@@ -98,12 +91,8 @@ export const actions = {
   },
 
   deleteProfileImage: async (request) => {
-    const authRequest = auth.handleRequest(request);
-    const session = await authRequest.validate();
-
-    if (!session) {
-      throw redirect(301, "/login");
-    }
+    const session = request.locals.session
+    if(!session) throw redirect(301, "/")
 
     const defaultImageUrl =
       "https://ikcxvcutdjftdsvbpwsa.supabase.co/storage/v1/object/sign/profile-images/default-img.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJwcm9maWxlLWltYWdlcy9kZWZhdWx0LWltZy5wbmciLCJpYXQiOjE3MDM0ODg4NjYsImV4cCI6MjAxODg0ODg2Nn0.EeYXUptq697XMxEb5XpbVTtwzm2qwrI2w8cxrD4OySk&t=2023-12-25T07%3A21%3A06.400Z";
@@ -111,17 +100,14 @@ export const actions = {
     await dbClient
       .update(usersTable)
       .set({ profilePictureUrl: defaultImageUrl })
-      .where(eq(usersTable.username, session.user.username));
+      .where(eq(usersTable.id, session.userId));
 
     console.log("Profile image set to default successfully", defaultImageUrl);
   },
 
   unfollow: async (request) => {
-    const authRequest = auth.handleRequest(request);
-    const session = await authRequest.validate();
-    if (!session) {
-      throw redirect(301, "/login");
-    }
+    const session = request.locals.session
+    if(!session) throw redirect(301, "/")
 
     const username = request.params.username;
 
@@ -131,7 +117,7 @@ export const actions = {
       .delete(userFollowsTable)
       .where(
         and(
-          ilike(userFollowsTable.follower, session.user.userId),
+          ilike(userFollowsTable.follower, session.userId),
           ilike(userFollowsTable.following, user[0].id)
         )
       );

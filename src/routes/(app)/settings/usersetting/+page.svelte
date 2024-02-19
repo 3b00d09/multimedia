@@ -43,35 +43,42 @@
 <ul class="box-shadow">
   <li class="change-password">
     <button on:click={() => toggleSection("password")}>Change Password</button>
+
     {#if showPasswordChange}
-      <form>
-        <label for="current-password">Current Password</label>
-        <input
-          type="password"
-          id="current-password"
-          name="current-password"
-          placeholder="Current Password"
-        />
+    <form method="POST" action="?changePassword" >
 
-        <label for="new-password">New Password</label>
-        <input
-          type="password"
-          id="new-password"
-          name="new-password"
-          placeholder="New Password"
-        />
-
-        <label for="repeat-new-password">Repeat New Password</label>
-        <input
-          type="password"
-          id="repeat-new-password"
-          name="repeat-new-password"
-          placeholder="Repeat New Password"
-        />
-
-        <button type="submit">Update Password</button>
-      </form>
-    {/if}
+      <label for="current-password">Current Password</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Current Password"
+        required
+      />
+  
+      <label for="new-password">New Password</label>
+      <input
+        type="password"
+        id="new-password"
+        name="new-password"
+        placeholder="New Password"
+        required
+      />
+      {#if "new-password" !=="repeat-new-password"}
+      <label for="repeat-new-password">Repeat New Password</label>
+      <input
+        type="password"
+        id="repeat-new-password"
+        name="repeat-new-password"
+        placeholder="Repeat New Password"
+        required
+      />
+  
+      <button type="submit">Update Password</button>
+    </form>
+  {/if}
+  
+  
     <Linebreak />
   </li>
 

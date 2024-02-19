@@ -1,6 +1,6 @@
 import { dbClient } from "$lib/server/db";
 import { usersTable } from "$lib/server/schema";
-import { json } from "@sveltejs/kit";
+import { json, redirect } from "@sveltejs/kit";
 import { auth } from "$lib/server/lucia.js";
 import { eq,and } from "drizzle-orm";
 
@@ -31,12 +31,8 @@ export const GET = async ({ url }) => {
 };
 
 export async function POST(request) {
-  const authRequest = auth.handleRequest(request);
-  const session = await authRequest.validate();
-
-  if (!session?.user) {
-    return json({ success: false, message: "User is not authenticated" });
-  }
+  const session = request.locals.session
+  if(!session) throw redirect(301, "/")
 
   const body = await request.request.json();
   const { firstName,lastName,username } = body;
@@ -45,7 +41,7 @@ export async function POST(request) {
   const newusername = await dbClient
     .update(usersTable)
     .set({ firstName, lastName,username })
-    .where(eq(usersTable.id, session.user.userId));
+    .where(eq(usersTable.id, session.userId));
   console.log(newusername);
 
   return json({ newusername, success: true, message: "Username has changed." });
@@ -53,14 +49,10 @@ export async function POST(request) {
 
 
 export async function DELETE(request) {
-  const authRequest = auth.handleRequest(request);
-  const session = await authRequest.validate();
+  const session = request.locals.session
+  if(!session) throw redirect(301, "/")
 
-  if (!session?.user) {
-    return json({ success: false, message: "User is not authenticated" });
-  
-  }
  
-  const row = await dbClient.delete(usersTable).where(eq(usersTable.id, session.user.userId));
+  const row = await dbClient.delete(usersTable).where(eq(usersTable.id, session.userId));
   return json({ success: true,message: "user are deleted"});
 }

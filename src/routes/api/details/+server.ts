@@ -3,16 +3,15 @@ import { usersTable } from '$lib/server/schema.js'
 import { json, redirect } from '@sveltejs/kit'
 import { eq } from 'drizzle-orm'
 
-export const POST = async({locals, request}) =>{
-    const session = await locals.auth.validate()
-
-    if(!session){
-        return json({error: true})
-    }
-    const data = await request.json()
+export const POST = async(request) =>{
+    const session = request.locals.session
+    if(!session) throw redirect(301, "/")
+  
+  
+    const data = await request.request.json()
     
     // currently sets fields to null if the user submits empty field when data previously exists
-    await dbClient.update(usersTable).set({...data}).where(eq(usersTable.id, session.user.userId))
+    await dbClient.update(usersTable).set({...data}).where(eq(usersTable.id, session.userId))
 
     return json({success:true})
 }   

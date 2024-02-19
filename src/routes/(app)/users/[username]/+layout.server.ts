@@ -4,13 +4,13 @@ import { commentsTable, postsTable, userFollowsTable, usersTable } from '$lib/se
 import { redirect } from '@sveltejs/kit';
 import { count, eq, ilike, and } from 'drizzle-orm';
 
-export const load =  async({locals, params})=>{
+export const load =  async(request)=>{
 
     let following: boolean = false;
 
-    const session = await locals.auth.validate()
-
-    const username = params.username
+    const session = request.locals.session
+    if(!session) throw redirect(301, "/")
+    const username = request.params.username
     
     // using ilike for case insensitive search
     const _user = await dbClient.select().from(usersTable).where(ilike(usersTable.username, username))
@@ -29,7 +29,7 @@ export const load =  async({locals, params})=>{
         .from(userFollowsTable)
         .where(
             and(
-                eq(userFollowsTable.follower, session.user.userId),
+                eq(userFollowsTable.follower, session.userId),
                 eq(userFollowsTable.following, _user[0].id)
             )
         )
@@ -42,7 +42,7 @@ export const load =  async({locals, params})=>{
         postsCount: postsCount[0].value,
         followerCount: followerCount[0].value,
         followingCount: followingCount[0].value, 
-        personalProfile: session?.user.username === user.username, 
+        personalProfile: username === user.username, 
         following
     }
 }

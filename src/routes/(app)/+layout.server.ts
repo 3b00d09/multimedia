@@ -3,17 +3,27 @@ import { redirect } from "@sveltejs/kit";
 import type { LayoutServerLoad } from "./$types";
 import { dbClient } from "$lib/server/db";
 import { notificationsTable, usersTable } from "$lib/server/schema";
-import { eq } from "drizzle-orm"
-import { getFollowingPosts, getLikedPosts, getPosts } from "$lib/server/data/posts";
-import { getComments } from "$lib/server/data/comments";
+import { eq } from "drizzle-orm";
 
 export const load: LayoutServerLoad = async (request) => {
-    await getComments("e4cf216a-29ff-48fa-aa46-080a7519f792")
-	if(!request.locals.user) throw redirect(302, "/login")
+  const session = request.locals.session;
+  if (!session) throw redirect(301, "/");
+  if (session) {
+    const user = await dbClient.query.usersTable.findFirst({
+      where: eq(usersTable.id, session.userId),
+    });
 
-    return{
-        user: request.locals.user
-    }
-    
-	
+    const notifications = await dbClient
+      .select()
+      .from(notificationsTable)
+      .where(eq(notificationsTable.targetUser, session.userId))
+      .leftJoin(usersTable, eq(usersTable.id, notificationsTable.sourceUser));
+    return {
+      user,
+      notifications,
+    };
+  }
+  return {
+    user: null,
+  };
 };

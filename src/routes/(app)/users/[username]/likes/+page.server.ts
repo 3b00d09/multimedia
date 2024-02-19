@@ -4,11 +4,12 @@ import { likesPostTable, postsTable, usersTable } from '$lib/server/schema.js';
 import { error, redirect } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
 
-export const load =  async({locals, params})=>{
+export const load =  async(request)=>{
+    const session = request.locals.session
+    if(!session) throw redirect(301, "/")
+    
 
-    const username = params.username
-
-    const user = await dbClient.select().from(usersTable).where(eq(usersTable.username, username))
+    const user = await dbClient.select().from(usersTable).where(eq(usersTable.id, session.userId))
 
     if(!user){
         throw error(500, "No user found")
