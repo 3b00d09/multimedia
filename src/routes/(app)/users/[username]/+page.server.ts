@@ -23,7 +23,7 @@ export const load = async ({ params }) => {
     return { 404: "explosion" };
   }
 
-  const userPosts = getPostByUser(user[0].id);
+  const userPosts = await getPostByUser(user[0].id);
 
   return {
     userPosts,

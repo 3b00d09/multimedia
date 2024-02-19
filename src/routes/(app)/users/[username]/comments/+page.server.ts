@@ -2,7 +2,7 @@ import { dbClient } from '$lib/server/db.js';
 import { commentsTable, likesCommentTable, likesPostTable, postsTable, usersTable } from '$lib/server/schema.js';
 import type { CommentWithProfile, PostWithProfile } from '$lib/types';
 import { redirect } from '@sveltejs/kit';
-import { eq, and, isNull, getTableColumns, count, sql } from 'drizzle-orm';
+import { eq, and, isNull, getTableColumns, count, sql, ilike } from 'drizzle-orm';
 import { alias } from 'drizzle-orm/pg-core';
 
 type commentWithPost = {
@@ -13,7 +13,7 @@ type commentWithPost = {
 export const load =  async({params})=>{
     const username = params.username
            
-    const user = await dbClient.select().from(usersTable).where(eq(usersTable.username, username))
+    const user = await dbClient.select().from(usersTable).where(ilike(usersTable.username, username))
     
     if(!user){
         return{404: "User not found"}

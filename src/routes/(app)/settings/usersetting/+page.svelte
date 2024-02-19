@@ -45,7 +45,7 @@
     <button on:click={() => toggleSection("password")}>Change Password</button>
 
     {#if showPasswordChange}
-    <form method="POST" action="?changePassword" >
+    <form method="POST" action="?/changePassword">
 
       <label for="current-password">Current Password</label>
       <input
@@ -64,23 +64,22 @@
         placeholder="New Password"
         required
       />
-      {#if "new-password" !=="repeat-new-password"}
-      <label for="repeat-new-password">Repeat New Password</label>
-      <input
-        type="password"
-        id="repeat-new-password"
-        name="repeat-new-password"
-        placeholder="Repeat New Password"
-        required
-      />
+        <label for="repeat-new-password">Repeat New Password</label>
+        <input
+          type="password"
+          id="repeat-new-password"
+          name="repeat-new-password"
+          placeholder="Repeat New Password"
+          required
+        />
   
       <button type="submit">Update Password</button>
     </form>
-  {/if}
   
-  
+    {/if}
     <Linebreak />
-  </li>
+    </li>
+
 
   <li class="change-email">
     <button on:click={() => toggleSection("email")}>Change Email</button>

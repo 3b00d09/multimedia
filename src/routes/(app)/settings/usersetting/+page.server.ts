@@ -7,7 +7,7 @@ import { dbClient } from "$lib/server/db";
 import { usersTable } from "$lib/server/schema";
 import { eq, ilike } from "drizzle-orm";
 
-export const actions = {
+export const actions:Actions = {
   changePassword: async (request) => {
     const formData = await request.request.formData();
  
@@ -41,6 +41,8 @@ export const actions = {
       .set({ password: hashedNewPassword })
       .where(eq(usersTable.id, session.userId));
 
-    throw redirect(302, "/password-change-success");
+    return{
+      success: true
+    }
   },
 };

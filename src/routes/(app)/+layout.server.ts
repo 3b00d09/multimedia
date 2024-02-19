@@ -7,7 +7,6 @@ import { eq } from "drizzle-orm";
 
 export const load: LayoutServerLoad = async (request) => {
   const session = request.locals.session;
-  if (!session) throw redirect(301, "/");
   if (session) {
     const user = await dbClient.query.usersTable.findFirst({
       where: eq(usersTable.id, session.userId),
