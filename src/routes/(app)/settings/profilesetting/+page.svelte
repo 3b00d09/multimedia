@@ -1,14 +1,11 @@
 <script lang="ts">
-  import Linebreak from "$lib/components/Linebreak.svelte";
-  import type { User } from "lucia";
-
-  let user: User;
   let username = ''; 
-  // let lastName = ''; // Added for the last name
+  let lastName = ''; 
+  let firstName = '';
 
   const handleSubmit = async () => {
-     if (!username ) {
-      return alert("Please enter both first name and last name");
+    if (!username && !firstName && !lastName) {
+      return alert("Please enter at least one field to update");
     }
 
     const response = await fetch('/api/users', {
@@ -16,17 +13,27 @@
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username}), 
+      body: JSON.stringify({ username, firstName, lastName }), 
     });
-  
+
+    if (response.ok) {
+      const data = await response.json();
+      alert(data.message);
+
+      username = '';
+      firstName = '';
+      lastName = '';
+    } else {
+   
+      alert("Failed to update user information.");
+    }
   }
 </script>
 
 <ul class="box-shadow">
   <li class="change-username">
     <form on:submit|preventDefault={handleSubmit} class="modal-search-form">
-
-      <label for="first-name">First Name</label>
+      <label for="username">Username</label>
       <input
         type="text"
         id="username"
@@ -34,11 +41,27 @@
         placeholder="Username"
       />
 
+      <label for="firstName">First Name</label>
+      <input
+        type="text"
+        id="firstName"
+        bind:value={firstName}
+        placeholder="First Name"
+      />
+
+      <label for="lastName">Last Name</label>
+      <input
+        type="text"
+        id="lastName"
+        bind:value={lastName}
+        placeholder="Last Name"
+      />
 
       <button type="submit">Update Name</button>
     </form>
   </li>
 </ul>
+
 <style>
   ul {
     list-style: none;

@@ -12,6 +12,8 @@ export type PostType = typeof postsTable.$inferSelect
 export interface User {
     username: string;
     imageUrl: string;
+    firstName?: string;
+    lastName?: string;
   }
 
 export type PostWithProfile = {
