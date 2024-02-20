@@ -148,7 +148,6 @@
   .post-content {
     color: var(--text-primary);
     line-height: 22px;
-    width: fit-content;
   }
 
   .icons-container {
@@ -185,23 +184,23 @@
   }
 
   .profile-pic {
-    width: auto;
+    width: 100%;
     max-width: 100%;
     height: auto;
     object-fit: cover;
     border-radius: 1rem;
   }
+
   .image-container {
     display: flex;
     justify-content: center;
     justify-items: center;
     width: 100%;
-
     margin-top: 1rem;
   }
+
   video {
     width: 100%;
-    max-width: 700px;
     height: auto;
     border-radius: 8px;
   }

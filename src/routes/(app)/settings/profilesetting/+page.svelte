@@ -3,11 +3,11 @@
   import type { User } from "lucia";
 
   let user: User;
-  let firstName = ''; // Added for the first name
-  let lastName = ''; // Added for the last name
+  let username = ''; 
+  // let lastName = ''; // Added for the last name
 
   const handleSubmit = async () => {
-     if (!firstName || !lastName) {
+     if (!username ) {
       return alert("Please enter both first name and last name");
     }
 
@@ -16,7 +16,7 @@
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ firstName, lastName }), 
+      body: JSON.stringify({ username}), 
     });
   
   }
@@ -29,19 +29,11 @@
       <label for="first-name">First Name</label>
       <input
         type="text"
-        id="first-name"
-        bind:value={firstName}
-        placeholder="First Name"
+        id="username"
+        bind:value={username}
+        placeholder="Username"
       />
 
-   
-      <label for="last-name">Last Name</label>
-      <input
-        type="text"
-        id="last-name"
-        bind:value={lastName}
-        placeholder="Last Name"
-      />
 
       <button type="submit">Update Name</button>
     </form>

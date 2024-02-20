@@ -35,12 +35,12 @@ export async function POST(request) {
   if(!session) throw redirect(301, "/")
 
   const body = await request.request.json();
-  const { firstName,lastName,username } = body;
+  const {username } = body;
 
 
   const newusername = await dbClient
     .update(usersTable)
-    .set({ firstName, lastName,username })
+    .set({username })
     .where(eq(usersTable.id, session.userId));
   console.log(newusername);
 
