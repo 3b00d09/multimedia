@@ -1,4 +1,4 @@
-import { getPosts } from "$lib/server/data/posts.js";
+import { getPosts, getTextOnlyPosts,getMediaPosts} from "$lib/server/data/posts.js";
 import { dbClient } from "$lib/server/db";
 import { auth } from "$lib/server/lucia.js";
 import {
@@ -18,22 +18,44 @@ import { createClient } from "@supabase/supabase-js";
 type Post = typeof postsTable.$inferInsert;
 type Comment = typeof commentsTable.$inferInsert;
 
-export const load = async () => {
-  const rows = await getPosts();
 
+export const load = async (request) => { 
+  const session = request.locals.session;
+  if (!session) throw redirect(301, "/");
+
+
+  const results = await dbClient.select({
+    userPreference: usersTable.postPreference,
+  }).from(usersTable).where(eq(usersTable.id, session.userId));
+
+  let userPreference = 'all'; 
+  if (results.length > 0 && results[0].userPreference) {
+    userPreference = results[0].userPreference;
+  }
+
+  let rows;
+  if (userPreference === 'textOnly') {
+    rows = await getTextOnlyPosts();
+  } else if (userPreference === 'mediaOnly') {
+    rows = await getMediaPosts();
+  } else {
+   
+    rows = await getPosts();
+  }
+console.log(userPreference);
+  console.log(rows);
   return {
     rows,
   };
 };
 
+
+
 export const actions = {
   post: async (request) => {
     const session = request.locals.session
     if(!session) throw redirect(301, "/")
-
-
-
-
+    
     const data1 = await request.request.formData();
     const postContent = data1.get("post-content")?.toString();
     const postAuthor = session.userId;

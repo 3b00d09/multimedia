@@ -8,7 +8,6 @@ export type NotificationType = {
 export type CommentType = typeof commentsTable.$inferSelect
 export type LikePost = typeof likesPostTable.$inferSelect
 export type PostType = typeof postsTable.$inferSelect
-
 export interface User {
     username: string;
     imageUrl: string;
