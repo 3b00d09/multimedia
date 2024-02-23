@@ -1,8 +1,8 @@
-<script lang="ts">
-  import type { User } from "lucia";
+<script lang="ts"> 
   import NotificationBell from "./notification/NotificationBell.svelte";
   import type { NotificationType } from "$lib/types";
-  export let user: User | null;
+  import type {UserType} from "../types"
+  export let user: UserType | null;
   export let notifications: NotificationType[] | undefined
 </script>
 
