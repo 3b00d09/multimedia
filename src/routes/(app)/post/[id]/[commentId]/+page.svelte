@@ -2,6 +2,7 @@
     import Post from '$lib/components/post/Post.svelte';
     import Comment from '$lib/components/comment/Comment.svelte';
     import CommentFrom from "$lib/components/comment/CommentForm.svelte"
+  import Linebreak from '$lib/components/Linebreak.svelte';
 
     export let data;
 
@@ -14,6 +15,11 @@
       <Post post={data.post} />
 
       <CommentFrom postId={data.post.post.id}/>
+
+      {#if data.topLevelComment}
+        <Comment postId = {data.post.post.id} comment={data.topLevelComment}/>
+        <Linebreak/>
+      {/if}
 
       <Comment postId={data.post.post.id} comment={data.parentComment} />
 

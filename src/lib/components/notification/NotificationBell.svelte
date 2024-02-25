@@ -1,14 +1,10 @@
 <script lang="ts">
     import type { NotificationType } from "$lib/types";
-    import { onMount } from "svelte";
-  import PostNotification from "./PostNotification.svelte";
-
+    import PostNotification from "./PostNotification.svelte";
+    
     let active = false;
     export let notifications:NotificationType[] | undefined
 
-    onMount(()=>{
-        console.log(notifications)
-    })
 </script>
 
     <button class="container" on:click={()=>active = !active}>

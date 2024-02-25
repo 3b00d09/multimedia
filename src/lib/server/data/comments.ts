@@ -2,6 +2,7 @@ import { postsTable, usersTable, likesPostTable, commentsTable, likesCommentTabl
 import { dbClient } from "../db";
 import {eq, desc, getTableColumns, count, and, isNull} from "drizzle-orm"
 import type {CommentWithProfile, PostWithProfile} from "../../types"
+import { alias } from "drizzle-orm/pg-core";
 
 export async function getComments(postId: string){
 
@@ -68,4 +69,51 @@ export async function getCommentsByUser(userId: string){
     })
 
     return rows
+}
+
+export async function getCommentById(id: string){
+    const replies = alias(commentsTable, "commentsReplies")
+
+    const row = await dbClient.select({
+        comment:{
+            ...getTableColumns(commentsTable), 
+            replyCount: count(commentsTable.parentCommentId),
+            likeCount: count(likesCommentTable.comment)
+        },
+        author:{
+            ...getTableColumns(usersTable)
+        }
+    })
+    .from(commentsTable)
+    .where(eq(commentsTable.id, id))
+    .leftJoin(usersTable,eq(usersTable.id, commentsTable.author))
+    .leftJoin(likesCommentTable, eq(commentsTable.id, likesCommentTable.comment))
+    .leftJoin(replies, eq(commentsTable.id, replies.parentCommentId))
+    .limit(1)
+    .groupBy(commentsTable.id, usersTable.id)
+
+    return row[0] as CommentWithProfile
+
+}    
+
+export async function getReplies(id: string){
+    const replies = alias(commentsTable, "commentsReplies")
+     const rows = await dbClient.select({
+        comment:{
+            ...getTableColumns(commentsTable), 
+            replyCount: count(commentsTable.parentCommentId),
+            likeCount: count(likesCommentTable.comment)
+        },
+        author:{
+            ...getTableColumns(usersTable)
+        }
+    })
+    .from(commentsTable)
+    .where(eq(commentsTable.parentCommentId, id))
+    .leftJoin(usersTable,eq(usersTable.id, commentsTable.author))
+    .leftJoin(likesCommentTable, eq(commentsTable.id, likesCommentTable.comment))
+    .leftJoin(replies, eq(commentsTable.id, replies.parentCommentId))
+    .groupBy(commentsTable.id, usersTable.id)
+
+    return rows as CommentWithProfile[]
 }
