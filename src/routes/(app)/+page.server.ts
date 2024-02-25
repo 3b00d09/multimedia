@@ -42,8 +42,10 @@ export const load = async (request) => {
    
     rows = await getPosts();
   }
-console.log(userPreference);
-  console.log(rows);
+
+  rows = rows.map((data)=>{
+    if(data.author && data.post) return data
+  }) as PostWithProfile[]
   return {
     rows,
   };

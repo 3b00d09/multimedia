@@ -13,7 +13,7 @@
         <div class="posts-container">
             {#each data.rows as row}
                 <Post post={row}/>
-                <Linebreak/>
+                <Linebreak/> 
             {/each}
         </div>
     {/if}
