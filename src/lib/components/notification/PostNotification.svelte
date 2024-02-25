@@ -65,41 +65,13 @@
     flex-direction: column;
   }
 
-  /**https://codepen.io/lideo/pen/KKGeQG*/
-  .notifications-container {
-    display: none;
-    width: max-content;
-    color: #fff;
-    position: absolute;
-    padding: 1rem;
-    border-radius: 10%;
-    right: -30px;
-    top: 50px;
-    background-color: black;
-  }
-
-  .notifications-container:after {
-    content: " ";
-    position: absolute;
-    right: 30px;
-    top: -15px;
-    border-top: none;
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-bottom: 15px solid black;
-  }
-
   .notification {
     display: flex;
     align-items: center;
     gap: 1rem;
     padding: 0.5rem;
     cursor: pointer;
-  }
-
-  .active {
-    display: grid;
-    gap: 1rem;
+    border-radius: 16px;
   }
 
   .unread {

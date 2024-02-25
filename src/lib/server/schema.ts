@@ -175,5 +175,6 @@ export const notificationsTable = pgTable("notifications",{
 	type:varchar("type",{
 		length: 15
 	}).notNull(),
-	read:boolean("read").default(false)
+	read:boolean("read").default(false),
+	dateTime: timestamp("date_time")
 })

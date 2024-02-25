@@ -3,9 +3,10 @@ import { redirect } from "@sveltejs/kit";
 import type { LayoutServerLoad } from "./$types";
 import { dbClient } from "$lib/server/db";
 import { notificationsTable, usersTable } from "$lib/server/schema";
-import { eq } from "drizzle-orm";
+import { asc, eq } from "drizzle-orm";
 
 export const load: LayoutServerLoad = async (request) => {
+  
   const session = request.locals.session;
   if (session) {
     const user = await dbClient.query.usersTable.findFirst({
@@ -16,7 +17,9 @@ export const load: LayoutServerLoad = async (request) => {
       .select()
       .from(notificationsTable)
       .where(eq(notificationsTable.targetUser, session.userId))
-      .leftJoin(usersTable, eq(usersTable.id, notificationsTable.sourceUser));
+      .leftJoin(usersTable, eq(usersTable.id, notificationsTable.sourceUser))
+      .orderBy(asc(notificationsTable.dateTime))
+      .limit(5);
     return {
       user,
       notifications,

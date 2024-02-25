@@ -18,7 +18,6 @@ export const load = async({params})=>{
     }
 
     const comments = await getComments(postId)
-
     return {
         post, comments,
     }

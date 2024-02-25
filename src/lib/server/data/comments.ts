@@ -8,7 +8,7 @@ export async function getComments(postId: string){
 
     // using subqueries because jamming both aggregating count functions into one query is causing a cartesian product issue
     const likeSubquery = dbClient.select({likeCount:count(likesCommentTable.id).as("likeCount"), comment:likesCommentTable.comment}).from(likesCommentTable).groupBy(likesCommentTable.comment).as("likeSubquery")
-    const repliesSubquery = dbClient.select({commentCount:count(commentsTable.parentCommentId).as("commentCount"), comment: commentsTable.parentCommentId}).from(commentsTable).groupBy(commentsTable.id).as("repliesSubquery")
+    const repliesSubquery = dbClient.select({commentCount:count(commentsTable.parentCommentId).as("commentCount"), comment: commentsTable.parentCommentId}).from(commentsTable).groupBy(commentsTable.parentCommentId).as("repliesSubquery")
     
     const _rows = await dbClient.select({
         comment: {...getTableColumns(commentsTable),

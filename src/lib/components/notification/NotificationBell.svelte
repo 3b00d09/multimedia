@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { NotificationType } from "$lib/types";
     import PostNotification from "./PostNotification.svelte";
+    import { fly } from "svelte/transition";
     
     let active = false;
     export let notifications:NotificationType[] | undefined
@@ -9,15 +10,20 @@
 
     <button class="container" on:click={()=>active = !active}>
         <img src="/images/icons/notification-bell.png" alt="Notifications icon">
-        <div class:active class="notifications-container">
-            {#if notifications}
-                {#each notifications as notification}
-                    <PostNotification {notification}/>
-                {/each}
-            {:else}
-                <p>No notifications</p>
+        
+            {#if active}
+                <div in:fly={{duration: 250, y: -50, opacity: 1}} out:fly={{duration: 250, y: -50, opacity: 0}} class="notifications-container">
+                    {#if notifications}
+                        {#each notifications as notification}
+                            <PostNotification {notification}/>
+                        {/each}
+                        <a href="/notifications">Read All</a>
+                    {:else}
+                        <p>No notifications</p>
+                    {/if}
+                </div>
             {/if}
-        </div>
+
     </button>
 
 
@@ -33,6 +39,18 @@
         position: relative;
     }
 
+
+    a{
+        color: inherit;
+        text-decoration: none;
+        text-align: center;
+        border: 1px solid var(--action);
+        width: fit-content;
+        padding: 0.6rem;
+        border-radius: 16px;
+        justify-self: center;
+    }
+
     .container{
         display: flex;
         flex-direction: column;
@@ -41,12 +59,13 @@
 
     /**https://codepen.io/lideo/pen/KKGeQG*/
     .notifications-container{
-        display: none;
+        display: grid;
+        gap: 1rem;
         width: max-content;
         color: #fff;
         position: absolute;
-        padding: 1rem;
-        border-radius: 10%;
+        padding: 0.75rem;
+        border-radius: 16px;
         right: -30px;
         top: 50px;
         background-color: black;
@@ -61,11 +80,6 @@
         border-right: 15px solid transparent;
         border-left: 15px solid transparent;
         border-bottom: 15px solid black;
-    }
-
-    .active{
-        display: grid;
-        gap: 1rem;
     }
 
 </style>
