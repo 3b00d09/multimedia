@@ -1,3 +1,4 @@
+import { serial } from "drizzle-orm/mysql-core";
 import { pgTable, bigint, varchar, timestamp, foreignKey, boolean, integer } from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable("user", {
@@ -177,4 +178,17 @@ export const notificationsTable = pgTable("notifications",{
 	}).notNull(),
 	read:boolean("read").default(false),
 	dateTime: timestamp("date_time")
+})
+
+export const groupsTable = pgTable("groups",{
+	id: varchar("id",{length:255}).primaryKey(),
+	name: varchar("name",{length:15}).notNull(),
+	creator: varchar("creator",{length:15}).notNull().references(()=>usersTable.id),
+	description:varchar("description",{length: 255})
+})
+
+export const groupMembers = pgTable("group_members",{
+	id: varchar("id",{length: 255}).primaryKey(),
+	group: varchar("group_id",{length:255}).notNull().references(()=>groupsTable.id),
+	member: varchar("member_id",{length:15}).notNull().references(()=>usersTable.id)
 })

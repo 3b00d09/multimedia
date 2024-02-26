@@ -16,9 +16,10 @@
       <SideBarBtn imgRoute={"search.png"} name={"Explore"} />
     </li></a
   >
+  <a href="/groups">
   <li class="icon-container">
-    <SideBarBtn imgRoute={"inbox.png"} name={"Inbox"} />
-  </li>
+    <SideBarBtn imgRoute={"inbox.png"} name={"Groups"} />
+  </li></a>
   <a href={user ? `/users/${user}` : "/login"}
     ><li class="icon-container">
       <SideBarBtn username={user} imgRoute={"profile.png"} name={"Profile"} />
@@ -40,6 +41,7 @@
     border-radius: 8px;
     padding: 1rem 1.75rem;
     height: 70vh;
+    min-height: max-content;
     grid-template-columns: repeat(1, 3rem);
     grid-template-rows: repeat(4, auto) 1fr;
     justify-items: center;

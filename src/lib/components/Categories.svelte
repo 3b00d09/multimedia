@@ -2,7 +2,9 @@
   import { onMount } from "svelte";
   import SearchBar from "./SearchBar.svelte";
   import { page } from "$app/stores";
-  
+    import { fly } from "svelte/transition";
+    
+    let displayCategories: boolean = false
     let currentLocation:string = "";
     onMount(()=>currentLocation=window.location.pathname)
 
@@ -18,12 +20,16 @@
     <a href="/"><button class:active={currentLocation.length === 0}>For You</button></a>
     <a href="/following"><button class:active={currentLocation === "following"}>Following</button></a>
 </div>
-<ul>
+<button class="categories" on:click={()=>displayCategories = !displayCategories}>Categories</button>
+
+{#if displayCategories}
+<ul in:fly={{y: 50, duration: 250, opacity:0}}>
     <li>Comedy</li>
     <li>Sad</li>
     <li>Sci-Fi</li>
     <li>News</li>
 </ul>
+{/if}
 
 
 <style>
@@ -64,6 +70,14 @@
         border: 0;
         color: var(--text-secondary);
         font-size: 1.2rem;
+    }
+
+    .categories{
+        justify-self: start;
+        border: 1px solid var(--action);
+        color: inherit;
+        font-size: 0.8rem;
+        padding: 0.75rem;
     }
 
     .active{
