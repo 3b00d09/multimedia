@@ -1,4 +1,8 @@
-import { getPosts, getTextOnlyPosts,getMediaPosts} from "$lib/server/data/posts.js";
+import {
+  getPosts,
+  getTextOnlyPosts,
+  getMediaPosts,
+} from "$lib/server/data/posts.js";
 import { dbClient } from "$lib/server/db";
 import { auth } from "$lib/server/lucia.js";
 import {
@@ -18,51 +22,56 @@ import { createClient } from "@supabase/supabase-js";
 type Post = typeof postsTable.$inferInsert;
 type Comment = typeof commentsTable.$inferInsert;
 
-
-export const load = async (request) => { 
+export const load = async (request) => {
+ 
   const session = request.locals.session;
-  if (!session) throw redirect(301, "/");
 
+  let userPreference = "all";
 
-  const results = await dbClient.select({
-    userPreference: usersTable.postPreference,
-  }).from(usersTable).where(eq(usersTable.id, session.userId));
+  if (session) {
+    // The user is logged in, fetch their preferences
+    const results = await dbClient
+      .select({
+        userPreference: usersTable.postPreference,
+      })
+      .from(usersTable)
+      .where(eq(usersTable.id, session.userId));
 
-  let userPreference = 'all'; 
-  if (results.length > 0 && results[0].userPreference) {
-    userPreference = results[0].userPreference;
+    if (results.length > 0 && results[0].userPreference) {
+      userPreference = results[0].userPreference;
+    }
+  } else {
+    // The user is not logged in
+    userPreference = "all";
   }
 
   let rows;
-  if (userPreference === 'textOnly') {
+
+  if (userPreference === "textOnly") {
     rows = await getTextOnlyPosts();
-  } else if (userPreference === 'mediaOnly') {
+  } else if (userPreference === "mediaOnly") {
     rows = await getMediaPosts();
   } else {
-   
     rows = await getPosts();
   }
 
-  rows = rows.map((data)=>{
-    if(data.author && data.post) return data
-  }) as PostWithProfile[]
+  rows = rows.filter((data) => data.author && data.post) as PostWithProfile[];
+
   return {
     rows,
   };
 };
 
-
-
 export const actions = {
   post: async (request) => {
-    const session = request.locals.session
-    if(!session) throw redirect(301, "/")
-    
+    const session = request.locals.session;
+    if (!session) throw redirect(301, "/");
+
     const data1 = await request.request.formData();
     const postContent = data1.get("post-content")?.toString();
     const postAuthor = session.userId;
     if (!postAuthor || !postContent) {
-      return {error:"missing field"};
+      return { error: "missing field" };
     }
 
     const date = new Date();
@@ -127,8 +136,8 @@ export const actions = {
   },
 
   comment: async (request) => {
-    const session = request.locals.session
-    if(!session) throw redirect(301, "/")
+    const session = request.locals.session;
+    if (!session) throw redirect(301, "/");
 
     const data = await request.request.formData();
     const commentContent = data.get("comment-content")?.toString();
@@ -172,8 +181,8 @@ export const actions = {
   },
 
   reply: async (request) => {
-    const session = request.locals.session
-    if(!session) throw redirect(301, "/")
+    const session = request.locals.session;
+    if (!session) throw redirect(301, "/");
 
     const data = await request.request.formData();
     const replyContent = data.get("reply-content")?.toString();

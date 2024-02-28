@@ -30,7 +30,7 @@ export const GET = async ({ url }) => {
 };
 export async function POST(request) {
   const session = request.locals.session;
-  if (!session) throw redirect(301, "/");
+  if (!session) throw redirect(301, "/login");
 
   const body = await request.request.json();
   const { username, firstName, lastName } = body;
@@ -60,7 +60,8 @@ export async function POST(request) {
 }
 export async function DELETE(request) {
   const session = request.locals.session;
-  if (!session) throw redirect(301, "/");
+  if (!session) throw redirect(301, "/login");
+
 
   const row = await dbClient
     .delete(usersTable)

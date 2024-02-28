@@ -15,7 +15,7 @@ export const actions:Actions = {
     const newPassword = formData.get("new-password") as string;
 
     const session = request.locals.session;
-    if (!session) throw redirect(301, "/");
+    if (!session) throw redirect(301, "/login");
 
     const existingUser = await dbClient
       .query.usersTable.findFirst({ where: ilike(usersTable.id, session.userId) });

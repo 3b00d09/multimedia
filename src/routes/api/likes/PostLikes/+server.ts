@@ -8,7 +8,8 @@ import { auth } from "$lib/server/lucia.js"
 
 export async function POST( request) {
   const session = request.locals.session
-  if(!session) throw redirect(301, "/")
+  if (!session) throw redirect(301, "/login");
+
 
 
   const body = await request.request.json();
@@ -64,7 +65,8 @@ return json({ success: true,liked:row.length>0 });
 
 export async function DELETE(request) {
   const session = request.locals.session
-  if(!session) throw redirect(301, "/")
+  if (!session) throw redirect(301, "/login");
+
 
 
   const body = await request.request.json();

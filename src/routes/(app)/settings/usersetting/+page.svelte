@@ -98,7 +98,6 @@
     <Linebreak />
   </li>
 </ul>
-
 <style>
   ul {
     list-style: none;
@@ -109,14 +108,11 @@
     height: 70vh;
     grid-template-columns: repeat(1, 16rem);
     grid-template-rows: repeat(4, auto) 1fr;
-
     grid-auto-rows: min-content;
     gap: 2rem;
     margin: 0 1.75rem;
     justify-self: end;
     width: fit-content;
-
-    /** prevents the active::before from exploding*/
     align-items: baseline;
   }
 
@@ -124,24 +120,37 @@
   .change-email button,
   .delete-account button {
     margin-bottom: 0.5rem;
+    background-color: #007bff; /* Slightly more polished look */
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    transition: box-shadow 0.3s ease, transform 0.2s ease; /* Smooth interaction */
+  }
+
+  .change-password button:hover,
+  .change-email button:hover,
+  .delete-account button:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
+    transform: translateY(-2px); /* Slight lift effect */
   }
 
   input {
-    flex-grow: 2;
     padding: 1rem;
     border-radius: 1rem;
-    flex-basis: 90%;
-    height: auto;
     width: 100%;
-    box-shadow:
-      -2px -2px 6px -4px rgba(226, 224, 224, 0.5) inset,
+    box-shadow: 
+      -2px -2px 6px -4px rgba(226, 224, 224, 0.5) inset, 
       2px 2px 6px 4px rgba(0, 0, 0, 0.5) inset;
     background-color: transparent;
     border: none;
     color: inherit;
     font: inherit;
-    resize: none;
-    transition: border-radius 0.5s;
+    transition: box-shadow 0.3s ease; /* Enhanced transition for input */
+  }
+
+  input:focus {
+    box-shadow: 
+      -2px -2px 6px -4px rgba(226, 224, 224, 0.75) inset, 
+      2px 2px 6px 4px rgba(0, 0, 0, 0.75) inset; /* More pronounced focus effect */
   }
 
   p {
@@ -154,12 +163,11 @@
     color: white;
     padding: 10px 15px;
     width: 100%;
-    margin-top:0.5rem;
     border-radius: 0.5rem;
     font-family: inherit;
     font-size: inherit;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
   }
 
   label {
