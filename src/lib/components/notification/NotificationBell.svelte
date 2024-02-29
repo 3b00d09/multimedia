@@ -17,7 +17,7 @@
                         {#each notifications as notification}
                             <PostNotification {notification}/>
                         {/each}
-                        <a href="/notifications">Read All</a>
+                        <a href="/notifications">View All</a>
                     {:else}
                         <p>No notifications</p>
                     {/if}
