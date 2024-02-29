@@ -1,24 +1,25 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import Linebreak from "$lib/components/Linebreak.svelte";
-  let showPasswordChange = false;
-  let showEmailChange = false;
-  let showDeleteAccount = false;
+  import { quintOut } from "svelte/easing";
+  import { slide } from "svelte/transition";
+  
+  let activeForm: boolean = false;
+  let dialog: HTMLDialogElement;
+  let deleteBtn:HTMLButtonElement
 
-  function toggleSection(section: "password" | "email" | "delete") {
-    showPasswordChange = false;
-    showEmailChange = false;
-    showDeleteAccount = false;
-
-    if (section === "password") {
-      showPasswordChange = true;
-    } else if (section === "email") {
-      showEmailChange = true;
-    } else if (section === "delete") {
-      showDeleteAccount = true;
-    }
+  function toggleForm() {
+    activeForm = !activeForm
   }
 
+  function toggleDeleteModal(){
+    dialog.open ? dialog.close() : dialog.showModal()
+  }
+
+  const validate = (e:Event &{currentTarget: EventTarget & HTMLInputElement}) =>{
+      if(e.currentTarget.value.toLowerCase() === "confirm delete") deleteBtn.disabled = false
+      else deleteBtn.disabled = true
+  }
 
   const handleDeleteAccount = async () => {
     if (!confirm('Are you sure you want to delete your account? This cannot be undone.')) {
@@ -40,14 +41,14 @@
   }
 </script>
 
+<!-- svelte-ignore a11y-click-events-have-key-events -->
 <ul class="box-shadow">
   <li class="change-password">
-    <button on:click={() => toggleSection("password")}>Change Password</button>
+    <button on:click={toggleForm}>Change Password</button>
 
-    {#if showPasswordChange}
-    <form method="POST" action="?/changePassword">
+    {#if activeForm}
+    <form method="POST" action="?/changePassword" in:slide={{ duration: 500, axis:'y', easing: quintOut}} out:slide={{ duration: 500, axis:'y', easing: quintOut}}>
 
-      <label for="current-password">Current Password</label>
       <input
         type="password"
         id="password"
@@ -56,7 +57,6 @@
         required
       />
   
-      <label for="new-password">New Password</label>
       <input
         type="password"
         id="new-password"
@@ -64,7 +64,6 @@
         placeholder="New Password"
         required
       />
-        <label for="repeat-new-password">Repeat New Password</label>
         <input
           type="password"
           id="repeat-new-password"
@@ -77,57 +76,46 @@
     </form>
   
     {/if}
-    <Linebreak />
     </li>
 
-
-  <li class="change-email">
-    <button on:click={() => toggleSection("email")}>Change Email</button>
-    {#if showEmailChange}
-      <p>email</p>
-    {/if}
-    <Linebreak />
-  </li>
-
-  <li class="delete-account">
-    <button on:click={() => toggleSection("delete")}>Delete Account</button>
-    {#if showDeleteAccount}
-      <!-- Updated to call handleDeleteAccount function -->
-      <button type="button" on:click={handleDeleteAccount}>Delete your account</button>
-    {/if}
-    <Linebreak />
-  </li>
+    <li class="delete-account">
+      <button on:click={toggleDeleteModal}>Delete Account</button>
+    </li>
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+    <dialog bind:this={dialog} on:click|self={toggleDeleteModal}>
+      <div>
+        <p>Are you sure you want to delete your account?</p>
+        <p>Deleted accounts <i>can not</i> be recovered</p>
+        <p>Type confirm delete in the box below to delete:</p>
+        <input on:input={validate}>
+        <button bind:this={deleteBtn} disabled>Delete</button>
+      </div>
+    </dialog>
 </ul>
 <style>
   ul {
     list-style: none;
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     background: transparent;
     border-radius: 8px;
     padding: 1rem 1.75rem;
-    height: 70vh;
-    grid-template-columns: repeat(1, 16rem);
-    grid-template-rows: repeat(4, auto) 1fr;
-    grid-auto-rows: min-content;
-    gap: 2rem;
-    margin: 0 1.75rem;
-    justify-self: end;
-    width: fit-content;
-    align-items: baseline;
+    gap: 1rem;
+    height: 100%;
+    width: max-content;
   }
 
   .change-password button,
-  .change-email button,
   .delete-account button {
-    margin-bottom: 0.5rem;
-    background-color: #007bff; /* Slightly more polished look */
+    background-color: var(--action); /* Slightly more polished look */
     border: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
     transition: box-shadow 0.3s ease, transform 0.2s ease; /* Smooth interaction */
   }
 
   .change-password button:hover,
-  .change-email button:hover,
   .delete-account button:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
     transform: translateY(-2px); /* Slight lift effect */
@@ -153,29 +141,50 @@
       2px 2px 6px 4px rgba(0, 0, 0, 0.75) inset; /* More pronounced focus effect */
   }
 
-  p {
-    color: hsl(240, 5%, 64.9%);
-    font-size: 0.875rem;
-    margin-top: 0.5rem;
-  }
-
   button {
     color: white;
-    padding: 10px 15px;
-    width: 100%;
+    padding: 1rem;
     border-radius: 0.5rem;
     font-family: inherit;
     font-size: inherit;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
+    width: 100%;
   }
 
-  label {
-    display: block;
-    margin-bottom: 0.5rem;
+  form{
+    display: grid;
+    gap: 1rem;
   }
 
-  ul li:nth-child(3) {
-    align-self: end;
+  dialog::backdrop{
+    background-color: var(--background);
+    backdrop-filter: blur(10px);
   }
+
+  dialog{
+    position: fixed; /* Use fixed positioning */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the dialog */
+    background-color: var(--background);
+    color: var(--text-primary);
+  }
+
+  dialog > div >  button{
+    width: fit-content;
+    padding: 0.5rem;
+    justify-self: center;
+  }
+  
+  dialog > div > button:disabled{
+    background-color: gray;
+  }
+
+  dialog > div{
+    display: grid;
+    gap: 1rem;
+  }
+
+  
 </style>

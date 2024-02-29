@@ -2,15 +2,21 @@
   import { enhance } from "$app/forms";
   import ProfileSections from "$lib/components/profile/ProfileSections.svelte";
   import Linebreak from "$lib/components/Linebreak.svelte";
+  import { onMount } from "svelte";
 
 
   export let data;
 
   let showProfileOptions = false;
+  let name: string = "";
 
   function toggleProfileOptions() {
     showProfileOptions = !showProfileOptions;
   }
+
+  onMount(()=>{
+    name = (data.user.firstName || "") + (data.user.lastName ? " " + data.user.lastName : "");
+  })
 </script>
 
 {#if data.user}
@@ -70,14 +76,10 @@
     {/if}
 
     <div class="user-info">
-      {#if data.user.firstName || data.user.lastName}
+      {#if name.length > 0}
         <div>
           <h2>
-            {`${
-              data.user.firstName
-                ? data.user.firstName.concat(" ", data.user.lastName || "")
-                : ""
-            }${data.user.lastName ? data.user.lastName : ""}`}
+            {name}
           </h2>
           <p class="last-name">{"@" + data.user.username}</p>
         </div>

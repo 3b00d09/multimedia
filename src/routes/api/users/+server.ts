@@ -33,19 +33,20 @@ export async function POST(request) {
   if (!session) throw redirect(301, "/login");
 
   const body = await request.request.json();
-  const { username, firstName, lastName } = body;
+  const { username, firstName, lastName, bio } = body;
 
   interface UpdateFields {
     username?: string;
     firstName?: string;
     lastName?: string;
+    bio?: string
   }
 
   let updateFields: UpdateFields = {};
   if (username) updateFields.username = username;
   if (firstName) updateFields.firstName = firstName;
   if (lastName) updateFields.lastName = lastName;
-  console.log(JSON.stringify({ username, firstName, lastName }));
+  if(bio) updateFields.bio = bio;
 
   if (Object.keys(updateFields).length > 0) {
     await dbClient
@@ -53,7 +54,6 @@ export async function POST(request) {
       .set(updateFields)
       .where(eq(usersTable.id, session.userId))
       .execute();
-    console.log(JSON.stringify({ username, firstName, lastName }));
 
     return json({ success: true, message: "User information updated." });
   }

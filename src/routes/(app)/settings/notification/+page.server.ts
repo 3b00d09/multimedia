@@ -21,7 +21,7 @@ export const actions = {
       .update(usersTable)
       .set({ postPreference: postPreference })
       .where(eq(usersTable.id, session.userId));
-      return { success: false };
+      return { success: true };
 
     } catch (e) {
       return { sucess:false, error: 'Failed to update preference.' };

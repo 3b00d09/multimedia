@@ -1,7 +1,8 @@
 <script lang="ts">
-  let username = ''; 
-  let lastName = ''; 
-  let firstName = '';
+  let username:string = ''; 
+  let lastName:string = ''; 
+  let firstName:string = '';
+  let bio: string = '';
 
   const handleSubmit = async () => {
     if (!username && !firstName && !lastName) {
@@ -13,7 +14,7 @@
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username, firstName, lastName }), 
+      body: JSON.stringify({ username, firstName, lastName, bio }), 
     });
 
     if (response.ok) {
@@ -23,6 +24,7 @@
       username = '';
       firstName = '';
       lastName = '';
+      bio = '';
     } else {
    
       alert("Failed to update user information.");
@@ -30,68 +32,50 @@
   }
 </script>
 
-<ul class="box-shadow">
-  <li class="change-username">
-    <form on:submit|preventDefault={handleSubmit} class="modal-search-form">
-      <label for="username">Username</label>
-      <input
-        type="text"
-        id="username"
-        bind:value={username}
-        placeholder="Username"
-      />
+  <form on:submit|preventDefault={handleSubmit} class="modal-search-form">
+    <input
+      type="text"
+      id="username"
+      bind:value={username}
+      placeholder="Username..."
+    />
+    
+    <input
+      type="text"
+      id="firstName"
+      bind:value={firstName}
+      placeholder="First Name..."
+    />
 
-      <label for="firstName">First Name</label>
-      <input
-        type="text"
-        id="firstName"
-        bind:value={firstName}
-        placeholder="First Name"
-      />
+    
+    <input
+      type="text"
+      id="lastName"
+      bind:value={lastName}
+      placeholder="Last Name..."
+    />
 
-      <label for="lastName">Last Name</label>
-      <input
-        type="text"
-        id="lastName"
-        bind:value={lastName}
-        placeholder="Last Name"
-      />
+    <textarea bind:value={bio} placeholder="Bio..."></textarea>
 
-      <button type="submit">Update Name</button>
-    </form>
-  </li>
-</ul>
+    <button type="submit">Update Details</button>
+  </form>
 
 <style>
-  ul {
-    list-style: none;
-    display: grid;
-    background: transparent;
-    border-radius: 8px;
+  form {
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
     padding: 1rem 1.75rem;
-    height: 70vh;
-    grid-template-columns: repeat(1, 16rem);
-    grid-template-rows: repeat(4, auto) 1fr;
-
-    grid-auto-rows: min-content;
+    height: 100%;
     gap: 2rem;
-    margin: 0 1.75rem;
-    justify-self: end;
-    width: fit-content;
-
-    /** prevents the active::before from exploding*/
-    align-items: baseline;
+    box-shadow: -2px -2px 6px -4px rgba(226, 224, 224, 0.5), 2px 2px 6px 4px rgba(0, 0, 0, 0.5);
   }
 
 
 
   input {
-    flex-grow: 2;
     padding: 1rem;
     border-radius: 1rem;
-    flex-basis: 90%;
-    height: auto;
-    width: 100%;
     box-shadow:
       -2px -2px 6px -4px rgba(226, 224, 224, 0.5) inset,
       2px 2px 6px 4px rgba(0, 0, 0, 0.5) inset;
@@ -99,30 +83,37 @@
     border: none;
     color: inherit;
     font: inherit;
-    resize: none;
     transition: border-radius 0.5s;
+    font-size: 1rem;
+  }
+
+  textarea{
+    resize: none;
+    padding: 1rem;
+    border-radius: 16px;
+    box-shadow:
+      -2px -2px 6px -4px rgba(226, 224, 224, 0.5) inset,
+      2px 2px 6px 4px rgba(0, 0, 0, 0.5) inset;
+    background-color: transparent;
+    border-color: var(--background);
+    flex-grow: 1;
+    color: var(--text-primary);
+    font-family: 'Roboto';
+    font-size: 1rem;
   }
 
 
 
   button {
+    all: unset;
+    text-align: center;
     color: white;
-    padding: 10px 15px;
-    width: 100%;
-    margin-top: 1rem;
+    padding: 0.6rem;
     border-radius: 0.5rem;
     font-family: inherit;
     font-size: inherit;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    background-color: var(--action);
   }
 
-  label {
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-
-  ul li:nth-child(3) {
-    align-self: end;
-  }
 </style>
