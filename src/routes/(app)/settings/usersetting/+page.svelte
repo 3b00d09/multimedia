@@ -157,7 +157,6 @@
   }
 
   dialog::backdrop{
-    background-color: var(--background);
     backdrop-filter: blur(10px);
   }
 
