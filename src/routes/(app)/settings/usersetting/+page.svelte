@@ -8,6 +8,8 @@
   let dialog: HTMLDialogElement;
   let deleteBtn:HTMLButtonElement
 
+  const validateDelete:string = "delete"
+
   function toggleForm() {
     activeForm = !activeForm
   }
@@ -17,24 +19,20 @@
   }
 
   const validate = (e:Event &{currentTarget: EventTarget & HTMLInputElement}) =>{
-      if(e.currentTarget.value.toLowerCase() === "confirm delete") deleteBtn.disabled = false
+      if(e.currentTarget.value === validateDelete) deleteBtn.disabled = false
       else deleteBtn.disabled = true
   }
 
   const handleDeleteAccount = async () => {
-    if (!confirm('Are you sure you want to delete your account? This cannot be undone.')) {
-      return;
-    }
 
     const response = await fetch('/api/users', {
       method: 'DELETE',
-    });
-
+    })
 
     const result = await response.json();
     if (result.success) {
       alert('Your account has been successfully deleted.');
-      goto('/login');
+      goto('/register');
     } else {
       alert('There was an issue deleting your account.');
     }
@@ -84,12 +82,13 @@
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
     <dialog bind:this={dialog} on:click|self={toggleDeleteModal}>
-      <div>
+      <div class="dialog">
+        <i class="fa-solid fa-triangle-exclamation fa-2xl" style="color: #ba2c2c;"></i>
         <p>Are you sure you want to delete your account?</p>
-        <p>Deleted accounts <i>can not</i> be recovered</p>
-        <p>Type confirm delete in the box below to delete:</p>
+        <p>All data will be erased <span style="color: #ba2c2c;">with no recovery.</span></p>
+        <p>To confirm, type "delete" in the box below.</p>
         <input on:input={validate}>
-        <button bind:this={deleteBtn} disabled>Delete</button>
+        <button bind:this={deleteBtn} disabled on:click={handleDeleteAccount}>Delete</button>
       </div>
     </dialog>
 </ul>
@@ -169,21 +168,36 @@
     transform: translate(-50%, -50%); /* Center the dialog */
     background-color: var(--background);
     color: var(--text-primary);
+    padding: 1rem;
+    border-radius: 1rem;
+    border: 1px solid transparent;
+    box-shadow: -2px -2px 6px -4px rgba(0, 0, 0, 0.5), 2px 2px 6px 4px rgba(0, 0, 0, 0.5);
+
   }
 
-  dialog > div >  button{
+  .dialog{
+    display: grid;
+    gap: 1rem;
+  }
+
+  .dialog >  button{
     width: fit-content;
     padding: 0.5rem;
     justify-self: center;
   }
   
-  dialog > div > button:disabled{
+  .dialog > button:disabled{
     background-color: gray;
   }
 
-  dialog > div{
+  .dialog{
     display: grid;
     gap: 1rem;
+  }
+
+  .dialog > i{
+    justify-self: center;
+    margin: 1rem 0;
   }
 
   

@@ -183,12 +183,12 @@ export const notificationsTable = pgTable("notifications",{
 export const groupsTable = pgTable("groups",{
 	id: varchar("id",{length:255}).primaryKey(),
 	name: varchar("name",{length:15}).notNull(),
-	creator: varchar("creator",{length:15}).notNull().references(()=>usersTable.id),
+	creator: varchar("creator",{length:15}).notNull().references(()=>usersTable.id,{onDelete:"cascade", onUpdate:"cascade"}),
 	description:varchar("description",{length: 255})
 })
 
 export const groupMembers = pgTable("group_members",{
 	id: varchar("id",{length: 255}).primaryKey(),
-	group: varchar("group_id",{length:255}).notNull().references(()=>groupsTable.id),
-	member: varchar("member_id",{length:15}).notNull().references(()=>usersTable.id)
+	group: varchar("group_id",{length:255}).notNull().references(()=>groupsTable.id,{onDelete:"cascade", onUpdate:"cascade"}),
+	member: varchar("member_id",{length:15}).notNull().references(()=>usersTable.id,{onDelete:"cascade", onUpdate:"cascade"})
 })
