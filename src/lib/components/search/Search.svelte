@@ -24,6 +24,7 @@
     text-align: center;
     border: none;
     justify-content: space-evenly;
+    margin-bottom: 0.75rem;
   }
 
   .icon-container {

@@ -34,8 +34,8 @@
 
     main > div{
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 3rem;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
     }
 
     .main-container{
