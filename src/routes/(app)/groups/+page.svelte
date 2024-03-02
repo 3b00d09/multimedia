@@ -5,12 +5,18 @@
 
     export let data;
     let createActive:boolean = false;
+    let activeDialog:boolean = false;
+    let dialog:HTMLDialogElement
+
+    const toggleDialog = () =>{
+      dialog.open ? dialog.close() : dialog.showModal()
+    }
 </script>
 
 
 <div>
   <div class="container">
-      <p>My Groups</p>
+      <h2>My Groups</h2>
       <button on:click={()=>createActive = !createActive}>Create</button>
     </div>
     {#if createActive}
@@ -25,21 +31,47 @@
   {#if data.groups.length === 0}
     <p style="color:var(--text-secondary)">No items found</p>
   {:else}
-      {#each data.groups as group}
-          <div>
-              <p>{group.name}</p>
-              <p>{group.description}</p>
-          </div>
-      {/each}
+          
+            <div class="groups-header">
+              <p>Name</p>
+              <p>Description</p>
+              <p>Date</p>
+              <p>Actions</p>
+              </div>
+            {#each data.groups as group}
+              <div class="groups-container">
+                <p>{group.name}</p>
+                <p>{group.description}</p>
+                <p style="text-align:center;">02/03/2024</p>
+                <div class="group-btns">
+                  <button><i class="fa-solid fa-pen-to-square"></i></button>
+                  <button on:click={toggleDialog}><i class="fa-solid fa-trash"></i></button>
+                </div>
+              </div>
+          {/each}
   {/if}
-
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
+      <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+      <dialog bind:this={dialog} on:click|self={toggleDialog}>
+          <div class="dialog">
+            <p>Are you sure you want to delete this group?</p>
+            <div class="dialog-btns">
+              <button>Cancel</button>
+              <button class="delete-btn">Delete</button>
+            </div>
+          </div>
+      </dialog>
 <style>
 
 div{
     align-self: start;
     display: grid;
     gap: 1rem;
-    padding: 0.2rem 1rem;
+    padding: 0.25rem 0;
+}
+
+h2{
+  font-size: 1.2rem;
 }
 
 button{
@@ -68,5 +100,70 @@ form > *{
   gap: 1rem;
   align-items: center;
 }
+
+.groups-container, .groups-header{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  border-bottom: 1px solid var(--text-secondary);
+  padding: 1rem 0.25rem;
+}
+
+
+.groups-header{
+  color: var(--text-secondary);
+}
+
+.groups-header > p:nth-child(4), .groups-header > p:nth-child(3){
+  text-align: center;
+}
+.groups-header > p:nth-child(3){
+  text-align: center;
+}
+
+.group-btns{
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.group-btns > button{
+  all:unset;
+  cursor: pointer;
+}
+
+  dialog::backdrop{
+    backdrop-filter: blur(10px);
+  }
+
+  dialog{
+    position: fixed; /* Use fixed positioning */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the dialog */
+    background-color: var(--background);
+    color: var(--text-primary);
+    padding: 1rem;
+    border-radius: 1rem;
+    border: 1px solid transparent;
+    box-shadow: -2px -2px 6px -4px rgba(0, 0, 0, 0.5), 2px 2px 6px 4px rgba(0, 0, 0, 0.5);
+  }
+
+    .dialog{
+    display: grid;
+    gap: 1rem;
+  }
+
+  .dialog-btns{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .delete-btn{
+    background-color: #8b1111;
+    color: var(--text-primary);
+    border: none;
+  }
 
 </style>

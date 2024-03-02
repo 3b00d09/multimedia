@@ -8,6 +8,7 @@
 
     $:{
         path = $page.url.pathname.split("/")
+        console.log(path)
     }
 </script>
 

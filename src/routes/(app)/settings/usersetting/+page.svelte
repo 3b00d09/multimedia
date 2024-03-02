@@ -174,11 +174,6 @@
 
   }
 
-  .dialog{
-    display: grid;
-    gap: 1rem;
-  }
-
   .dialog >  button{
     width: fit-content;
     padding: 0.5rem;
