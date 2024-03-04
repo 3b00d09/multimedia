@@ -32,6 +32,7 @@
       body: JSON.stringify(data),
     });
 
+    
     const res = await req.json();
 
     if (res.success) {
