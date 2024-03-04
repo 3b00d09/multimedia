@@ -7,15 +7,15 @@
     onMount(()=>currentLocation=window.location.pathname)
 
     $:{
-        path = $page.url.pathname.split("/")
-        console.log(path)
+        path = $page.url.pathname.split("/").filter((el)=>el!=="")
+        
     }
 </script>
 
 <div class="container">
     <div>
-        <a class:active={path.length === 2} href="/groups">Created Groups</a>
-        <a class:active={path.length === 3} href="/groups/joined">Joined Groups</a>
+        <a class:active={path.length === 1} href="/groups">Created Groups</a>
+        <a class:active={path.length === 2} href="/groups/joined">Joined Groups</a>
     </div>
     <slot/>
 </div>

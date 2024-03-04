@@ -98,12 +98,14 @@
 
         <input type="text" bind:value={data.lastName} placeholder="Last Name" />
 
-        <input
-        type="text"
+        <textarea
         bind:value={data.bio}
-        placeholder="About me"
+        placeholder="About you.."
         />
-        <button on:click={submitData}>Take me on a tour</button>
+        <div class="footer-btns">
+          <button on:click={submitData}>Take me on a tour</button>
+          <a href="/">Do this later</a>
+        </div>
     </div>
     {/key}
 </div>
@@ -120,7 +122,7 @@
         font-family: 'Roboto Serif';
         font-size: 1.5rem;
     }
-  input {
+  input, textarea {
     flex-grow: 1;
     padding: 1rem;
     border-radius: 1rem;
@@ -173,6 +175,16 @@
     background-color: #973636;
   }
 
-
+  .footer-btns{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  
+  a{
+    all:unset;
+    color: var(--text-secondary);
+    cursor: pointer;
+  }
 
 </style>

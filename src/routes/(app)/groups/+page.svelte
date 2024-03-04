@@ -2,6 +2,7 @@
     import { enhance } from "$app/forms";
   import { quintInOut, quintOut } from "svelte/easing";
   import { slide } from "svelte/transition";
+  import Group from "$lib/components/groups/Group.svelte"
 
     export let data;
     let createActive:boolean = false;
@@ -39,15 +40,7 @@
               <p>Actions</p>
               </div>
             {#each data.groups as group}
-              <div class="groups-container">
-                <p>{group.name}</p>
-                <p>{group.description}</p>
-                <p style="text-align:center;">02/03/2024</p>
-                <div class="group-btns">
-                  <button><i class="fa-solid fa-pen-to-square"></i></button>
-                  <button on:click={toggleDialog}><i class="fa-solid fa-trash"></i></button>
-                </div>
-              </div>
+              <Group {group}/>
           {/each}
   {/if}
       <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -101,7 +94,7 @@ form > *{
   align-items: center;
 }
 
-.groups-container, .groups-header{
+.groups-header{
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
@@ -121,16 +114,6 @@ form > *{
   text-align: center;
 }
 
-.group-btns{
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-}
-
-.group-btns > button{
-  all:unset;
-  cursor: pointer;
-}
 
   dialog::backdrop{
     backdrop-filter: blur(10px);

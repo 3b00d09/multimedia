@@ -1,4 +1,7 @@
-<div class="loading"></div>
+<script lang="ts">
+  export let centered: boolean = false;
+</script>
+<div class="loading" class:centered={centered}></div>
 
 <style>
   .loading {
@@ -8,6 +11,10 @@
     width: 40px;
     height: 40px;
     animation: spin 2s linear infinite;
+  }
+
+  .centered{
+    justify-self: center;
   }
 
   @keyframes spin {
