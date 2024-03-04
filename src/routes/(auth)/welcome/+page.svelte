@@ -1,50 +1,47 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import Confetti from "svelte-confetti";
   import { quintOut } from "svelte/easing";
   import { fade, blur, fly } from "svelte/transition";
 
   let animate: boolean = false;
 
   type formData = {
-    firstName: string | null,
-    lastName: string | null,
-    bio: string | null
-  }
+    firstName: string | null;
+    lastName: string | null;
+    bio: string | null;
+  };
 
-  let data:formData = {
+  let data: formData = {
     firstName: null,
     lastName: null,
-    bio: null
-  }
+    bio: null,
+  };
 
-  let message:{content:string, success: boolean} = {
+  let message: { content: string; success: boolean | undefined } = {
     content: "",
-    success: true
-  }
+    success: undefined,
+  };
 
-  const submitData = async()=>{
-    const req = await fetch("/api/details",{
-        method:"POST",
-        headers: {
+  const submitData = async () => {
+    const req = await fetch("/api/details", {
+      method: "POST",
+      headers: {
         "Content-Type": "application/json",
       },
-        body: JSON.stringify(data)
-    })
+      body: JSON.stringify(data),
+    });
 
-    const res = await req.json()
+    const res = await req.json();
 
-    if(res.success){
-        message.content = "Data updated successfully"
-        message.success = true
+    if (res.success) {
+      message.content = "Data updated successfully";
+      message.success = true;
+    } else {
+      message.content = "Something went wrong. Please try again.";
+      message.success = false;
     }
-    else{
-        message.content = "Something went wrong. Please try again."
-        message.success = false
-    }
-
-    console.log(res)
-
-  }
+  };
 
   onMount(() => {
     animate = true;
@@ -52,77 +49,96 @@
 </script>
 
 <div class="container">
-    {#if message.content}
-        {#key message}
-            <div class="message" class:success={message.success} class:fail={!message.success} in:fade={{duration:500, easing:quintOut, delay: 1000}} >{message.content}</div>
-        {/key}
-    {/if}
-
-    {#key animate}
-    <div class="title" in:fly={{ duration: 2000, y: -300, opacity: 0, easing: quintOut }}>
-        Welcome to Multimedia
+  {#if animate}
+    <div
+      class="title"
+      in:fly={{ duration: 2000, y: -300, opacity: 0, easing: quintOut }}
+    >
+      Welcome to Multimedia
     </div>
 
     <div
-        class="title"
-        in:fly={{
+      class="title"
+      in:fly={{
         delay: 2000,
         duration: 2000,
         y: 300,
         opacity: 0,
         easing: quintOut,
-        }}
+      }}
     >
-        An AI-enhanced Social Media platform
+      An AI-enhanced Social Media platform
+    </div>
+
+    <div style="display: flex; gap: 0.5rem;" class="title">
+      <div
+        in:fly={{
+          delay: 4000,
+          duration: 2000,
+          x: -300,
+          opacity: 0,
+          easing: quintOut,
+        }}
+      >
+        First, tell us
+      </div>
+      <div
+        in:fly={{
+          delay: 4000,
+          duration: 2000,
+          x: 300,
+          opacity: 0,
+          easing: quintOut,
+        }}
+      >
+        more about yourself
+      </div>
     </div>
 
     <div
-        style="display: flex; gap: 0.5rem;"
-        class="title"
-        
-    >
-        <div in:fly={{ delay: 4000, duration: 2000, x: -300, opacity: 0, easing: quintOut }}>First, tell us</div>
-        <div in:fly={{ delay: 4000, duration: 2000, x: 300, opacity: 0, easing: quintOut }}>more about yourself</div>
-    </div>
-
-    <div class="form"
-        in:fly={{
+      class="form"
+      in:fly={{
         delay: 4000,
         duration: 2000,
         y: 300,
         opacity: 0,
         easing: quintOut,
-        }}
+      }}
     >
-        <input type="text" bind:value={data.firstName} placeholder="First Name" />
+      <input type="text" bind:value={data.firstName} placeholder="First Name" />
 
-        <input type="text" bind:value={data.lastName} placeholder="Last Name" />
+      <input type="text" bind:value={data.lastName} placeholder="Last Name" />
 
-        <textarea
-        bind:value={data.bio}
-        placeholder="About you.."
-        />
-        <div class="footer-btns">
-          <button on:click={submitData}>Take me on a tour</button>
-          <a href="/">Do this later</a>
-        </div>
+      <textarea bind:value={data.bio} placeholder="About you.." />
+      <div class="footer-btns">
+        <button on:click={submitData}>Take me on a tour</button>
+        <a href="/">Do this later</a>
+      </div>
     </div>
-    {/key}
+  {/if}
+</div>
+
+<div style="justify-self: center;">
+  {#if message.success}
+    <Confetti />
+  {:else if message.success === false}
+    <p>Something went wrong, please try again later.</p>
+  {/if}
 </div>
 
 <style>
+  .container {
+    display: grid;
+    place-items: center;
+    gap: 1rem;
+  }
 
-    .container{
-        display: grid;
-        place-items: center;
-        gap: 1rem;
-    }
-
-    .title{
-        font-family: 'Roboto Serif';
-        font-size: 1.5rem;
-    }
-  input, textarea {
+  .title {
+    font-family: "Roboto Serif";
+    font-size: 1.5rem;
+  }
+  input,
+  textarea {
     flex-grow: 1;
     padding: 1rem;
     border-radius: 1rem;
@@ -138,7 +154,6 @@
     resize: none;
     transition: border-radius 0.5s;
   }
-
 
   .form {
     display: flex;
@@ -160,31 +175,15 @@
     transition: background-color 0.3s ease;
   }
 
-  .message{
-    text-align: center;
-    padding: 2rem;
-    border-radius: 30%;
-  }
-
-  .success{
-    background-color: #a5c5b4;
-    color: black;
-  }
-
-  .fail{
-    background-color: #973636;
-  }
-
-  .footer-btns{
+  .footer-btns {
     display: flex;
     justify-content: space-around;
     align-items: center;
   }
-  
-  a{
-    all:unset;
+
+  a {
+    all: unset;
     color: var(--text-secondary);
     cursor: pointer;
   }
-
 </style>

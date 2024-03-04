@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { invalidate } from "$app/navigation";
+  import { invalidate, invalidateAll } from "$app/navigation";
     import type {groupsTable} from "../../server/schema"
   import LoadingSpinner from "../LoadingSpinner.svelte";
     
@@ -34,7 +34,7 @@
 
         if(!res.error){
             deleteBtn.disabled = true
-            invalidate("/groups")
+            invalidateAll()
         }
 
     }
@@ -68,6 +68,8 @@
     </div>
 </dialog>
 
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <dialog bind:this={usersDialog} on:click|self={toggleUsersDialog}>
     <div class="manage-group">
         <div class="members-btns">
@@ -75,7 +77,9 @@
             <p class="tooltip">Add people that follow you and you follow</p>
         </div>
         <div class="users">
+            <!-- svelte-ignore a11y-missing-attribute -->
             <div class="user-info">
+                <!-- svelte-ignore a11y-missing-attribute -->
                 <img src="https://ikcxvcutdjftdsvbpwsa.supabase.co/storage/v1/object/sign/profile-images/default-img.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJwcm9maWxlLWltYWdlcy9kZWZhdWx0LWltZy5wbmciLCJpYXQiOjE3MDM0ODg4NjYsImV4cCI6MjAxODg0ODg2Nn0.EeYXUptq697XMxEb5XpbVTtwzm2qwrI2w8cxrD4OySk&t=2023-12-25T07%3A21%3A06.400Z">
                 <p>Sample User</p>
             </div>
@@ -83,6 +87,8 @@
         </div>
 
         <div class="users">
+            <!-- svelte-ignore a11y-missing-attribute -->
+            <!-- svelte-ignore a11y-missing-attribute -->
             <div class="user-info">
                 <img src="https://ikcxvcutdjftdsvbpwsa.supabase.co/storage/v1/object/sign/profile-images/default-img.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJwcm9maWxlLWltYWdlcy9kZWZhdWx0LWltZy5wbmciLCJpYXQiOjE3MDM0ODg4NjYsImV4cCI6MjAxODg0ODg2Nn0.EeYXUptq697XMxEb5XpbVTtwzm2qwrI2w8cxrD4OySk&t=2023-12-25T07%3A21%3A06.400Z">
                 <p>Sample User</p>

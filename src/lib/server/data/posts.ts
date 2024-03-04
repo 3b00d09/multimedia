@@ -185,9 +185,9 @@ export async function getLikedPosts(userId: string) {
       },
       author: { ...getTableColumns(usersTable) },
     })
-    .from(postsTable)
-    .leftJoin(likesPostTable, eq(postsTable.id, likesPostTable.post))
-    .where(eq(likesPostTable.post, postsTable.id))
+    .from(likesPostTable)
+    .where(eq(likesPostTable.author, userId))
+    .leftJoin(postsTable, eq(postsTable.id, likesPostTable.post))
     .leftJoin(usersTable, eq(usersTable.id, userId))
     .leftJoin(likeSubquery, eq(postsTable.id, likeSubquery.post))
     .leftJoin(commentSubquery, eq(postsTable.id, commentSubquery.post))
