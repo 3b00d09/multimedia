@@ -1,4 +1,4 @@
-import { groupsTable } from '$lib/server/schema.js';
+import { groupMembers, groupsTable } from '$lib/server/schema.js';
 import { dbClient } from '$lib/server/db.js';
 import { v4 as uuidv4 } from "uuid";
 import { redirect } from '@sveltejs/kit';
@@ -28,6 +28,12 @@ export const actions = {
                     name: groupName.toString(),
                     creator: session.userId,
                     description: groupDescription ? groupDescription.toString() : null
+                })
+
+                await dbClient.insert(groupMembers).values({
+                    id: uuidv4(),
+                    member: session.userId,
+                    group: newId
                 })
             }
             

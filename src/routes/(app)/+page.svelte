@@ -7,7 +7,7 @@
 
 </script>
 <div>
-    <Categories/>
+    <Categories groups={data.groups} />
     <PostForm />
     {#if data}
         <div class="posts-container">

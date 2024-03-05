@@ -188,7 +188,7 @@ export async function getLikedPosts(userId: string) {
     .from(likesPostTable)
     .where(eq(likesPostTable.author, userId))
     .leftJoin(postsTable, eq(postsTable.id, likesPostTable.post))
-    .leftJoin(usersTable, eq(usersTable.id, userId))
+    .leftJoin(usersTable, eq(usersTable.id, postsTable.author))
     .leftJoin(likeSubquery, eq(postsTable.id, likeSubquery.post))
     .leftJoin(commentSubquery, eq(postsTable.id, commentSubquery.post))
     .orderBy(desc(postsTable.timestamp))) as PostWithProfile[];

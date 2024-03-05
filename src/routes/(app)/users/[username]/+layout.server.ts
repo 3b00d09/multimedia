@@ -42,7 +42,7 @@ export const load =  async(request)=>{
         postsCount: postsCount[0].value,
         followerCount: followerCount[0].value,
         followingCount: followingCount[0].value, 
-        personalProfile: username === user.username, 
+        personalProfile: session.userId === user.id, 
         following
     }
 }
