@@ -5,7 +5,7 @@
   let bio: string = '';
 
   const handleSubmit = async () => {
-    if (!username && !firstName && !lastName) {
+    if (!username && !firstName && !lastName && !bio) {
       return alert("Please enter at least one field to update");
     }
 
@@ -26,7 +26,6 @@
       lastName = '';
       bio = '';
     } else {
-   
       alert("Failed to update user information.");
     }
   }

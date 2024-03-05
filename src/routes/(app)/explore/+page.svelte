@@ -34,13 +34,15 @@
 
   <div class="grid">
     {#each visibleUsers as user (user.username)}
+    <a href={`/users/${user.username}`} class="user-link">
       <div class="user" style="background-image: url({user.backgroungimg});">
         <div class="info">
           <img src={user.imageUrl} alt="{user.username}'s profile picture" />
           <p>{user.username}</p>
-          <p class="bio">{user.bio? user.bio : "No bio provided"}</p>
+          <p class="bio">{user.bio && user.bio.length > 25 ? user.bio.slice(0, 25) + '...' : (user.bio ? user.bio : '')}</p>
         </div>
       </div>
+    </a>
     {/each}
   </div>
 
