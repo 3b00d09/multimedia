@@ -39,12 +39,6 @@
             alt="Upload Image Icon"
           /></button
         >
-        <button
-          ><img
-            src="/images/icons/upload-gif.png"
-            alt="Upload GIF Icon"
-          /></button
-        >
       </div>
       <button class="submit-btn" type="submit">Post</button>
     </div>

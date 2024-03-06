@@ -3,6 +3,7 @@
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
   import PostLike from "./postLike.svelte";
+  import PostSettings from "./PostSettings.svelte";
 
   export let post: PostWithProfile;
 
@@ -55,7 +56,7 @@
       <p class="timestamp">{`.${days}d`}</p>
     </div>
 
-    <p>...</p>
+    <PostSettings/>
   </div>
   <div class="post-content">
     {#if post.post.pictureUrl}
@@ -75,6 +76,11 @@
       </video>
     {/if}
   </div>
+  
+  <div class="p">
+    <p>{post.post.content}</p>
+  </div>
+
   <div class="icons-container">
     <button>
       <PostLike postId={post.post.id} likecount={post.post.likeCount} />
@@ -84,14 +90,9 @@
       <img src="/images/icons/comment.png" alt="Reply Icon" />
       <p>{post.post.commentCount}</p>
     </button>
-    <button
-      ><img src="/images/icons/forward.png" alt="Direct Message Icon" /></button
-    >
   </div>
 
-  <div class="p">
-    <p>{post.post.content}</p>
-  </div>
+  
 </div>
 
 <style>
@@ -153,7 +154,7 @@
   .icons-container {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem;
     width: fit-content;
   }
 
