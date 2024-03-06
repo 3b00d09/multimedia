@@ -131,7 +131,7 @@
     box-shadow:
       -2px -2px 6px -4px rgba(226, 224, 224, 0.5),
       2px 2px 6px 4px rgba(0, 0, 0, 0.5);
-    padding: 5rem 5rem 5rem 5rem;
+
   }
   .profile-options-modal {
     position: fixed;

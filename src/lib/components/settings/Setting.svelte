@@ -75,14 +75,12 @@
     border-radius: 8px;
     padding: 1rem 1.75rem;
     height: 70vh;
-    grid-template-columns: repeat(1, 16rem);
     grid-template-rows: repeat(4, auto) 1fr;
     justify-items: center;
 
     grid-auto-rows: min-content;
     gap: 2rem;
 
-    margin: 0 1.75rem;
     justify-self: end;
     width: fit-content;
 

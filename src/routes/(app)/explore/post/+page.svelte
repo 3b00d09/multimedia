@@ -13,7 +13,6 @@
     {#each data.allPosts as post}
       <div class="post">
         <Post {post} />
-        <Linebreak />
       </div>
     {/each}
   </div>

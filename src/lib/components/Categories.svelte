@@ -52,7 +52,7 @@
 
 {#if displayGroups}
 <ul in:slide={{duration: 500, axis: 'y', }} out:slide={{duration: 300, axis: 'y'}}>
-    {#if groups}
+    {#if groups.length > 0}
         {#each groups as group}
             <li>{group.name}</li>
         {/each}

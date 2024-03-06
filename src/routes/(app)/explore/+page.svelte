@@ -1,5 +1,6 @@
 <script lang="ts">
   export let data;
+  import Linebreak from "$lib/components/Linebreak.svelte";
   import PostCard from "$lib/components/search/PostCard.svelte";
   import Search from "$lib/components/search/Search.svelte";
 
@@ -61,6 +62,7 @@
   {#each data.allPosts as post}
 
     <PostCard {post} />
+    <Linebreak/>
 
   {/each}
 </div>
@@ -69,6 +71,7 @@
 .container {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 1rem; 
   width: 100%;
 }
@@ -145,9 +148,8 @@ p {
   display: grid;
   gap: 0.5rem;
   cursor: pointer;
-  margin: auto;
   padding: 0.25rem;
-  border-radius: 12px;
+  width: 90%;
 }
 
 </style>
