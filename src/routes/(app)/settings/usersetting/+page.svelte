@@ -43,9 +43,8 @@
 <ul class="box-shadow">
   <li class="change-password">
     <button on:click={toggleForm}>Change Password</button>
-
     {#if activeForm}
-    <form method="POST" action="?/changePassword" in:slide={{ duration: 500, axis:'y', easing: quintOut}} out:slide={{ duration: 500, axis:'y', easing: quintOut}}>
+    <form method="POST" action="?/changePassword" in:slide={{ duration: 500, axis:'y', easing: quintOut}} out:slide={{ duration: 200, axis:'y', easing: quintOut}}>
 
       <input
         type="password"
@@ -72,7 +71,7 @@
   
       <button type="submit">Update Password</button>
     </form>
-  
+ 
     {/if}
     </li>
 
@@ -92,7 +91,11 @@
       </div>
     </dialog>
 </ul>
+
 <style>
+
+
+  
   ul {
     list-style: none;
     display: flex;
@@ -101,17 +104,24 @@
     background: transparent;
     border-radius: 8px;
     padding: 1rem 1.75rem;
-    gap: 1rem;
+    gap: 0.5rem;
     height: 100%;
-    width: max-content;
   }
 
-  .change-password button,
-  .delete-account button {
+ 
+
+  .change-password button{
     background-color: var(--action); /* Slightly more polished look */
     border: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
     transition: box-shadow 0.3s ease, transform 0.2s ease; /* Smooth interaction */
+    
+  }
+  .delete-account button {
+    background-color: var(--action); /* Slightly more polished look */
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+ 
   }
 
   .change-password button:hover,
@@ -142,18 +152,19 @@
 
   button {
     color: white;
-    padding: 1rem;
     border-radius: 0.5rem;
     font-family: inherit;
     font-size: inherit;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
     width: 100%;
+    min-width: 250px; 
+    margin-bottom:1rem ;
   }
 
   form{
     display: grid;
-    gap: 1rem;
+    gap: 0.5rem;
   }
 
   dialog::backdrop{
@@ -194,5 +205,4 @@
     margin: 1rem 0;
   }
 
-  
 </style>
