@@ -1,8 +1,21 @@
 <script lang="ts">
+    import { toastStore } from "$lib/helpers/stores";
+    export let postId: string;
     let showOptions: boolean = false;
     
     const toggleOptions = () =>{
         showOptions = !showOptions
+    }
+
+    const copyLink = () =>{
+        const url = window.location.href
+        navigator.clipboard.writeText(url+"post/"+postId)
+
+        toastStore.set({
+            active: true,
+            status: "success",
+            message: "Copied Link!"
+        })
     }
 </script>
 
@@ -13,18 +26,22 @@
 
     {#if showOptions}
         <ul class="options box-shadow">
-            <li>Share Link</li>
+            <button on:click={copyLink}><li>Share Link</li></button>
             <li>Send to group</li>
             <li>Delete Post</li>
         </ul>
     {/if}
+
 </div>
 
 
 <style>
+    #button{
+        justify-self: end;
+    }
+
     button{
         all:unset;
-        justify-self: end;
     }
 
     div{

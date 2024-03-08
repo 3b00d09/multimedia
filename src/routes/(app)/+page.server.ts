@@ -2,7 +2,7 @@ import {
   getPosts,
   getTextOnlyPosts,
   getMediaPosts,
-} from "$lib/server/data/posts.js";
+} from "$lib/helpers/data/posts.js";
 import { dbClient } from "$lib/server/db";
 import { auth } from "$lib/server/lucia.js";
 import {
@@ -15,7 +15,7 @@ import {
   groupsTable,
   groupMembers,
 } from "$lib/server/schema";
-import type { PostWithProfile } from "$lib/types.js";
+import type { PostWithProfile } from "$lib/helpers/types.js";
 import { redirect } from "@sveltejs/kit";
 import { count, desc, eq, getTableColumns, like, or, sql } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";

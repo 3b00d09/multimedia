@@ -1,7 +1,7 @@
-import { postsTable, usersTable, likesPostTable, commentsTable, likesCommentTable, } from "../schema";
-import { dbClient } from "../db";
+import { postsTable, usersTable, likesPostTable, commentsTable, likesCommentTable, } from "../../server/schema";
+import { dbClient } from "../../server/db";
 import {eq, desc, getTableColumns, count, and, isNull} from "drizzle-orm"
-import type {CommentWithProfile, PostWithProfile} from "../../types"
+import type {CommentWithProfile, PostWithProfile} from "../types"
 import { alias } from "drizzle-orm/pg-core";
 
 export async function getComments(postId: string){

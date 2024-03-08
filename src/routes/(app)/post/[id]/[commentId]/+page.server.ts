@@ -1,7 +1,7 @@
-import { getCommentById, getReplies } from '$lib/server/data/comments.js'
-import { getPostById } from '$lib/server/data/posts.js'
+import { getCommentById, getReplies } from '$lib/helpers/data/comments.js'
+import { getPostById } from '$lib/helpers/data/posts.js'
 import { dbClient } from '$lib/server/db.js'
-import type { CommentWithProfile, PostWithProfile } from '$lib/types.js'
+import type { CommentWithProfile, PostWithProfile } from '$lib/helpers/types.js'
 import { error } from '@sveltejs/kit'
 
 export const load = async({url, params})=>{

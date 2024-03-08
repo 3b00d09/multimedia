@@ -1,4 +1,4 @@
-import { queryPost } from "$lib/server/data/posts.js";
+import { queryPost } from "$lib/helpers/data/posts.js";
 import { dbClient } from "$lib/server/db.js";
 import { postsTable, usersTable } from "$lib/server/schema.js";
 import { ilike, eq } from "drizzle-orm";

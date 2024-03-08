@@ -2,9 +2,9 @@ import { dbClient } from '$lib/server/db.js'
 import { commentsTable, postsTable, usersTable, likesPostTable } from '$lib/server/schema.js'
 import { eq, getTableColumns } from 'drizzle-orm'
 import { error } from '@sveltejs/kit'
-import type { CommentWithProfile, PostWithProfile } from '$lib/types'
-import { getPostById } from '$lib/server/data/posts.js'
-import { getComments } from '$lib/server/data/comments.js'
+import type { CommentWithProfile, PostWithProfile } from '$lib/helpers/types'
+import { getPostById } from '$lib/helpers/data/posts.js'
+import { getComments } from '$lib/helpers/data/comments.js'
 
 
 export const load = async({params})=>{

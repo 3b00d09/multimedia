@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { PostType } from "$lib/types";
+  import type { PostType } from "$lib/helpers/types";
   import { onMount } from "svelte";
   import LikesModal from "../LikesModal.svelte";
 

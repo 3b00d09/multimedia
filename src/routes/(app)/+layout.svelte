@@ -3,6 +3,8 @@
     import Header from "$lib/components/Header.svelte";
     import Sidenav from "$lib/components/sidenav/Sidenav.svelte";
     import RecentMessages  from "$lib/components/RecentMessages.svelte";
+    import Toast from "$lib/components/Toast.svelte";
+  import type { SvelteComponent } from "svelte";
 
 
   export let data;
@@ -10,7 +12,6 @@
 </script>
 
 <main>
-   
     <Header user={data.user} notifications={data.notifications}/>
     <div>
         <Sidenav user={data.user?.username}/>
@@ -19,7 +20,10 @@
         </div>
         <RecentMessages/>
     </div>
+
 </main>
+
+<Toast/>
 
 <style>
 

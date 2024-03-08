@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { CommentType } from "$lib/types";
+  import type { CommentType } from "$lib/helpers/types";
   import { onMount } from "svelte";
 
 

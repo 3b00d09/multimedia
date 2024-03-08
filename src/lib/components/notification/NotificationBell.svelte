@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { NotificationType } from "$lib/types";
+    import type { NotificationType } from "$lib/helpers/types";
     import PostNotification from "./PostNotification.svelte";
     import { fly } from "svelte/transition";
     

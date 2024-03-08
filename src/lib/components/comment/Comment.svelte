@@ -1,6 +1,6 @@
 <script lang="ts">
     import ReplyForm from "./ReplyForm.svelte";
-    import type { CommentWithProfile } from "$lib/types";
+    import type { CommentWithProfile } from "$lib/helpers/types";
     import { goto } from "$app/navigation";
     import CommentLike from "./CommentLike.svelte";
     

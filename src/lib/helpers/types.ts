@@ -1,4 +1,4 @@
-import type { commentsTable, postsTable, usersTable,likesPostTable, notificationsTable } from './server/schema';
+import type { commentsTable, postsTable, usersTable,likesPostTable, notificationsTable } from '../server/schema';
 
 export type UserType = typeof usersTable.$inferSelect
 export type NotificationType = {
@@ -39,5 +39,10 @@ export type CommentWithProfileImage = CommentType &{
     firstName: string | null,
     lastName: string | null
 }
+  export type ToastArgs = {
+    active:boolean,
+    status: "error" | "success" | "info" | "pending",
+    message: string;
+  }
 
 export type AggregatedPost = { post: typeof postsTable.$inferInsert; comments: typeof commentsTable.$inferInsert[] }

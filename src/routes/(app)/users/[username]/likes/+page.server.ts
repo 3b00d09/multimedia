@@ -1,4 +1,4 @@
-import { getLikedPosts } from '$lib/server/data/posts.js';
+import { getLikedPosts } from '$lib/helpers/data/posts.js';
 import { dbClient } from '$lib/server/db.js';
 import { likesPostTable, postsTable, usersTable } from '$lib/server/schema.js';
 import { error, redirect } from '@sveltejs/kit';

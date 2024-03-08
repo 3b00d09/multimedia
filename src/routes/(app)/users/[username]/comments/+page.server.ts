@@ -1,6 +1,6 @@
 import { dbClient } from '$lib/server/db.js';
 import { commentsTable, likesCommentTable, likesPostTable, postsTable, usersTable } from '$lib/server/schema.js';
-import type { CommentWithProfile, PostWithProfile } from '$lib/types';
+import type { CommentWithProfile, PostWithProfile } from '$lib/helpers/types';
 import { redirect } from '@sveltejs/kit';
 import { eq, and, isNull, getTableColumns, count, sql, ilike } from 'drizzle-orm';
 import { alias } from 'drizzle-orm/pg-core';

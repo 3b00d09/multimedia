@@ -4,8 +4,8 @@ import {
   likesPostTable,
   commentsTable,
   userFollowsTable,
-} from "../schema";
-import { dbClient } from "../db";
+} from "../../server/schema";
+import { dbClient } from "../../server/db";
 import {
   eq,
   desc,
@@ -17,7 +17,7 @@ import {
   isNull,
   or,
 } from "drizzle-orm";
-import type { PostWithProfile } from "../../types";
+import type { PostWithProfile } from "../types";
 
 export async function getPosts() {
   // using subqueries because jamming both aggregating count functions into one query is causing a cartesian product issue

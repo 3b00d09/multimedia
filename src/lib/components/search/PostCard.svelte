@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type{PostWithProfile} from "$lib/types"
+  import type{PostWithProfile} from "$lib/helpers/types"
 
   export let post: PostWithProfile;
   import Post from "$lib/components/post/Post.svelte";

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { NotificationType } from "$lib/types";
+  import type { NotificationType } from "$lib/helpers/types";
 
   export let notification: NotificationType;
   const readNotification = async () => {

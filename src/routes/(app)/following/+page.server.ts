@@ -1,4 +1,4 @@
-import { getFollowingPosts } from '$lib/server/data/posts.js'
+import { getFollowingPosts } from '$lib/helpers/data/posts.js'
 import { redirect } from '@sveltejs/kit'
 
 export const load = async(request) =>{

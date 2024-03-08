@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { PostWithProfile } from "$lib/types";
+  import type { PostWithProfile } from "$lib/helpers/types";
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
   import PostLike from "./postLike.svelte";
@@ -56,7 +56,7 @@
       <p class="timestamp">{`.${days}d`}</p>
     </div>
 
-    <PostSettings/>
+    <PostSettings postId={post.post.id}/>
   </div>
   <div class="post-content">
     {#if post.post.pictureUrl}

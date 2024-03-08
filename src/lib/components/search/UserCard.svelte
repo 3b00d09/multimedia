@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { User } from '$lib/types'; 
+  import type { User } from '$lib/helpers/types'; 
   import Linebreak from '../Linebreak.svelte';
   export let user: User;
 </script>

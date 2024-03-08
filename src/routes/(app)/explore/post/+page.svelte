@@ -20,7 +20,7 @@
   <p>No posts found.</p>
 {/if}
 
-<style>
+<style> 
   .grid {
     display: grid;
     gap: 20px;

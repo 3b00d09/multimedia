@@ -10,7 +10,7 @@ import { redirect } from "@sveltejs/kit";
 import { and, eq, ilike } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
 import { SUPABASE_URL, KEY } from "$env/static/private";
-import { getPostByUser } from "$lib/server/data/posts.js";
+import { getPostByUser } from "$lib/helpers/data/posts.js";
 export const load = async ({ params }) => {
   const username = params.username;
 
