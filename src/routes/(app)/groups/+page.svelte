@@ -3,11 +3,30 @@
   import { quintInOut, quintOut } from "svelte/easing";
   import { slide } from "svelte/transition";
   import Group from "$lib/components/groups/Group.svelte"
+  import { toastStore } from "$lib/helpers/stores.js";
+  export let form;
 
     export let data;
     let createActive:boolean = false;
     let activeDialog:boolean = false;
     let dialog:HTMLDialogElement
+
+    $:{
+      if(form?.success){
+        toastStore.set({
+          status: "success",
+          message:"Group created.",
+          active:true
+        })
+      }
+      else if(form?.error){
+          toastStore.set({
+            status: "error",
+            message:form.message,
+            active:true
+        })
+      }
+    }
 
     const toggleDialog = () =>{
       dialog.open ? dialog.close() : dialog.showModal()

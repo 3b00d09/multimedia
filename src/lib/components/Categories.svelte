@@ -54,7 +54,7 @@
 <ul in:slide={{duration: 500, axis: 'y', }} out:slide={{duration: 300, axis: 'y'}}>
     {#if groups.length > 0}
         {#each groups as group}
-            <li>{group.name}</li>
+            <a href={`/home/groups/${group.id}`}><li>{group.name}</li></a>
         {/each}
     {:else}
         <p>No groups joined.</p>
@@ -66,6 +66,7 @@
 <style>
     a{
         all:unset;
+        cursor: pointer;
     }
     .categories-header{
         display: flex;

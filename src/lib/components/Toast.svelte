@@ -37,7 +37,7 @@
         color: #fff;
         border-radius: 16px;
         padding: 1rem;
-        z-index: 99999;
+        z-index: 999999999;
         background-color: #215938;
     }
 

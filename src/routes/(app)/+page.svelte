@@ -12,7 +12,7 @@
     {#if data}
         <div class="posts-container">
             {#each data.rows as row}
-                <Post post={row}/>
+                <Post post={row} groups={data.groups}/>
                 <Linebreak/> 
             {/each}
         </div>

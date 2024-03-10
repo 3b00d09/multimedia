@@ -4,8 +4,10 @@
   import { goto } from "$app/navigation";
   import PostLike from "./postLike.svelte";
   import PostSettings from "./PostSettings.svelte";
+  import type { groupsTable } from "$lib/server/schema";
 
   export let post: PostWithProfile;
+  export let groups: typeof groupsTable.$inferSelect[]
 
   let days: number;
 
@@ -56,7 +58,7 @@
       <p class="timestamp">{`.${days}d`}</p>
     </div>
 
-    <PostSettings postId={post.post.id}/>
+    <PostSettings postId={post.post.id} {groups}/>
   </div>
   <div class="post-content">
     {#if post.post.pictureUrl}

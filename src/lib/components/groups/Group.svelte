@@ -42,7 +42,7 @@
 
 <div class="groups-container">
 <p>{group.name}</p>
-<p>{group.description}</p>
+<p>{group.description ?? ""}</p>
 <p style="text-align:center;">02/03/2024</p>
 <div class="group-btns">
     <button on:click={toggleUsersDialog}><i class="fa-solid fa-pen-to-square"></i></button>
