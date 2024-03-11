@@ -187,7 +187,7 @@
   }
 
   .profile-pic {
-    width: 100%;
+    width: 90%;
     max-width: 100%;
     height: auto;
     object-fit: cover;

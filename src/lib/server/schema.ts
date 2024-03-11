@@ -195,6 +195,6 @@ export const groupMembers = pgTable("group_members",{
 
 export const groupPosts = pgTable("group_posts",{
 	id: varchar("id",{length: 255}).primaryKey(),
-	group: varchar("group", {length: 255}).references(()=>groupsTable.id),
-	post: varchar("post",{length: 255}).references(()=>postsTable.id)
+	group: varchar("group", {length: 255}).references(()=>groupsTable.id,{onDelete:"cascade", onUpdate:"cascade"}),
+	post: varchar("post",{length: 255}).references(()=>postsTable.id,{onDelete:"cascade", onUpdate:"cascade"})
 })

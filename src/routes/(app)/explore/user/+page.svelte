@@ -51,7 +51,7 @@
   .grid {
     display: grid;
     gap: 20px;
-    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
     padding: 1rem;
   }
 
@@ -89,6 +89,8 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    
+    gap:0.3rem;
   }
 
   .follow-btn {
@@ -110,7 +112,6 @@
     margin: 0;
     color: #333;
   }
-
 
   .grid a{
     text-decoration: none;

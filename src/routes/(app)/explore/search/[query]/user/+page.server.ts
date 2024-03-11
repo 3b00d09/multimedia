@@ -9,14 +9,16 @@ export async function load({ url,params }) {
     throw new Error("Search query is required");
   }
 
-  const allUsers = dbClient
-    .select({
-      username: usersTable.username,
-      imageUrl: usersTable.profilePictureUrl,
-      bio: usersTable.bio,
-      backgroungimg:usersTable.profileBackgroundUrl
-    })
-    .from(usersTable)
+  const allUsers = await dbClient.select({
+    username:usersTable.username,
+     imageUrl: usersTable.profilePictureUrl, 
+     bio:usersTable.bio,
+     backgroungimg:usersTable.profileBackgroundUrl,
+     firstName:usersTable.firstName,
+     lastName:usersTable.lastName,
+ })
+     .from(usersTable)
+ 
     .where(ilike(usersTable.username, `%${searchQuery}%`));
 
   return {
