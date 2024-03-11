@@ -12,8 +12,9 @@
 </script>
 
 <main>
-    <Header user={data.user} notifications={data.notifications}/>
+    
     <div>
+        <Header user={data.user} notifications={data.notifications}/>
         <Sidenav user={data.user?.username}/>
         <div class="main-container">
             <slot/>
@@ -32,14 +33,13 @@
         position: relative;
         display: grid;
         gap: 1rem;
-        margin-top: 1rem !important;
         margin: 0 2rem;
     }
 
     main > div{
         display: grid;
         grid-template-columns: 0.25fr 0.5fr 0.4fr;
-        gap: 2rem;
+        grid-column-gap: 2rem;
     }
 
     .main-container{

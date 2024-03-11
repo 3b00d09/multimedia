@@ -8,7 +8,9 @@
 
 <header>
 
+  <img src="/images/logo.png" alt="Website Logo" />
   <div class="user-info">
+    
     {#if !user}
       <button><a href="/login">Login</a></button>
       <button><a href="/register">Register</a></button>
@@ -22,7 +24,6 @@
 </header>
 
 <style>
-
   .user-info{
     justify-self: flex-end;
     display: flex;
@@ -42,10 +43,17 @@
     color: var(--action)
   }
   header {
-    display: grid;
+    display: flex;
+    justify-content: space-between;
     gap: 3rem;
-    align-items: baseline;  
+    align-items: center;
+    grid-column: span 3;
+
     /* * 33% because main page has grid 33-33-33 and the header should be as wide as the middle section of the grid
     width: 33%; */
+  }
+
+  img{
+    width: 5rem;
   }
   </style>
