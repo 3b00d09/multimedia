@@ -7,11 +7,16 @@
   import type { groupsTable } from "$lib/server/schema";
 
   export let post: PostWithProfile;
-  export let groups: typeof groupsTable.$inferSelect[]
+  let groups: typeof groupsTable.$inferSelect[]
 
   let days: number;
 
-  onMount(() => {
+  onMount(async() => {
+
+    const req = await fetch("/api/groups")
+    const res = await req.json()
+    groups = res
+    
     const originalTime = post.post.timestamp!.getTime();
     const currTime = new Date().getTime();
     const diffHours = (currTime - originalTime) / 3600000;

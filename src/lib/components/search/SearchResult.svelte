@@ -7,6 +7,11 @@
 </script>
 
 <ul>
+
+  <a href={`/explore/search/${query}`}>
+    <li class="icon-container"><SerachResBtn name={"Show All"} /></li>
+  </a>
+
   <a href={`/explore/search/${query}/user`}>
     <li class="icon-container"><SerachResBtn name={"User"} /></li>
   </a>
@@ -15,9 +20,6 @@
     <li class="icon-container"><SerachResBtn name={"Post"} /></li>
   </a>
 
-  <a href={`/explore/search/${query}`}>
-    <li class="icon-container"><SerachResBtn name={"Show All"} /></li>
-  </a>
 </ul>
 
 <style>
@@ -29,6 +31,7 @@
     list-style: none;
     outline: none;
     text-decoration: none; 
+    margin: 1rem 0;
   }
 
   a {

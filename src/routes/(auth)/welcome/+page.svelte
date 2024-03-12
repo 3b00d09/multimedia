@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { goto } from "$app/navigation";
   import { onMount } from "svelte";
   import Confetti from "svelte-confetti";
   import { quintOut } from "svelte/easing";
@@ -38,6 +39,9 @@
     if (res.success) {
       message.content = "Data updated successfully";
       message.success = true;
+      setTimeout(() => {
+        goto("/")
+      }, 1500);
     } else {
       message.content = "Something went wrong. Please try again.";
       message.success = false;

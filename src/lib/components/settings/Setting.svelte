@@ -14,8 +14,8 @@
         key={"profilesetting"}
       />
     </li>
-    <Linebreak /></a
-  >
+   </a>
+    <Linebreak />
 
   <a href="/settings/usersetting">
     <li class="icon-container">
@@ -26,8 +26,8 @@
         key={"usersetting"}
       />
     </li>
-    <Linebreak /></a
-  >
+    </a
+  ><Linebreak />
 
   <a href="/settings/security">
     <li class="icon-container">
@@ -38,54 +38,35 @@
         key={"security"}
       />
     </li>
-    <Linebreak /></a
-  >
+    </a
+  ><Linebreak />
 
-  <a href="/settings/notification">
+  <a href="/settings/preferences">
     <li class="icon-container">
       <Settingsbar
-        imgRoute={"notification-bell.png"}
-        name={"Notifications"}
-        description={"Adjust push, email, and in-app notifications"}
-        key={"notification"}
+        imgRoute={"preferences.png"}
+        name={"Preferences"}
+        description={"Adjust feed preferences."}
+        key={"preferences"}
       />
     </li>
-    <Linebreak /></a
+    </a
   >
 
-  <a href="/settings/message">
-    <li class="icon-container">
-      <Settingsbar
-        imgRoute={"Message.PNG"}
-        name={"Chat & Messaging"}
-        description={"Set preferences for message notifications, read receipts"}
-        key={"message"}
-      />
-    </li>
-    <Linebreak /></a
-  >
 </ul>
 
 <style>
   ul {
     list-style: none;
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
     text-align: center;
     background: transparent;
     border-radius: 8px;
     padding: 1rem 1.75rem;
     height: 70vh;
-    grid-template-rows: repeat(4, auto) 1fr;
-    justify-items: center;
-
-    grid-auto-rows: min-content;
-    gap: 2rem;
-
-    justify-self: end;
     width: fit-content;
-
-    /** prevents the active::before from exploding*/
-    align-items: baseline;
   }
 
   ul a {
@@ -97,9 +78,5 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-  }
-
-  ul li:nth-child(5) {
-    align-self: end;
   }
 </style>

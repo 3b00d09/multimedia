@@ -10,7 +10,8 @@
     onMount(()=>currentLocation=window.location.pathname)
 
     $:{
-      let path = $page.url.pathname.split("/")
+        let path = $page.url.pathname.split("/")
+        path = path.filter((item)=>item.length>0)
         currentLocation = path[path.length - 1]
         currentLocation = currentLocation
     }

@@ -1,25 +1,7 @@
-<!-- routes/signup/+page.svelte -->
-<script lang="ts">
-	import { enhance } from "$app/forms";
-	
-
-    import { onMount } from "svelte";
-    import { page } from '$app/stores';
-  
-    let currentLocation = "";
-    onMount(() => currentLocation = window.location.pathname);
-  
-    $: {
-        currentLocation = $page.url.pathname;
-        currentLocation = currentLocation;
-    }
-
-</script>
-
 <div class="container">
   <div class="header">
-		<h1 class:active={currentLocation === '/register'}>Sign up</h1>
-		<h2 class:active={currentLocation === '/login'}><a href="/login">Log in</a></h2>
+		<h1 class="active">Sign up</h1>
+		<h2><a href="/login">Log in</a></h2>
 </div>
 
  <form method="post" class="form">

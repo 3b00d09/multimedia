@@ -72,6 +72,7 @@
         justify-content: center;
         align-items: center;
         backdrop-filter: blur(4px);
+        z-index: 9999;
   }
 
     .visable {

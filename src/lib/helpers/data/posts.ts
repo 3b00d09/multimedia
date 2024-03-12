@@ -103,7 +103,8 @@ export async function getPostById(id: string) {
   const rows = _rows.map((data) => {
     if (data.post.commentCount === null) {
       data.post.commentCount = 0;
-    } else if (data.post.likeCount === null) {
+    } 
+    if (data.post.likeCount === null) {
       data.post.likeCount = 0;
     }
     return data;
@@ -149,7 +150,8 @@ export async function getPostByUser(userId: string) {
   const rows = _rows.map((data) => {
     if (data.post.commentCount === null) {
       data.post.commentCount = 0;
-    } else if (data.post.likeCount === null) {
+    } 
+    if (data.post.likeCount === null) {
       data.post.likeCount = 0;
     }
     return data;
@@ -196,7 +198,8 @@ export async function getLikedPosts(userId: string) {
   const rows = _rows.map((data) => {
     if (data.post.commentCount === null) {
       data.post.commentCount = 0;
-    } else if (data.post.likeCount === null) {
+    } 
+    if (data.post.likeCount === null) {
       data.post.likeCount = 0;
     }
     return data;
@@ -243,7 +246,8 @@ export async function getFollowingPosts(userId: string) {
   const rows = _rows.map((data) => {
     if (data.post.commentCount === null) {
       data.post.commentCount = 0;
-    } else if (data.post.likeCount === null) {
+    }
+    if (data.post.likeCount === null) {
       data.post.likeCount = 0;
     }
     return data;

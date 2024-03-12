@@ -13,7 +13,7 @@
         
             {#if active}
                 <div in:fly={{duration: 250, y: -50, opacity: 1}} out:fly={{duration: 250, y: -50, opacity: 0}} class="notifications-container">
-                    {#if notifications}
+                    {#if notifications && notifications?.length > 0}
                         {#each notifications as notification}
                             <PostNotification {notification}/>
                         {/each}

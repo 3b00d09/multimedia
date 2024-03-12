@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { toastStore } from "$lib/helpers/stores";
+
   let username:string = ''; 
   let lastName:string = ''; 
   let firstName:string = '';
@@ -19,12 +21,15 @@
 
     if (response.ok) {
       const data = await response.json();
-      alert(data.message);
+      toastStore.set({
+        active:true,
+        status:"success",
+        message:data.message
+      })
 
-      username = '';
-      firstName = '';
-      lastName = '';
-      bio = '';
+      setTimeout(() => {
+          window.location.reload();
+      }, 1500);
     } else {
       alert("Failed to update user information.");
     }

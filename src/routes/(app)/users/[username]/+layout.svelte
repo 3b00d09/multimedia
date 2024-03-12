@@ -115,7 +115,6 @@
 
 <style>
   .profile-container {
-    margin-top: 1rem;
     display: grid;
     grid-template-columns: auto;
     grid-template-rows: 2fr auto 2fr auto;
@@ -131,6 +130,8 @@
     box-shadow:
       -2px -2px 6px -4px rgba(226, 224, 224, 0.5),
       2px 2px 6px 4px rgba(0, 0, 0, 0.5);
+
+    padding: 1rem;
 
   }
   .profile-options-modal {

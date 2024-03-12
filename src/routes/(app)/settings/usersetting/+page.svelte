@@ -1,9 +1,12 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import Linebreak from "$lib/components/Linebreak.svelte";
+  import { toastStore } from "$lib/helpers/stores.js";
   import { quintOut } from "svelte/easing";
   import { slide } from "svelte/transition";
   
+  export let form;
+
   let activeForm: boolean = false;
   let dialog: HTMLDialogElement;
   let deleteBtn:HTMLButtonElement
@@ -37,6 +40,16 @@
       alert('There was an issue deleting your account.');
     }
   }
+
+  $:{
+    if(form){
+      toastStore.set({
+        active: true,
+        status: form.success ? "success" : "error",
+        message: form.message
+      })
+    }
+  }
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -47,7 +60,7 @@
     <form method="POST" action="?/changePassword" in:slide={{ duration: 500, axis:'y', easing: quintOut}} out:slide={{ duration: 200, axis:'y', easing: quintOut}}>
 
       <input
-        type="password"
+        type=""
         id="password"
         name="password"
         placeholder="Current Password"
@@ -55,14 +68,14 @@
       />
   
       <input
-        type="password"
+        type=""
         id="new-password"
         name="new-password"
         placeholder="New Password"
         required
       />
         <input
-          type="password"
+          type=""
           id="repeat-new-password"
           name="repeat-new-password"
           placeholder="Repeat New Password"
