@@ -1,7 +1,9 @@
 <script lang="ts">
   import { invalidate, invalidateAll } from "$app/navigation";
-    import type {groupsTable} from "../../server/schema"
+  import { onMount } from "svelte";
+    import type {groupsTable, usersTable} from "../../server/schema"
   import LoadingSpinner from "../LoadingSpinner.svelte";
+  import AddMember from "./AddMember.svelte";
     
     export let group: typeof groupsTable.$inferSelect
 
@@ -11,6 +13,9 @@
     let message: string | null;
     let deleteBtn: HTMLButtonElement;
     let loading: boolean = false;
+
+    let followers: typeof usersTable.$inferSelect[]  | null = [];
+
 
     const toggleDeleteDialog = () =>{
       deleteDialog.open ? deleteDialog.close() : deleteDialog.showModal()
@@ -36,8 +41,18 @@
             deleteBtn.disabled = true
             invalidateAll()
         }
-
     }
+
+    onMount(async()=>{
+      const req = await fetch("/api/mutuals")
+      const res = await req.json()
+      if(res.error){
+        followers = null
+      }
+      else{
+        followers = res.data
+      }
+    })
 </script>
 
 <div class="groups-container">
@@ -75,27 +90,15 @@
     <div class="manage-group">
         <div class="members-btns">
             <div>Add members</div>
-            <p class="tooltip">Add people that follow you and you follow</p>
+            <p class="tooltip">Add people you follow each other</p>
         </div>
-        <div class="users">
-            <!-- svelte-ignore a11y-missing-attribute -->
-            <div class="user-info">
-                <!-- svelte-ignore a11y-missing-attribute -->
-                <img src="https://ikcxvcutdjftdsvbpwsa.supabase.co/storage/v1/object/sign/profile-images/default-img.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJwcm9maWxlLWltYWdlcy9kZWZhdWx0LWltZy5wbmciLCJpYXQiOjE3MDM0ODg4NjYsImV4cCI6MjAxODg0ODg2Nn0.EeYXUptq697XMxEb5XpbVTtwzm2qwrI2w8cxrD4OySk&t=2023-12-25T07%3A21%3A06.400Z">
-                <p>Sample User</p>
-            </div>
-            <button>Add</button>
-        </div>
-
-        <div class="users">
-            <!-- svelte-ignore a11y-missing-attribute -->
-            <!-- svelte-ignore a11y-missing-attribute -->
-            <div class="user-info">
-                <img src="https://ikcxvcutdjftdsvbpwsa.supabase.co/storage/v1/object/sign/profile-images/default-img.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJwcm9maWxlLWltYWdlcy9kZWZhdWx0LWltZy5wbmciLCJpYXQiOjE3MDM0ODg4NjYsImV4cCI6MjAxODg0ODg2Nn0.EeYXUptq697XMxEb5XpbVTtwzm2qwrI2w8cxrD4OySk&t=2023-12-25T07%3A21%3A06.400Z">
-                <p>Sample User</p>
-            </div>
-            <button>Remove</button>
-        </div>
+        {#if followers}
+          <div class="users">
+            {#each followers as follower}
+                <AddMember user={follower} groupId={group.id}/>
+              {/each}
+          </div>
+        {/if}
     </div>
 </dialog>
 
@@ -202,14 +205,5 @@ button{
     background-repeat: no-repeat;
     background-position: center;
     opacity: 0.2;
-  }
-
-  .user-info > img{
-    width:3rem;
-  }
-  
-  .user-info{
-    display: flex;
-    align-items: center;
   }
 </style>

@@ -111,11 +111,16 @@
     padding: 0.35rem;
     border-radius: 16px;
     min-width: 100%;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
   }
 
   .post-container:hover {
-    background-color: rgba(226, 224, 224, 0.075);
-    transition: 300ms ease;
+    transform: translateY(-5px);
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -4px rgba(0, 0, 0, 0.1);
   }
   .post-header {
     display: flex;
