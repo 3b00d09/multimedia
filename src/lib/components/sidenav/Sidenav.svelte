@@ -25,11 +25,18 @@
       <SideBarBtn username={user} imgRoute={"profile.png"} name={"Profile"} />
     </li></a
   >
+
+  <a href="/notifications"
+    ><li class="icon-container">
+      <SideBarBtn imgRoute={"notification-bell.png"} name={"Notifications"} />
+    </li></a
+  >
   <a href="/settings"
     ><li class="icon-container">
       <SideBarBtn imgRoute={"settings.png"} name={"Settings"} />
     </li></a
   >
+
 </ul>
 
 <style>
@@ -40,14 +47,13 @@
     background: transparent;
     border-radius: 8px;
     padding: 1rem 1.75rem;
-    height: 70vh;
-    min-height: max-content;
+    height: 80vh;
     grid-template-columns: repeat(1, 3rem);
     grid-template-rows: repeat(4, auto) 1fr;
     justify-items: center;
 
     grid-auto-rows: min-content;
-    gap: 2rem;
+    gap: 1.5rem;
 
     justify-self: end;
     width: fit-content;
@@ -61,7 +67,9 @@
     color: inherit;
   }
 
+  
   ul li:nth-child(5) {
     align-self: end;
   }
+
 </style>

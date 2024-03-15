@@ -1,5 +1,6 @@
 <script lang="ts">
   import { invalidate, invalidateAll } from "$app/navigation";
+  import { toastStore } from "$lib/helpers/stores";
     import type {groupsTable} from "../../server/schema"
   import LoadingSpinner from "../LoadingSpinner.svelte";
     
@@ -30,6 +31,11 @@
         if(!res.error){
             deleteBtn.disabled = true
             invalidateAll()
+            toastStore.set({
+              active: true,
+              message: res.message,
+              status: "success"
+            })
         }
 
     }
@@ -65,17 +71,7 @@
 
 
 <style>
-
-button{
-    all: unset;
-    padding: 1rem;
-    border-radius: 16px;
-    border: 1px solid var(--action);
-    width: fit-content;
-    cursor: pointer;
-    font-size: 1rem;
-}
-
+  
 .groups-container{
   display: grid;
   grid-template-columns: repeat(4, 1fr);

@@ -4,32 +4,26 @@ import {
   getMediaPosts,
 } from "$lib/helpers/data/posts.js";
 import { dbClient } from "$lib/server/db";
-import { auth } from "$lib/server/lucia.js";
 import {
   commentsTable,
   postsTable,
   usersTable,
-  likesPostTable,
   notificationsTable,
-  likesCommentTable,
-  groupsTable,
-  groupMembers,
 } from "$lib/server/schema";
 import type { PostWithProfile } from "$lib/helpers/types.js";
 import { redirect } from "@sveltejs/kit";
-import { count, desc, eq, getTableColumns, like, or, sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
 import { SUPABASE_URL, KEY } from "$env/static/private";
 import { createClient } from "@supabase/supabase-js";
-type Post = typeof postsTable.$inferInsert;
-type Comment = typeof commentsTable.$inferInsert;
+
 
 export const load = async (request) => {
  
   const session = request.locals.session;
 
   let userPreference = "all";
-  let groups: typeof groupsTable.$inferSelect[] = []
+
 
   if (session) {
     // The user is logged in, fetch their preferences
@@ -43,9 +37,6 @@ export const load = async (request) => {
     if (results.length > 0 && results[0].userPreference) {
       userPreference = results[0].userPreference;
     }
-
-    const groupsRows = await dbClient.select({...getTableColumns(groupsTable)}).from(groupsTable).leftJoin(groupMembers, eq(groupMembers.group, groupsTable.id)).where(eq(groupMembers.member, session.userId))
-    groups = groupsRows
   } else {
     // The user is not logged in
     userPreference = "all";
@@ -64,7 +55,7 @@ export const load = async (request) => {
   rows = rows.filter((data) => data.author && data.post) as PostWithProfile[];
 
   return {
-    rows, groups
+    rows
   };
 };
 

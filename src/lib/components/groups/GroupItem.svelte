@@ -7,7 +7,7 @@
     let sendBtn: HTMLButtonElement;
 
     const sendPost = async() =>{
-        const req = await fetch("/api/groups",{
+        const req = await fetch("/api/groups/posts",{
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -15,15 +15,14 @@
             body: JSON.stringify({ groupId: group.id, postId: postId }),
         })
         const res = await req.json()
-        console.log(res)
         if(res.success){
             sendBtn.disabled = true
-            toastStore.set({
-                status: "success",
-                active: true,
-                message: "Post sent"
-            })
         }
+        toastStore.set({
+            status: res.error ? "error": "success",
+            active: true,
+            message: "Post sent"
+        })
     }
 </script>
 
@@ -36,9 +35,6 @@
 
 <style>
 
-    button{
-        all:unset;
-    }
     .group{
         display: flex;
         justify-content: space-between;

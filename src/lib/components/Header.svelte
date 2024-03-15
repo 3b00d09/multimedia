@@ -8,7 +8,7 @@
 
 <header>
 
-  <img src="/images/logo.png" alt="Website Logo" />
+  <img src="/images/icons/logo.png" alt="Website Logo" />
   <div class="user-info">
     
     {#if !user}
@@ -54,6 +54,7 @@
   }
 
   img{
-    width: 5rem;
+    width: 6rem;
+    margin-left: 1rem;
   }
   </style>

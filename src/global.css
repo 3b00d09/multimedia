@@ -54,8 +54,11 @@ h5 {font-size: 1.333rem; /* 21.28px */}
 
     
 button {
+  all:unset;
+  border: 1px solid var(--action);
   border-radius: 8px;
   font-family: inherit;
+  font-size: 1rem;
   background-color: var(--secondary);
   cursor: pointer;
   padding: 1rem;

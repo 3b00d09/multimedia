@@ -4,6 +4,7 @@
     import type {groupsTable, usersTable} from "../../server/schema"
   import LoadingSpinner from "../LoadingSpinner.svelte";
   import AddMember from "./AddMember.svelte";
+  import { toastStore } from "$lib/helpers/stores";
     
     export let group: typeof groupsTable.$inferSelect
 
@@ -29,7 +30,7 @@
 
     const deleteGroup = async() =>{
         loading = true;
-        const req = await fetch(`/api/groups/?id=${group.id}`,{
+        const req = await fetch(`/api/groups/manage/?id=${group.id}`,{
             method: "DELETE"
         })
 
@@ -40,6 +41,11 @@
         if(!res.error){
             deleteBtn.disabled = true
             invalidateAll()
+            toastStore.set({
+            status: res.error ? "error" : "success",
+            active: true,
+            message: res.message
+          })
         }
     }
 
@@ -103,16 +109,6 @@
 </dialog>
 
 <style>
-
-button{
-    all: unset;
-    padding: 1rem;
-    border-radius: 16px;
-    border: 1px solid var(--action);
-    width: fit-content;
-    cursor: pointer;
-    font-size: 1rem;
-}
 
 .groups-container{
   display: grid;

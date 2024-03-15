@@ -3,6 +3,8 @@ import { groupMembers } from '$lib/server/schema.js'
 import { json } from '@sveltejs/kit'
 import { and, eq } from 'drizzle-orm'
 
+
+// exit a group that you are a member of
 export const DELETE = async(request) =>{
     const session = request.locals.session
 
@@ -24,7 +26,7 @@ export const DELETE = async(request) =>{
             )
         )
 
-        return json({success: true, message: "Group deleted successfully."})
+        return json({success: true, message: "Group exited successfully."})
     }
 
     catch(e){

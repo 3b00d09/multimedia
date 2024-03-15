@@ -56,7 +56,6 @@
     cursor: pointer;
   }
   button {
-    all: unset;
     position: relative;
   }
 

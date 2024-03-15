@@ -35,10 +35,10 @@
         cursor: pointer;
     }
     button{
-        all: unset;
         position: relative;
+        border: none;
+        padding: 0;
     }
-
 
     a{
         color: inherit;

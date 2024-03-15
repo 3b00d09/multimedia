@@ -33,17 +33,13 @@
 
 <style>
     button{
-        padding: .45rem;
+        font-size: 0.8rem;
+        padding: 0.4rem;
         border: none;
         color: inherit;
         text-align: center;
         opacity: 0.2;
     }
-
-    button > img{
-        width: 100%;
-    }
-
     
     .active{
         opacity: 1;
