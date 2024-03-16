@@ -29,6 +29,7 @@
 
   <div class="grid">
     {#each visibleUsers as user (user.username)}
+    <a href={`/users/${user.username}`} class="user-link">
       <div class="user" style="background-image: url({user.backgroungimg});">
         <div class="info">
           <img src={user.imageUrl} alt="{user.username}'s profile picture" />
@@ -36,6 +37,7 @@
           <p class="bio">{user.bio? user.bio : "No bio provided"}</p>
         </div>
       </div>
+    </a>
     {/each}
   </div>
 

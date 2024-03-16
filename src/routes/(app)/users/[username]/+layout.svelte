@@ -92,15 +92,15 @@
       <span class="follower-counter">{data.followerCount} followers</span>
       <span class="following-counter">{data.followingCount} following</span>
       {#if !data.personalProfile}
-        {#if data.following}
-          <form use:enhance method="post" action="?/unfollow">
-            <button type="submit" class="followBtn">Unfollow</button>
-          </form>
-        {:else}
-          <form use:enhance method="post" action="?/follow">
-            <button class="followBtn">Follow</button>
-          </form>
-        {/if}
+      {#if data.following}
+      <form use:enhance method="post" action={`/users/${data.user.username}/?/unfollow`}>
+        <button type="submit" class="followBtn">Unfollow</button>
+      </form>
+    {:else}
+      <form use:enhance method="post" action={`/users/${data.user.username}/?/follow`}>
+        <button class="followBtn">Follow</button>
+      </form>
+    {/if}
       {/if}
     </div>
     {#if data.user.bio}

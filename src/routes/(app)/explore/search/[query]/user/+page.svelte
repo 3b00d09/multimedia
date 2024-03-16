@@ -41,6 +41,7 @@
               <p class="stats">Follower: 123</p>
               <p class="stats">Following: 515</p>
             </div>
+      
             <button class="follow-btn">Follow</button>
           </div>
         </div>

@@ -1,10 +1,9 @@
 import { dbClient } from "$lib/server/db.js";
-import {  usersTable } from "$lib/server/schema.js";
-import { ilike, eq } from "drizzle-orm";
-
-export async function load({ url,params }) {
+import { commentsTable, postsTable, userFollowsTable, usersTable } from '$lib/server/schema.js';
+import { count, eq, ilike, and } from 'drizzle-orm';
+export async function load({ request,params }) {
   const searchQuery = params.query;
-
+  const username = request.params.username
   if (!searchQuery) {
     throw new Error("Search query is required");
   }
@@ -21,6 +20,13 @@ export async function load({ url,params }) {
  
     .where(ilike(usersTable.username, `%${searchQuery}%`));
 
+       const Followers = await dbClient.select()  .from(userFollowsTable)
+       .where(
+           and(
+               eq(userFollowsTable.follower, session.userId),
+               eq(userFollowsTable.following, _user[0].id)
+           )
+       )
   return {
  
     allUsers,

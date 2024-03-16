@@ -11,22 +11,59 @@ import { and, eq, ilike } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
 import { SUPABASE_URL, KEY } from "$env/static/private";
 import { getPostByUser } from "$lib/helpers/data/posts.js";
-export const load = async ({ params }) => {
-  const username = params.username;
+import type { PostWithProfile } from "$lib/helpers/types";
 
-  const user = await dbClient
-    .select()
-    .from(usersTable)
-    .where(eq(usersTable.username, username));
 
-  if (!user[0]) {
-    return { 404: "explosion" };
+export const load = async (request) => {
+  const username = request.params.username;
+  const session = request.locals.session;
+  if (!session) {
+    throw redirect(307, "/login");
   }
 
-  const userPosts = await getPostByUser(user[0].id);
+  const profileResult = await dbClient
+    .select()
+    .from(usersTable)
+    .where(ilike(usersTable.username, username))
+
+  if (profileResult.length === 0) {
+    return { status: 404 };
+  }
+
+  const profileUser = profileResult[0];
+  
+  let allowViewing = false;
+  const isProfileOwner = session.userId === profileUser.id;
+
+  if (profileUser.isPrivate) {
+    if (isProfileOwner) {
+      allowViewing = true; 
+    } else {
+      // Check if the session user is following the profile user
+      const followResult = await dbClient
+        .select()
+        .from(userFollowsTable)
+        .where(and(eq(userFollowsTable.follower, session.userId), eq(userFollowsTable.following, profileUser.id)))
+        
+
+      allowViewing = followResult.length > 0;
+    }
+  } else {
+    // Public profiles are viewable by anyone
+    allowViewing = true;
+  }
+
+  let userPosts: PostWithProfile[] = [];
+  if (allowViewing) {
+    
+    userPosts = await getPostByUser(profileUser.id);
+  }
 
   return {
     userPosts,
+    allowViewing, 
+    isProfileOwner,
+    profileUser 
   };
 };
 

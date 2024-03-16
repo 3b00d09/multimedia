@@ -34,7 +34,7 @@
           <p class="bio">{user.bio && user.bio.length > 25 ? user.bio.slice(0, 25) + '...' : (user.bio ? user.bio : '')}</p>
 
             <div class="stats-container">
-              <p class="stats">Follower: 123</p>
+              <p class="stats">Follower:{ 123}</p>
               <p class="stats">Following: 515</p>
             </div>
             <button class="follow-btn">Follow</button>
