@@ -1,5 +1,10 @@
 import { serial } from "drizzle-orm/mysql-core";
-import { pgTable, bigint, varchar, timestamp, foreignKey, boolean, integer } from "drizzle-orm/pg-core";
+import { pgTable, bigint, varchar, timestamp, foreignKey, boolean, integer, check } from "drizzle-orm/pg-core";
+
+
+export const notificationTypeOptions:[string, ...string[]] = [
+	"follow", "comment", "like", "post_like", "comment_like", "post"
+]
 
 export const usersTable = pgTable("user", {
 	id: varchar("id", {
@@ -164,21 +169,16 @@ export const notificationsTable = pgTable("notifications",{
 	}).notNull().references(()=>
 		usersTable.id,{onDelete:"cascade", onUpdate:"cascade"},
 	),
-	postId:varchar("post_id",{
+	entityId:varchar("entity_id",{
 		length:255
-	}).references(()=>{
-		return postsTable.id
 	}),
-	commentId:varchar("comment_id",{
-		length:255
-	}).references(()=>{
-		return commentsTable.id
-	}),
-	type:varchar("type",{
-		length: 15
+	entityType:varchar("entity_type",{
+		length: 15, enum: notificationTypeOptions
 	}).notNull(),
 	read:boolean("read").default(false),
-	dateTime: timestamp("date_time")
+	dateTime: timestamp("date_time"),
+	// redundancy here but makes working with notifications a lot easier for replies comments and posts
+	content: varchar("content", {length: 255})
 })
 
 export const groupsTable = pgTable("groups",{

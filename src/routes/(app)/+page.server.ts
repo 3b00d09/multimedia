@@ -169,9 +169,8 @@ export const actions = {
           id: uuidv4(),
           sourceUser: session.userId,
           targetUser: targetUser[0].userId!,
-          postId: postId,
-          commentId: newCommentId,
-          type: "comment",
+          entityId: newCommentId,
+          entityType: "comment",
         });
       }
     }

@@ -1,8 +1,8 @@
 import type { commentsTable, postsTable, usersTable,likesPostTable, notificationsTable } from '../server/schema';
 
-export type UserType = typeof usersTable.$inferSelect
+export type UserType = Omit<typeof usersTable.$inferSelect,"password">
 export type NotificationType = {
-    notifications: typeof notificationsTable.$inferSelect,
+    notification: typeof notificationsTable.$inferSelect,
     user: UserType | null
 }
 export type CommentType = typeof commentsTable.$inferSelect
@@ -13,7 +13,7 @@ export interface User {
     imageUrl: string;
     firstName?: string;
     lastName?: string;
-  }
+}
 
 export type PostWithProfile = {
     post:PostType &
@@ -43,6 +43,7 @@ export type CommentWithProfileImage = CommentType &{
     active:boolean,
     status: "error" | "success" | "info" | "pending",
     message: string;
-  }
+}
+
 
 export type AggregatedPost = { post: typeof postsTable.$inferInsert; comments: typeof commentsTable.$inferInsert[] }

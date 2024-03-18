@@ -15,8 +15,12 @@ export const load: LayoutServerLoad = async (request) => {
       where: eq(usersTable.id, session.userId),
     });
 
+    const {password, ...rest} = getTableColumns(usersTable)
     const notifications = await dbClient
-      .select()
+      .select({
+        notification: getTableColumns(notificationsTable),
+        user: {...rest}
+      })
       .from(notificationsTable)
       .where(eq(notificationsTable.targetUser, session.userId))
       .leftJoin(usersTable, eq(usersTable.id, notificationsTable.sourceUser))
