@@ -45,5 +45,15 @@ export type CommentWithProfileImage = CommentType &{
     message: string;
 }
 
+export type CommentNotification = {
+    content: string,
+    sourceUser: UserType
+}
+
+export type PostLikenotification = {
+    postId: string,
+    sourceUser: UserType
+}
+
 
 export type AggregatedPost = { post: typeof postsTable.$inferInsert; comments: typeof commentsTable.$inferInsert[] }
