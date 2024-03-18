@@ -5,7 +5,6 @@
   import { enhance} from '$app/forms'
   export let form;
 
-  console.log(form);
   let active = false;
   async function showConfetti() {
     active = false;

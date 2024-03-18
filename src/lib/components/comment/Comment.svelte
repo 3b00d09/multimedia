@@ -2,7 +2,7 @@
     import ReplyForm from "./ReplyForm.svelte";
     import type { CommentWithProfile } from "$lib/helpers/types";
     import { goto } from "$app/navigation";
-    import CommentLike from "./CommentLike.svelte";
+    import { onMount } from "svelte";
     
 
     export let comment: CommentWithProfile
@@ -13,6 +13,31 @@
     const navigateToComment = () =>{
         goto(`/post/${postId}/${comment.comment.id}`)
     }
+      let liked = false;
+  
+  async function toggleLike() {
+    
+    const response = await fetch(`/api/likes/CommentLikes`, {
+      method: liked ? "DELETE": "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ commentId: comment.comment.id, postId }),
+    });
+
+    const data = await response.json();
+    if (data.success) {
+      liked = !liked;
+    } else {
+      console.error("Failed to toggle like:", data.message);
+    }
+  }
+
+  onMount(async()=>{
+    const data = await fetch(`/api/likes/CommentLikes?id=${comment.comment.id}`)
+    const res = await data.json()
+    liked = res.liked;
+    })
 
 </script>
 
@@ -26,11 +51,16 @@
     </div>
     <div class="comment-content">{comment.comment.comment}</div>
     <div class="icons-container">
-        <CommentLike comment = {comment.comment}/>
-        <span class="like-count">{comment.comment.likeCount}</span>
-        <button on:click={()=>{activeReply = !activeReply}}><img src ="/images/icons/reply.png" alt="Reply Icon"></button>
-        <p>{comment.comment.replyCount}</p>
-        <button><img src ="/images/icons/forward.png" alt="Direct Message Icon"></button>
+        <div class="like-container">
+            <button class="like-btn" on:click={toggleLike}>
+                <img class:like={liked} src={!liked ? "/images/icons/like.png" : "/images/icons/likeFilled.png"} alt="Like Icon"/>
+            </button>
+            <span class="like-count">{comment.comment.likeCount}</span>
+        </div>
+        <div class="reply-container">
+            <button on:click={()=>{activeReply = !activeReply}}><img src ="/images/icons/reply.png" alt="Reply Icon"></button>
+            <p>{comment.comment.replyCount}</p>
+        </div>
     </div>
 
     {#if activeReply}
@@ -77,14 +107,17 @@
         border: none;
     }
 
-    .icons-container > button > img{
-        width: 100%;
-    }
-
     .profile-image{
         border-radius: 50%;
         object-fit: cover;
         width: 3rem;
         height: 3rem;
     }
+
+    .like-container, .reply-container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
 </style>

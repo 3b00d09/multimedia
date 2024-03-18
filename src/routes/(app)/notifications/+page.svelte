@@ -1,9 +1,9 @@
 <script lang="ts">
-    //export let data;
+    import Notification from "$lib/components/notification/Notification.svelte"
+    export let data;
+
 </script>
 
-<p>all</p>
-
-<style>
-
-</style>
+{#each data.notifications as notification}
+    <Notification {notification}/>
+{/each}

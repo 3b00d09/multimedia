@@ -2,7 +2,7 @@
   import type { PostWithProfile } from "$lib/helpers/types";
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
-  import PostLike from "./postLike.svelte";
+  import PostLikeBtn from "./postLikeBtn.svelte";
   import PostSettings from "./PostSettings.svelte";
   import type { groupsTable } from "$lib/server/schema";
 
@@ -90,7 +90,7 @@
 
   <div class="icons-container">
     <button>
-      <PostLike postId={post.post.id} likecount={post.post.likeCount} />
+      <PostLikeBtn postId={post.post.id} likecount={post.post.likeCount} />
     </button>
 
     <button>

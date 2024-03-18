@@ -21,8 +21,6 @@ export async function POST( request) {
     .select()
     .from(likesPostTable)
     .where(and(eq(likesPostTable.post, postId), eq(likesPostTable.author, session.userId)))
-    
-    console.log(existingLike)
 
   if (existingLike.length === 0) {
    
@@ -35,13 +33,16 @@ export async function POST( request) {
 
     const targetUser = await dbClient.select({userId: usersTable.id}).from(postsTable).where(eq(postsTable.id, postId)).leftJoin(usersTable,eq(usersTable.id,postsTable.author))
     
-    await dbClient.insert(notificationsTable).values({
-      id: uuidv4(),
-      sourceUser: session.userId,
-      targetUser: targetUser[0].userId!,
-      postId: postId,
-      type: "like"
-    });
+    if(targetUser[0].userId != session.userId){
+      await dbClient.insert(notificationsTable).values({
+        id: uuidv4(),
+        sourceUser: session.userId,
+        targetUser: targetUser[0].userId!,
+        entityId: postId,
+        entityType: "post_like"
+      });
+    }
+
 
     return json({ success: true, message: "Like added successfully." });
   }

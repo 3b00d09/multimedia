@@ -1,6 +1,6 @@
 // src/routes/api/like/+server.js
 import { dbClient } from "$lib/server/db.js";
-import { likesCommentTable } from "$lib/server/schema.js";
+import { commentsTable, likesCommentTable, notificationsTable, postsTable, usersTable } from "$lib/server/schema.js";
 import { json, redirect } from "@sveltejs/kit";
 import { eq, and} from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
@@ -12,7 +12,7 @@ export async function POST( request) {
 
 
   const body = await request.request.json();
-  const { commentId} = body;
+  const { commentId, postId } = body;
  
 
 
@@ -20,8 +20,6 @@ export async function POST( request) {
     .select()
     .from(likesCommentTable)
     .where(and(eq(likesCommentTable.comment, commentId), eq(likesCommentTable.author, session.userId)))
-    
-    console.log(existingLike)
 
   if (existingLike.length === 0) {
    
@@ -31,6 +29,19 @@ export async function POST( request) {
       author: session.userId,
       date: new Date(),
     });
+    
+    const targetUser = await dbClient.select({userId: usersTable.id}).from(commentsTable).where(eq(commentsTable.id, commentId)).leftJoin(usersTable,eq(usersTable.id,commentsTable.author))
+    
+    if(session.userId != targetUser[0].userId){
+      await dbClient.insert(notificationsTable).values({
+        id: uuidv4(),
+        sourceUser: session.userId,
+        targetUser: targetUser[0].userId!,
+        entityId: commentId,
+        entityType: "comment_like"
+      });
+    }
+
 
     return json({ success: true, message: "Like added successfully." });
   }

@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { NotificationType } from "$lib/helpers/types";
-    import PostNotification from "./PostNotification.svelte";
+    import Notification from "../notification/Notification.svelte";
     import { fly } from "svelte/transition";
     
     let active = false;
@@ -15,7 +15,7 @@
                 <div in:fly={{duration: 250, y: -50, opacity: 1}} out:fly={{duration: 250, y: -50, opacity: 0}} class="notifications-container">
                     {#if notifications && notifications?.length > 0}
                         {#each notifications as notification}
-                            <PostNotification {notification}/>
+                            <Notification {notification}/>
                         {/each}
                         <a href="/notifications">View All</a>
                     {:else}

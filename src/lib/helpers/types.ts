@@ -47,8 +47,11 @@ export type CommentWithProfileImage = CommentType &{
 
 export type CommentNotification = {
     content: string,
-    sourceUser: UserType
+    sourceUser: UserType,
+    postId: string
 }
+
+export type ReplyNotification = CommentNotification
 
 export type PostLikenotification = {
     postId: string,

@@ -1,7 +1,7 @@
 <script lang="ts"> 
-  import NotificationBell from "./notification/NotificationBell.svelte";
+  import NotificationBell from "./NotificationBell.svelte";
   import type { NotificationType } from "$lib/helpers/types";
-  import type {UserType} from "../helpers/types"
+  import type {UserType} from "../../helpers/types"
   export let user: UserType | undefined | null;
   export let notifications: NotificationType[] | undefined
 </script>

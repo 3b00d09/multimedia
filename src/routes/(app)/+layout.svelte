@@ -1,6 +1,6 @@
 <script lang="ts">
     import "../../global.css"
-    import Header from "$lib/components/Header.svelte";
+    import Header from "$lib/components/header/Header.svelte";
     import Sidenav from "$lib/components/sidenav/Sidenav.svelte";
     import RecentMessages  from "$lib/components/RecentMessages.svelte";
     import Toast from "$lib/components/Toast.svelte";

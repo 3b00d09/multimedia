@@ -96,8 +96,6 @@ export const actions = {
 
       if (data) {
         pictureUrl = `https://ikcxvcutdjftdsvbpwsa.supabase.co/storage/v1/object/public/test2/${fileName}`;
-
-        console.log("Post with picture created successfully", pictureUrl);
       }
     }
 
@@ -117,8 +115,6 @@ export const actions = {
 
       if (data) {
         videoUrl = `https://ikcxvcutdjftdsvbpwsa.supabase.co/storage/v1/object/public/test2/${fileName1}`;
-
-        console.log("Post with video created successfully", videoUrl);
       }
     }
     const newPost = {
@@ -165,13 +161,17 @@ export const actions = {
           .from(postsTable)
           .where(eq(postsTable.id, postId))
           .leftJoin(usersTable, eq(usersTable.id, postsTable.author));
-        await dbClient.insert(notificationsTable).values({
-          id: uuidv4(),
-          sourceUser: session.userId,
-          targetUser: targetUser[0].userId!,
-          entityId: newCommentId,
-          entityType: "comment",
-        });
+
+          if(session.userId != targetUser[0].userId){
+            await dbClient.insert(notificationsTable).values({
+              id: uuidv4(),
+              sourceUser: session.userId,
+              targetUser: targetUser[0].userId!,
+              entityId: newCommentId,
+              entityType: "comment",
+            });
+          }
+
       }
     }
   },
