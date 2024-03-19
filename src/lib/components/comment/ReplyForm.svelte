@@ -2,6 +2,7 @@
     import { enhance } from "$app/forms";
   
       export let commentId:string;
+      export let postId:string;
   </script>
   
   
@@ -9,6 +10,7 @@
       <textarea name="reply-content" placeholder="Add reply..."></textarea>
       <button class="submit-btn" type="submit">Reply</button>
       <input type="hidden" name="parent_comment_id" value={`${commentId}`}/>
+      <input type="hidden" name="postId" value={`${postId}`}/>
       
   </form>
   

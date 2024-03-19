@@ -1,7 +1,9 @@
+import type { PostLikenotification } from '$lib/helpers/types.js'
 import { dbClient } from '$lib/server/db.js'
 import { commentsTable, likesCommentTable, likesPostTable, notificationsTable, postsTable, usersTable } from '$lib/server/schema.js'
 import { json } from '@sveltejs/kit'
 import { eq, getTableColumns, like } from 'drizzle-orm'
+import type { NotificationItemType } from '$lib/helpers/types.js'
 
 
 export const POST = async({locals, request}) =>{
@@ -17,7 +19,7 @@ export const POST = async({locals, request}) =>{
 export const GET = async(request)=>{
     const session = request.locals.session
 
-    if(!session) return json({error: true, message: "User not logged in"})
+    if(!session) return json({success: false, message: "User not logged in"})
 
     const notificationId = request.url.searchParams.get("id")
     const type = request.url.searchParams.get("type")
@@ -27,43 +29,43 @@ export const GET = async(request)=>{
 
     if(!notification) return json ({error: true, message: "Invalid notification"})
 
-    let data;
+    let data:{content: string, parentId: string} | undefined;
 
     if(!notification[0].entityId) return json({error: true, message: "Unknown error occured"})
 
     if(type === "post_like") data = await postLikeNotification(notification[0].entityId)
     else if (type === "comment_like") data = await commentLikeNotification(notification[0].entityId)
-    else if (type === "comment") data = await CommentNotification(notification[0].entityId)
-    else if (type === "reply") data = await replyNotification(notification[0].entityId)
+    else if (type === "comment" || type === "reply") data = await CommentNotification(notification[0].entityId)
 
     const {password, ...rest} = getTableColumns(usersTable)
 
     const sourceUser = await dbClient.select({...rest}).from(usersTable).where(eq(usersTable.id, notification[0].sourceUser))
 
-    return json({success: true, data: {
-        content: data,
-        sourceUser: sourceUser[0]
-    }})
+    const response: NotificationItemType = {
+        content: data?.content,
+        sourceUser: sourceUser[0],
+        parentId: data?.parentId
+    }
+
+    return json({success: true, data:response})
 
 }
 
 
 async function postLikeNotification(id: string){
-    const content = await dbClient.select({content: postsTable.content}).from(postsTable).where(eq(postsTable.id, id))
-    return content[0];
+    const row = await dbClient.select({content: postsTable.content, parentId: postsTable.id}).from(postsTable).where(eq(postsTable.id, id))
+    row[0].content.length > 30 ? row[0].content = row[0].content.slice(0, 29) + "..." : ""
+    return row[0];
 }
 
 async function commentLikeNotification(id: string){
-    const row = await dbClient.select({content: commentsTable.comment, postId: commentsTable.post}).from(commentsTable).where(eq(commentsTable.id, id))
+    const row = await dbClient.select({content: commentsTable.comment, parentId: commentsTable.post}).from(commentsTable).where(eq(commentsTable.id, id))
+    row[0].content.length > 30 ? row[0].content = row[0].content.slice(0, 29) + "..." : ""
     return row[0];
 }
 
 async function CommentNotification(id: string){
-    const row = await dbClient.select({content: commentsTable.comment, postId: commentsTable.post}).from(commentsTable).where(eq(commentsTable.id, id))
+    const row = await dbClient.select({content: commentsTable.comment, parentId: commentsTable.post}).from(commentsTable).where(eq(commentsTable.id, id))
+    row[0].content.length > 30 ? row[0].content = row[0].content.slice(0, 29) + "..." : ""
     return row[0]
-}
-
-async function replyNotification(id: string){
-    const row = await dbClient.select().from(likesPostTable).where(eq(likesPostTable.id, id)).leftJoin(postsTable, eq(likesPostTable.post, postsTable.id))
-    return row[0];
 }

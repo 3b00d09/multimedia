@@ -8,7 +8,8 @@
     const components = [
         {type: "post_like", component: PostLike},
         {type: "comment_like", component: CommentLike},
-        {type: "comment", component: PostComment}
+        {type: "comment", component: PostComment},
+        {type: "reply", component: PostComment}
     ]
 
     export let notification: NotificationType;

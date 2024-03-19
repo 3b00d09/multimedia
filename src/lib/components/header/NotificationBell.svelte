@@ -61,7 +61,7 @@
     .notifications-container{
         display: grid;
         gap: 1rem;
-        width: max-content;
+        width: 18rem;
         color: #fff;
         position: absolute;
         padding: 0.75rem;
@@ -80,6 +80,10 @@
         border-right: 15px solid transparent;
         border-left: 15px solid transparent;
         border-bottom: 15px solid black;
+    }
+
+    .notifications-container > *{
+        border: 1px solid var(--action)
     }
 
 </style>

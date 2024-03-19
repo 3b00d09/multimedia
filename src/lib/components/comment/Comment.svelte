@@ -64,7 +64,7 @@
     </div>
 
     {#if activeReply}
-        <ReplyForm commentId={comment.comment.id}/>
+        <ReplyForm commentId={comment.comment.id} {postId}/>
     {/if}
 </div>
 

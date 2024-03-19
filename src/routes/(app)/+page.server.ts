@@ -182,25 +182,46 @@ export const actions = {
 
     const data = await request.request.formData();
     const replyContent = data.get("reply-content")?.toString();
+    const postId = data.get("postId")?.toString();
     const replyAuthor = session.userId;
     const date = new Date();
     const parentCommentId = data.get("parent_comment_id")?.toString();
 
-    if (!parentCommentId) {
+    if (!parentCommentId || !postId) {
       return { status: 401, success: false };
     }
-
+    
     if (replyContent && replyAuthor) {
+      const replyId = uuidv4();
       const newComment: typeof commentsTable.$inferInsert = {
-        id: uuidv4(),
+        id: replyId,
         comment: replyContent,
         author: replyAuthor,
         date: date,
         parentCommentId: parentCommentId,
+        post: postId
       };
       const createReply = await dbClient
         .insert(commentsTable)
         .values(newComment);
+
+      if(createReply){
+        const targetUser = await dbClient
+          .select({ userId: usersTable.id })
+          .from(postsTable)
+          .where(eq(postsTable.id, postId))
+          .leftJoin(usersTable, eq(usersTable.id, postsTable.author));
+
+          if(session.userId != targetUser[0].userId){
+            await dbClient.insert(notificationsTable).values({
+              id: uuidv4(),
+              sourceUser: session.userId,
+              targetUser: targetUser[0].userId!,
+              entityId: replyId,
+              entityType: "reply",
+            });
+          }
+      }
     }
   },
 };

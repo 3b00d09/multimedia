@@ -58,5 +58,10 @@ export type PostLikenotification = {
     sourceUser: UserType
 }
 
+export type NotificationItemType = {
+    content?: string,
+    sourceUser: UserType,
+    parentId?: string
+}
 
 export type AggregatedPost = { post: typeof postsTable.$inferInsert; comments: typeof commentsTable.$inferInsert[] }

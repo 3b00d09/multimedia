@@ -86,7 +86,7 @@ export const commentsTable = pgTable("comments",{
 		length: 255
 	}).references(()=>{
 		return postsTable.id
-	}),
+	}).notNull(),
 	date:timestamp("date"),
 	parentCommentId:varchar("parent_comment_id",{
 		length: 244,
@@ -176,9 +176,7 @@ export const notificationsTable = pgTable("notifications",{
 		length: 15, enum: notificationTypeOptions
 	}).notNull(),
 	read:boolean("read").default(false),
-	dateTime: timestamp("date_time"),
-	// redundancy here but makes working with notifications a lot easier for replies comments and posts
-	content: varchar("content", {length: 255})
+	dateTime: timestamp("date_time").defaultNow(),
 })
 
 export const groupsTable = pgTable("groups",{
