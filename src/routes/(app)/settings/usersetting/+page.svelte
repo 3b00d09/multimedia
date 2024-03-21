@@ -54,6 +54,7 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <ul class="box-shadow">
+  <div class="buttons-container">
   <li class="change-password">
     <button on:click={toggleForm}>Change Password</button>
     {#if activeForm}
@@ -103,6 +104,7 @@
         <button bind:this={deleteBtn} disabled on:click={handleDeleteAccount}>Delete</button>
       </div>
     </dialog>
+  </div>
 </ul>
 
 <style>
@@ -111,36 +113,35 @@
   
   ul {
     list-style: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: grid;
+    text-align: center;
     background: transparent;
-    border-radius: 8px;
+    border-radius: 2px;
     padding: 1rem 1.75rem;
-    gap: 0.5rem;
-    height: 100%;
+    height: 70vh;
+    grid-template-columns: repeat(1, 16rem);
+    grid-template-rows: repeat(4, auto) 1fr;
+    width: fit-content;
+    align-items: baseline;
   }
 
  
 
   .change-password button{
-    background-color: var(--action); /* Slightly more polished look */
+    background-color: var(--action);
     border: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
-    transition: box-shadow 0.3s ease, transform 0.2s ease; /* Smooth interaction */
-    
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    transition: box-shadow 0.3s ease, transform 0.2s ease; 
   }
   .delete-account button {
-    background-color: var(--action); /* Slightly more polished look */
-    border: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
- 
+    background-color: var(--action);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
   }
 
   .change-password button:hover,
   .delete-account button:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
-    transform: translateY(-2px); /* Slight lift effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    transform: translateY(-2px); 
   }
 
   input {
@@ -154,13 +155,13 @@
     border: none;
     color: inherit;
     font: inherit;
-    transition: box-shadow 0.3s ease; /* Enhanced transition for input */
+    transition: box-shadow 0.3s ease; 
   }
 
   input:focus {
     box-shadow: 
       -2px -2px 6px -4px rgba(226, 224, 224, 0.75) inset, 
-      2px 2px 6px 4px rgba(0, 0, 0, 0.75) inset; /* More pronounced focus effect */
+      2px 2px 6px 4px rgba(0, 0, 0, 0.75) inset;
   }
 
   button {
@@ -169,33 +170,33 @@
     font-family: inherit;
     font-size: inherit;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
-    width: 100%;
+    transition: background-color 0.3s ease, transform 0.2s ease; 
+    width: 9%;
     min-width: 250px; 
     margin-bottom:1rem ;
   }
 
   form{
     display: grid;
-    gap: 0.5rem;
+    
   }
 
   dialog::backdrop{
     backdrop-filter: blur(10px);
   }
 
+
   dialog{
-    position: fixed; /* Use fixed positioning */
+    position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* Center the dialog */
+    transform: translate(-50%, -50%); 
     background-color: var(--background);
     color: var(--text-primary);
-    padding: 1rem;
+  
     border-radius: 1rem;
     border: 1px solid transparent;
     box-shadow: -2px -2px 6px -4px rgba(0, 0, 0, 0.5), 2px 2px 6px 4px rgba(0, 0, 0, 0.5);
-
   }
 
   .dialog >  button{

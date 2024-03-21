@@ -11,9 +11,10 @@
   onMount(() => (currentLocation = window.location.pathname));
 
   $: {
-    let path = $page.url.pathname.split("/");
-    currentLocation = path[path.length - 1];
-    currentLocation = currentLocation;
+    let path = $page.url.pathname.split("/")
+        path = path.filter((item)=>item.length>0)
+        currentLocation = path[path.length - 1]
+        currentLocation = currentLocation
   }
 </script>
 
@@ -21,7 +22,7 @@
   <img src={`/images/icons/${imgRoute}`} alt={`${name} Icon`} />
   <div class="text-container">
     <p>{name}</p>
-    <p>{description}</p>
+    <p class="description">{description}</p>
   </div>
 </button>
 
@@ -58,6 +59,9 @@
     margin: 0;
   }
 
+  .description{
+    color: var(--text-secondary);
+  }
   .active::before {
     content: "";
     position: absolute;

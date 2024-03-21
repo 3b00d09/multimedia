@@ -70,7 +70,7 @@
     flex-direction: column;
     border-radius: 16px;
     padding: 1rem 1.75rem;
-    height: 100%;
+    height: 70vh;
     gap: 2rem;
     box-shadow: -2px -2px 6px -4px rgba(226, 224, 224, 0.5), 2px 2px 6px 4px rgba(0, 0, 0, 0.5);
   }

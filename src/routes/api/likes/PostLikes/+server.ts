@@ -46,6 +46,10 @@ export async function POST( request) {
 
     return json({ success: true, message: "Like added successfully." });
   }
+
+  else{
+    return   json({ success: false, message: "You already liked this post." })
+  }
 }
 
 

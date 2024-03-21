@@ -73,6 +73,7 @@
     width: fit-content;
     align-items: baseline;
   }
+
   .filter-group {
     display: flex;
     flex-direction: column;
@@ -116,4 +117,5 @@
     background-color: #6c5cd6;
     transform: scale(1.05);
   }
+  
 </style>

@@ -48,8 +48,5 @@
     width: 90%;
   }
 
-  .submit-btn:hover {
-    background-color: #6c5cd6;
-    transform: scale(3.05);
-  }
+
 </style>

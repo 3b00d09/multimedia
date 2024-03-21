@@ -35,7 +35,6 @@
   }
 
   .main-container{
-      display: grid;
       justify-items: center;
       gap:1rem;
   }
