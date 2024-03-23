@@ -1,4 +1,4 @@
-import { serial } from "drizzle-orm/mysql-core";
+import { serial } from "drizzle-orm/pg-core";
 import { pgTable, bigint, varchar, timestamp, foreignKey, boolean, integer, check } from "drizzle-orm/pg-core";
 
 
@@ -109,6 +109,16 @@ export const categoriesTable = pgTable("categories",{
 	name: varchar("name",{
 		length: 24,
 	}).notNull()
+})
+
+export const categoriesToPostsTable = pgTable("categories_to_posts",{
+	id: serial("id").primaryKey().notNull(),
+	postId: varchar("post_id",{
+		length: 244
+	}).references(()=>postsTable.id, {onDelete: "cascade"}),
+	categoryId: varchar("category_id",{
+		length: 244,
+	}).references(()=> categoriesTable.id, {onDelete: "cascade"})
 })
 
 export const likesPostTable = pgTable("likes_post", {

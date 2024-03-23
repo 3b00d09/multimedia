@@ -60,40 +60,7 @@ export const load = async (request) => {
     apiKey:API_KEY ,
     dangerouslyAllowBrowser: true
   })
-  let sentimentResults = [];
-
-  for (const row of rows) {
-    const postContent = row.post;
-      try {
-        const completion = await openai.chat.completions.create({
-          messages: [
-            {
-              role: "system",
-              content: "Categorize the following post based on the sentiment it expresses: sad, comedy, and happy. The number of categories can be a maximum of 3. Ensure that the sentiment(s) you give are expressed in only one word per sentiment."
-            },
-            {
-              role: "user",
-              content: postContent.content, 
-            }
-          ],
-          model: "gpt-3.5-turbo"
-        });
   
-
-        
-        const sentimentAnalysisResult = completion.choices[0]?.message?.content || 'Sentiment analysis failed';
-        console.log(sentimentAnalysisResult);
-      } catch (error) {
- 
-      }
-    
-  }
-
-
-
-
-
-
   return {
     rows
   };
@@ -157,8 +124,9 @@ export const actions = {
         videoUrl = `https://ikcxvcutdjftdsvbpwsa.supabase.co/storage/v1/object/public/test2/${fileName1}`;
       }
     }
+    const newPostId = uuidv4() 
     const newPost = {
-      id: uuidv4(),
+      id: newPostId,
       content: postContent,
       videoUrl: videoUrl,
       pictureUrl: pictureUrl,
@@ -166,6 +134,14 @@ export const actions = {
       timestamp: date,
     };
     const createPost = await dbClient.insert(postsTable).values(newPost);
+
+    await request.fetch("/api/ai/categorize",{
+      method: "POST",
+      headers:{
+        "Content-Type": "application/json",
+      },
+      body:JSON.stringify({postId: newPostId})
+    })
   },
 
   comment: async (request) => {
