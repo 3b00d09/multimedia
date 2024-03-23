@@ -57,11 +57,6 @@ export const load = async(request) => {
         const followingCountResult = await dbClient.select({value:count(userFollowsTable.id)}).from(userFollowsTable).where(eq(userFollowsTable.follower, user.id));
         followingCount = followingCountResult[0].value ?? 0;
 
-        console.log("user profile are private and u are followed")
-        console.log(followingCount)
-        console.log(followerCount)
-        console.log(postsCountResult)
-
     }else {
 
         postsCount = 0;

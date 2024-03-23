@@ -22,6 +22,7 @@ export type PostWithProfile = {
         commentCount: number
     }, 
     author: UserType,
+    sentiment?: string
 }
 
 export type CommentWithProfile = {

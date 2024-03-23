@@ -14,13 +14,15 @@ import type { PostWithProfile } from "$lib/helpers/types.js";
 import { redirect } from "@sveltejs/kit";
 import { eq } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
-import { SUPABASE_URL, KEY } from "$env/static/private";
+import { SUPABASE_URL, KEY,API_KEY } from "$env/static/private";
 import { createClient } from "@supabase/supabase-js";
-
+import OpenAI from "openai";
 
 export const load = async (request) => {
  
   const session = request.locals.session;
+  let rows;
+
 
   let userPreference = "all";
 
@@ -42,7 +44,7 @@ export const load = async (request) => {
     userPreference = "all";
   }
 
-  let rows;
+
 
   if (userPreference === "textOnly") {
     rows = await getTextOnlyPosts();
@@ -53,6 +55,44 @@ export const load = async (request) => {
   }
 
   rows = rows.filter((data) => data.author && data.post) as PostWithProfile[];
+
+  const openai = new OpenAI({
+    apiKey:API_KEY ,
+    dangerouslyAllowBrowser: true
+  })
+  let sentimentResults = [];
+
+  for (const row of rows) {
+    const postContent = row.post;
+      try {
+        const completion = await openai.chat.completions.create({
+          messages: [
+            {
+              role: "system",
+              content: "Categorize the following post based on the sentiment it expresses: sad, comedy, and happy. The number of categories can be a maximum of 3. Ensure that the sentiment(s) you give are expressed in only one word per sentiment."
+            },
+            {
+              role: "user",
+              content: postContent.content, 
+            }
+          ],
+          model: "gpt-3.5-turbo"
+        });
+  
+
+        
+        const sentimentAnalysisResult = completion.choices[0]?.message?.content || 'Sentiment analysis failed';
+        console.log(sentimentAnalysisResult);
+      } catch (error) {
+ 
+      }
+    
+  }
+
+
+
+
+
 
   return {
     rows
