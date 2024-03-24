@@ -8,26 +8,13 @@ import {
   postsTable,
   categoriesToPostsTable,
 } from "$lib/server/schema";
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 
 const openai = new OpenAI({
   apiKey: API_KEY,
 });
 
-// :) a a
-async function getCategoryIdBySentiment(sentiment: string): Promise<string> {
-  const categories = await dbClient
-    .select({ id: categoriesTable.id })
-    .from(categoriesTable)
-    .where(eq(categoriesTable.name, sentiment))
-    .execute();
 
-  if (categories.length === 0) {
-    throw new Error(`No category found for sentiment: ${sentiment}`);
-  }
-
-  return categories[0].id;
-}
 export const POST = async (request) => {
   const session = request.locals.session;
   if (!session) return json({ error: true, message: "Not logged in" });
@@ -41,13 +28,19 @@ export const POST = async (request) => {
   if (posts.length === 0)
     return json({ error: true, message: "Post not found" });
 
+  const categorieRows = await dbClient.select({name: categoriesTable.name}).from(categoriesTable)
+
+  if(categorieRows.length === 0) return json({error: true, message: "Error loading categories."})
+
+  const categories = categorieRows.map((item)=>item.name).join(",")
+
   const completion = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
     messages: [
       {
         role: "system",
         content:
-          "You are going to categorize a post based on the sentiment it expresses. The categories are as following: sad, comedy, and happy. The number of categories can be maximum of 3. Ensure that the sentiment(s) you give are expressed in only 1 word per sentiment. Just anwer comedy, happy or sad",
+          `You are going to categorize a post based on the sentiment it expresses. The categories are as following: ${categories}. The number of categories can be at most 3. Ensure that the sentiment(s) you give are expressed in only 1 word per sentiment.`,
       },
       {
         role: "user",
@@ -56,19 +49,40 @@ export const POST = async (request) => {
     ],
   });
 
-  // :) a a
+  
 
-  const sentiment = completion.choices?.[0]?.message?.content?.trim();
-  if (!sentiment) {
+  const _sentiments = completion.choices?.[0]?.message?.content;
+  if (!_sentiments) {
     return json({ error: true, message: "Failed to categorize post" });
   }
 
-  const categoryId = await getCategoryIdBySentiment(sentiment);
-  // :)a a
-  await dbClient.insert(categoriesToPostsTable).values({
-    postId: postId,
-    categoryId: categoryId,
-  });
+  const sentiments = _sentiments.split(",").map((el)=> el.trim())
 
-  return json({ success: true, message: "Post categorized successfully" });
+  try {
+    const categoryIds = await dbClient
+      .select({ id: categoriesTable.id })
+      .from(categoriesTable)
+      .where(inArray(categoriesTable.name, sentiments));
+
+    const newEntries = categoryIds.map((item) => {
+      const row: typeof categoriesToPostsTable.$inferInsert = {
+        postId: postId,
+        categoryId: item.id,
+      };
+      return row;
+    });
+
+    await dbClient.insert(categoriesToPostsTable).values([...newEntries]);
+
+    return json({ success: true, message: "Post categorized successfully" });
+  } 
+  
+  catch (e) {
+    return json({
+      error: true,
+      message: "An error updating categories occured",
+      e,
+    });
+  }
+  
 };
