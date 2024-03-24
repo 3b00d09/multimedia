@@ -55,16 +55,12 @@ export const load = async (request) => {
   }
 
   rows = rows.filter((data) => data.author && data.post) as PostWithProfile[];
-
-  const openai = new OpenAI({
-    apiKey:API_KEY ,
-    dangerouslyAllowBrowser: true
-  })
   
   return {
     rows
   };
-};
+}; 
+ 
 
 export const actions = {
   post: async (request) => {
@@ -72,6 +68,7 @@ export const actions = {
     if (!session) throw redirect(301, "/");
 
     const data1 = await request.request.formData();
+    
     const postContent = data1.get("post-content")?.toString();
     const postAuthor = session.userId;
     if (!postAuthor || !postContent) {
