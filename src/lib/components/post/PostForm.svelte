@@ -2,9 +2,18 @@
   import { enhance } from "$app/forms";
   let videoInput: HTMLInputElement;
   let imageInput: HTMLInputElement;
+  import { mainContainerStore } from "$lib/helpers/stores";
+
+  const actionWhenInViewPort= (e:any) =>{
+    const observer = new IntersectionObserver(entries =>{
+      if(entries[0].isIntersecting) mainContainerStore.set({active: false})
+      else mainContainerStore.set({active: true})
+    })
+    observer.observe(e)
+  }
 </script>
 
-<form use:enhance method="POST" action="?/post" enctype="multipart/form-data">
+<form use:actionWhenInViewPort use:enhance method="POST" action="?/post" enctype="multipart/form-data">
   <i class="fa-solid fa-circle-user fa-2xl"></i>
   <div class="container">
     <textarea name="post-content" placeholder="How was your day?"></textarea>

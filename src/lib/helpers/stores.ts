@@ -6,3 +6,7 @@ export const toastStore = writable<ToastArgs>({
     status: "pending",
     message:""
 })
+
+export const mainContainerStore = writable({
+    active: false
+})
