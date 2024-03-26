@@ -43,10 +43,17 @@
 
 {#if displayCategories}
 <ul in:slide={{duration: 500, axis: 'y', }} out:slide={{duration: 300, axis: 'y'}}>
-    <li>Comedy</li>
-    <li>Sad</li>
-    <li>Sci-Fi</li>
-    <li>News</li>
+    <a href="/home/categories/happy">
+        <button class:active={currentLocation.length === 0}>happy</button>
+        </a>
+       <a href="/home/categories/sad">
+        <button class:active={currentLocation.length === 0}>sad</button>
+        </a>
+        <a href="/home/categories/comedy">
+            <button class:active={currentLocation.length === 0}>comedy</button>
+
+            </a>
+
 </ul>
 {/if}
 

@@ -101,7 +101,6 @@ export const commentsTable = pgTable("comments",{
 	};
 })
 
-
 export const categoriesTable = pgTable("categories",{
 	id: varchar("id",{
 		length: 244
@@ -120,7 +119,7 @@ export const categoriesToPostsTable = pgTable("categories_to_posts",{
 		length: 244,
 	}).references(()=> categoriesTable.id, {onDelete: "cascade"})
 })
-
+ 
 export const likesPostTable = pgTable("likes_post", {
 	id: varchar("id", {
 					length: 244
